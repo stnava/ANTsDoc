@@ -399,7 +399,8 @@ figure~\ref{fig:frown} shows 2D images representing a 3-class labeled point set.
 \end{itemize}
 
 \subsection{Using antsApplyTransforms or antsApplyTransformsToPoints}
-To apply an affine transform and deformation field to a moving image, use antsApplyTransforms. 
+To apply an affine transform and deformation field to a moving image,
+use \verb antsApplyTransforms . 
 For example: to apply the transform to the moving image and the
 inverse to the fixed image:
 \lstinputlisting[style=mystyle]{Ex2.sh}
@@ -408,6 +409,14 @@ only a deformation and affine mapping) relate to the order in which
 the transforms are computed, during optimization, and also the order
 in which they should be applied.  There is reasonably complete
 discussion of this framework in \cite{AvantsITK}.
+
+The usage of \verb antsApplyTransformsToPoints ~is nearly identical.
+\textit{However}, it is critical to recognize that transforms that are
+one-to-one and onto in image space may not be in point space.
+Therefore, points are transformed by the inverses of the
+transformation that is applied to images.   This is discussed in
+several places in the image registration literature but we first
+discussed this in \cite{Avants2006d}.
 
 \subsection{The ImageMath Executable} This is a multi-purpose program that has the following syntax:  ``ImageMath ImageDimension outputfilename   Operation  InputFileName  parameters ``.  Most basic scalar image operations -- and some tensor operations -- may be performed with this program.  Some operations output text files, some output images and some output only to the terminal.   ImageMath allows one to multiply images together (m), to negate images (Neg), to take an image to a power (pow), to test the invertibility of transformations (InvId), to compute the fractional anisotropy of an image (TensorFA) and to perform Markov Random Field segmentation with or without priors (Segment).   Many other operations are available.  Like all other ANTs programs, one may call ImageMath from the command line to see all of its options.   ImageMath is used heavily in ANTs scripts.  
 

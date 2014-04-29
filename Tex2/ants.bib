@@ -86,7 +86,7 @@
   Pages                    = {324--331},
   Volume                   = {13},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {We present a new algorithm for reliable, unbiased, multivariate longitudinal analysis of cortical and white matter atrophy rates with penalized statistical methods. The pipeline uses a step-wise approach to transform and personalize template information first to a single-subject template (SST) and then to the individual's time series data. The first stream of information flows from group template to the SST; the second flows from the SST to the individual time-points and provides unbiased, prior-based segmentation and measurement of cortical thickness. MRI-bias correction, consistent longitudinal segmentation, cortical parcellation and cortical thickness estimation are all based on strong use of the subject-specific priors built from initial diffeomorphic mapping between the SST and optimal group template. We evaluate our approach with both test-retest data and with application to a driving biological problem. We use test-retest data to show that this approach produces (a) zero change when the retest data contains the same image content as the test data and (b) produces normally distributed, low variance estimates of thickness change centered at zero when test-retest data is collected near in time to test data. We also show that our approach--when combined with sparse canonical correlation analysis--reveals plausible, significant, annualized decline in cortical thickness and white matter volume when contrasting frontotemporal dementia and normal aging.},
   Institution              = {Dept. of Radiology, University of Pennsylvania, Philadelphia, PA 19104-6389 USA. avants@grasp.cis.upenn.edu},
   Keywords                 = {Algorithms; Analysis of Variance; Brain Diseases, pathology; Brain, pathology; Humans; Image Enhancement, methods; Image Interpretation, Computer-Assisted, methods; Longitudinal Studies; Magnetic Resonance Imaging, methods; Pattern Recognition, Automated, methods; Prognosis; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique},
@@ -553,7 +553,7 @@
   Pages                    = {2033--2044},
   Volume                   = {54},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {The United States National Institutes of Health (NIH) commit significant support to open-source data and software resources in order to foment reproducibility in the biomedical imaging sciences. Here, we report and evaluate a recent product of this commitment: Advanced Neuroimaging Tools (ANTs), which is approaching its 2.0 release. The ANTs open source software library consists of a suite of state-of-the-art image registration, segmentation and template building tools for quantitative morphometric analysis. In this work, we use ANTs to quantify, for the first time, the impact of similarity metrics on the affine and deformable components of a template-based normalization study. We detail the ANTs implementation of three similarity metrics: squared intensity difference, a new and faster cross-correlation, and voxel-wise mutual information. We then use two-fold cross-validation to compare their performance on openly available, manually labeled, T1-weighted MRI brain image data of 40 subjects (UCLA's LPBA40 dataset). We report evaluation results on cortical and whole brain labels for both the affine and deformable components of the registration. Results indicate that the best ANTs methods are competitive with existing brain extraction results (Jaccard=0.958) and cortical labeling approaches. Mutual information affine mapping combined with cross-correlation diffeomorphic mapping gave the best cortical labeling results (Jaccard=0.669±0.022). Furthermore, our two-fold cross-validation allows us to quantify the similarity of templates derived from different subgroups. Our open code, data and evaluation scripts set performance benchmark parameters for this state-of-the-art toolkit. This is the first study to use a consistent transformation framework to provide a reproducible evaluation of the isolated effect of the similarity metric on optimal template construction and brain labeling.},
   Doi                      = {10.1016/j.neuroimage.2010.09.025},
   Institution              = {Penn Image Computing and Science Laboratory, University of Pennsylvania, Philadelphia, PA 19104, USA. avants@grasp.cis.upenn.edu},
@@ -578,7 +578,7 @@
   Pages                    = {381--400},
   Volume                   = {9},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {We introduce Atropos, an ITK-based multivariate n-class open source segmentation algorithm distributed with ANTs ( http://www.picsl.upenn.edu/ANTs). The Bayesian formulation of the segmentation problem is solved using the Expectation Maximization (EM) algorithm with the modeling of the class intensities based on either parametric or non-parametric finite mixtures. Atropos is capable of incorporating spatial prior probability maps (sparse), prior label maps and/or Markov Random Field (MRF) modeling. Atropos has also been efficiently implemented to handle large quantities of possible labelings (in the experimental section, we use up to 69 classes) with a minimal memory footprint. This work describes the technical and implementation aspects of Atropos and evaluates its performance on two different ground-truth datasets. First, we use the BrainWeb dataset from Montreal Neurological Institute to evaluate three-tissue segmentation performance via (1) K-means segmentation without use of template data; (2) MRF segmentation with initialization by prior probability maps derived from a group template; (3) Prior-based segmentation with use of spatial prior probability maps derived from a group template. We also evaluate Atropos performance by using spatial priors to drive a 69-class EM segmentation problem derived from the Hammers atlas from University College London. These evaluation studies, combined with illustrative examples that exercise Atropos options, demonstrate both performance and wide applicability of this new platform-independent open source segmentation tool.},
   Doi                      = {10.1007/s12021-011-9109-y},
   Institution              = {Penn Image Computing and Science Laboratory, University of Pennsylvania, 3600 Market Street, Suite 370, Philadelphia, PA 19104, USA. stnava@gmail.com},
@@ -788,6 +788,31 @@
   Url                      = {http://www.neurology.org/cgi/content/abstract/71/18/1396}
 }
 
+@Article{Hopkins2013,
+  Title                    = {Regional and hemispheric variation in cortical thickness in chimpanzees (Pan troglodytes).},
+  Author                   = {Hopkins, William D. and Avants, Brian B.},
+  Journal                  = {J Neurosci},
+  Year                     = {2013},
+
+  Month                    = {Mar},
+  Number                   = {12},
+  Pages                    = {5241--5248},
+  Volume                   = {33},
+
+  __markedentry            = {[stnava:6]},
+  Abstract                 = {Recent advances in structural magnetic resonance imaging technology and analysis now allows for accurate in vivo measurement of cortical thickness, an important aspect of cortical organization that has historically only been conducted on postmortem brains. In this study, for the first time, we examined regional and lateralized cortical thickness in a sample of 71 chimpanzees for comparison with previously reported findings in humans. We also measured gray and white matter volumes for each subject. The results indicated that chimpanzees showed significant regional variation in cortical thickness with lower values in primary motor and sensory cortex compared with association cortex. Furthermore, chimpanzees showed significant rightward asymmetries in cortical thickness for a number of regions of interest throughout the cortex and leftward asymmetries in white but not gray matter volume. We also found that total and region-specific cortical thickness was significantly negatively correlated with white matter volume. Thus, chimpanzees with greater white matter volumes had thinner cortical thickness. The collective findings are discussed within the context of previous findings in humans and theories on the evolution of cortical organization and lateralization in primates.},
+  Doi                      = {10.1523/JNEUROSCI.2996-12.2013},
+  Institution              = {Division on of Developmental and Cognitive Neuroscience, Yerkes National Primate Research Center, Atlanta, GA 30322, USA. whopkins4@gsu.edu},
+  Keywords                 = {Animals; Cerebral Cortex, anatomy /&/ histology; Female; Functional Laterality; Humans; Magnetic Resonance Imaging; Male; Organ Size; Pan troglodytes, anatomy /&/ histology; Parietal Lobe, anatomy /&/ histology; Prefrontal Cortex, anatomy /&/ histology; Temporal Lobe, anatomy /&/ histology},
+  Language                 = {eng},
+  Medline-pst              = {ppublish},
+  Owner                    = {stnava},
+  Pii                      = {33/12/5241},
+  Pmid                     = {23516289},
+  Timestamp                = {2014.04.29},
+  Url                      = {http://dx.doi.org/10.1523/JNEUROSCI.2996-12.2013}
+}
+
 @Article{Kim2008,
   Title                    = {Structural consequences of diffuse traumatic brain injury: A large deformation tensor-based morphometry study.},
   Author                   = {Junghoon Kim and Brian Avants and Sunil Patel and John Whyte and Branch H Coslett and John Pluta and John A Detre and James C Gee},
@@ -881,7 +906,7 @@
   Pages                    = {1901--1920},
   Volume                   = {30},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {EMPIRE10 (Evaluation of Methods for Pulmonary Image REgistration 2010) is a public platform for fair and meaningful comparison of registration algorithms which are applied to a database of intrapatient thoracic CT image pairs. Evaluation of nonrigid registration techniques is a nontrivial task. This is compounded by the fact that researchers typically test only on their own data, which varies widely. For this reason, reliable assessment and comparison of different registration algorithms has been virtually impossible in the past. In this work we present the results of the launch phase of EMPIRE10, which comprised the comprehensive evaluation and comparison of 20 individual algorithms from leading academic and industrial research groups. All algorithms are applied to the same set of 30 thoracic CT pairs. Algorithm settings and parameters are chosen by researchers expert in the configuration of their own method and the evaluation is independent, using the same criteria for all participants. All results are published on the EMPIRE10 website (http://empire10.isi.uu.nl). The challenge remains ongoing and open to new participants. Full results from 24 algorithms have been published at the time of writing. This paper details the organization of the challenge, the data and evaluation methods and the outcome of the initial launch with 20 algorithms. The gain in knowledge and future work are discussed.},
   Doi                      = {10.1109/TMI.2011.2158349},
   Institution              = {Image Sciences Institute, University Medical Center, Utrecht, The Netherlands.},
@@ -1133,7 +1158,7 @@
   Pages                    = {39},
   Volume                   = {7},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {Diffeomorphic mappings are central to image registration due largely to their topological properties and success in providing biologically plausible solutions to deformation and morphological estimation problems. Popular diffeomorphic image registration algorithms include those characterized by time-varying and constant velocity fields, and symmetrical considerations. Prior information in the form of regularization is used to enforce transform plausibility taking the form of physics-based constraints or through some approximation thereof, e.g., Gaussian smoothing of the vector fields [a la Thirion's Demons (Thirion, 1998)]. In the context of the original Demons' framework, the so-called directly manipulated free-form deformation (DMFFD) (Tustison et al., 2009) can be viewed as a smoothing alternative in which explicit regularization is achieved through fast B-spline approximation. This characterization can be used to provide B-spline "flavored" diffeomorphic image registration solutions with several advantages. Implementation is open source and available through the Insight Toolkit and our Advanced Normalization Tools (ANTs) repository. A thorough comparative evaluation with the well-known SyN algorithm (Avants et al., 2008), implemented within the same framework, and its B-spline analog is performed using open labeled brain data and open source evaluation tools.},
   Doi                      = {10.3389/fninf.2013.00039},
   Institution              = {Penn Image Computing and Science Laboratory, Department of Radiology, University of Pennsylvania Philadelphia, PA, USA.},
@@ -1156,7 +1181,7 @@
   Pages                    = {745--759},
   Volume                   = {35},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {Recent discussions within the neuroimaging community have highlighted the problematic presence of selection bias in experimental design. Although initially centering on the selection of voxels during the course of fMRI studies, we demonstrate how this bias can potentially corrupt voxel-based analyses. For such studies, template-based registration plays a critical role in which a representative template serves as the normalized space for group alignment. A standard approach maps each subject's image to a representative template before performing statistical comparisons between different groups. We analytically demonstrate that in these scenarios the popular sum of squared difference (SSD) intensity metric, implicitly surrogating as a quantification of anatomical alignment, instead explicitly maximizes effect size--an experimental design flaw referred to as "circularity bias." We illustrate how this selection bias varies in strength with the similarity metric used during registration under the hypothesis that while SSD-related metrics, such as Demons, will manifest similar effects, other metrics which are not formulated based on absolute intensity differences will produce less of an effect. Consequently, given the variability in voxel-based analysis outcomes with similarity metric choice, we caution researchers specifically in the use of SSD and SSD-related measures where normalization and statistical analysis involve the same image set. Instead, we advocate a more cautious approach where normalization of the individual subject images to the reference space occurs through corresponding image sets which are independent of statistical testing. Alternatively, one can use similarity terms that are less sensitive to this bias.},
   Doi                      = {10.1002/hbm.22211},
   Institution              = {Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, Virginia.},
@@ -1179,7 +1204,7 @@
   Pages                    = {1310--1320},
   Volume                   = {29},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {A variant of the popular nonparametric nonuniform intensity normalization (N3) algorithm is proposed for bias field correction. Given the superb performance of N3 and its public availability, it has been the subject of several evaluation studies. These studies have demonstrated the importance of certain parameters associated with the B-spline least-squares fitting. We propose the substitution of a recently developed fast and robust B-spline approximation routine and a modified hierarchical optimization scheme for improved bias field correction over the original N3 algorithm. Similar to the N3 algorithm, we also make the source code, testing, and technical documentation of our contribution, which we denote as "N4ITK," available to the public through the Insight Toolkit of the National Institutes of Health. Performance assessment is demonstrated using simulated data from the publicly available Brainweb database, hyperpolarized (3)He lung image data, and 9.4T postmortem hippocampus data.},
   Doi                      = {10.1109/TMI.2010.2046908},
   Institution              = {Department of Radiology, University of Pennsylvania, Philadelphia, PA 19140, USA. ntustison@wustl.edu},
@@ -1203,7 +1228,7 @@
   Pages                    = {831--841},
   Volume                   = {34},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {To develop an automated segmentation method to differentiate the ventilated lung volume on (3) He magnetic resonance imaging (MRI).Computational processing (CP) for each subject consisted of the following three essential steps: 1) inhomogeneity bias correction, 2) whole lung segmentation, and 3) subdivision of the lung segmentation into regions of similar ventilation. Evaluation consisted of two comparative analyses: i) comparison of the number of defects scored by two human readers in 43 subjects, and ii) simultaneous truth and performance level estimation (STAPLE) in 18 subjects in which the ventilation defects were manually segmented by four human readers.There was excellent correlation between the number of ventilation defects tabulated by CP and reader #1 (intraclass correlation coefficient [ICC] = 0.86), CP and reader #2 (ICC = 0.85), and between the two readers (ICC = 0.97). The STAPLE results from the second analysis yielded the following sensitivity/specificity numbers: CP (0.898/0.905), radiologist #1 (0.743/0.897), radiologist #2 (0.501/0.985), radiologist #3 (0.898/0.848), and the first author (0.600/0.984).We developed and evaluated an automated method for quantifying the ventilated lung volume on (3) He MRI. The findings strongly indicate that our proposed algorithmic processing may be a reliable, automatic method for quantitating ventilation defects.},
   Doi                      = {10.1002/jmri.22738},
   Institution              = {Department of Radiology and Medical Imaging, University of Virginia, Charlottesville, Virginia, USA. ntustison@virginia.edu},
@@ -1246,7 +1271,7 @@
   Pages                    = {1756--1761},
   Volume                   = {20},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Abstract                 = {We propose a new approach to front propagation algorithms based on a topological variant of well-composedness which contrasts with previous methods based on simple point detection. This provides for a theoretical justification, based on the digital Jordan separation theorem, for digitally "gluing" evolved well-composed objects separated by well-composed curves or surfaces. Additionally, our framework can be extended to more relaxed topologically constrained algorithms based on multisimple points. For both methods this framework has the additional benefit of obviating the requirement for both a user-specified connectivity and a topologically-consistent marching cubes/squares algorithm in meshing the resulting segmentation.},
   Doi                      = {10.1109/TIP.2010.2095021},
   Keywords                 = {Algorithms; Artificial Intelligence; Image Enhancement, methods; Image Interpretation, Computer-Assisted, methods; Pattern Recognition, Automated, methods; Reproducibility of Results; Sensitivity and Specificity; Subtraction Technique},
@@ -1266,7 +1291,7 @@
   Pages                    = {162},
   Volume                   = {7},
 
-  __markedentry            = {[stnava:6]},
+  __markedentry            = {[stnava:]},
   Doi                      = {10.3389/fnins.2013.00162},
   Institution              = {Department of Radiology and Medical Imaging, University of Virginia Charlottesville, VA, USA.},
   Language                 = {eng},
