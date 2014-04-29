@@ -251,7 +251,19 @@ users seek.
 Additional information is available online -- see 
 \href{http://stnava.github.io/ANTs/}{http://stnava.github.io/ANTs/}.
 For compilation details, see: \href{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}.
-The most important ANTs programs are described below. 
+The most important core C${++}$-based ANTs programs are: 
+\verb antsRegistration, \verb antsApplyTransforms, \verb Atropos ~for segmentation, \verb N4BiasFieldCorrection ~for
+inhomogeneity correction,  \verb KellyKapowski ~for estimating
+thickness, \verb ImageMath ~image processing utilities
+and, finally, \verb sccan ~for sparse dimensionality reduction.  There
+are many other programs which are listed in
+\href{https://github.com/stnava/ANTs/tree/master/Examples}{https://github.com/stnava/ANTs/tree/master/Examples}.
+The scripts in ANTs wrap the core programs and are in
+\href{https://github.com/stnava/ANTs/tree/master/Scripts}{https://github.com/stnava/ANTs/tree/master/Scripts}.
+Perhaps the most important are \verb antsCorticalThickness.sh ~as a
+wrapper of several sub-programs that support our
+cortical thickness pipeline \cite{TustisonACT}, \verb antsMultivariateTemplateConstruction2.sh ~for template construction
+and \verb antsRegistrationSyN.sh ~as a basic interface to a few commonly used registration approaches.
 \footnote{This document is a work in progress. Please check for updates with each release.}
 \begin{figure}
 \includegraphics[width=0.33\textwidth]{Figures/grid1100.pdf} 
@@ -267,10 +279,18 @@ The most important ANTs programs are described below.
 \vspace{-0.1in}
 \label{fig:chalf}
 \end{figure}
+\subsection{Structure of this document and its examples}
+This document is generated with \LaTeX ~and is version controlled at
+\href{https://github.com/stnava/ANTsDoc}{https://github.com/stnava/ANTsDoc}.
+The examples, here, have data and example scripts stored at dedicated
+github repositories, to which we will refer.  Other (simpler) examples will use
+data and scripts that are stored in the ANTsDoc git repository.  These
+scripts are (loosely speaking) tested and should serve as reproducible
+examples for the reader to try.  All data and code is available via
+ANTs-related repositories.
 
 \subsection{Example 1: Quick SyN}
-While a registration algorithm that is totally ignorant of the
-input data can only do so well, if you want a decent, fast registration you might run something like this:
+If you want a decent, fast registration you might run something like this:
 \lstinputlisting[style=mystyle]{Ex1.sh}
 The \verb -d ~option denotes image dimensionality, \verb -f ~option denotes the ``fixed'' image and the \verb -m ~option
 denotes the ``moving'' image.  The moving image will be deformed to
@@ -287,40 +307,55 @@ image).
 The caveats for this ``canned'' approach include:  1. registration
 performance can always be improved by using prior knowledge
 \cite{Wolpert1997}; 2. there are many assumptions about the data
-embedded in the above call and they may not be appropriate for the
-problem at hand; 3. you must have some facility with the command line
-to run a shell script.  
+embedded in the above call and they may not be appropriate for
+whatever problem is at hand; 3. you must have some facility with the command line
+to run a shell script.  It is, in general, better to understand a
+little bit about image registration rather than running methods
+blindly.   To aid readers in this, we have two options: 1. github
+issues
+\href{https://github.com/stnava/ANTs/issues}{https://github.com/stnava/ANTs/issues};
+2.  sourceforge discussion or help sites
+\href{http://sourceforge.net/p/advants/discussion/}{http://sourceforge.net/p/advants/discussion/}.
+Feel free to use either to ask clarifying questions.  We note that many
+issues have been discussed previously and you might find answers by
+searching the archives.
 
-\subsection{The ANTs Executable}
-The ANTs program itself is the central program encapsulating
+\subsection{The antsRegistration Executable}
+The \verb antsRegistration ~program itself is the central program encapsulating
 normalization/registration functionality.  Its main output is an
 affine transform file and a deformation field, potentially with
-inverse.  Options to ANTs allows the user to navigate the similarity
-and transformation options that are available.  ANTs takes multiple
+inverse.  Options allow the user to navigate the similarity
+and transformations that are available.  \verb antsRegistration ~allows multiple
 similarity and optimization criteria as options.  The program is
-wrapped in \verb ants.sh ~for normalization with ``out of the box''
-parameters and in \verb buildtemplateparallel.sh ~for 
-computationally distributed optimal template construction.
+wrapped in \verb antsRegistrationSyN.sh ~for normalization with ``out of the box''
+parameters and in \verb antsMultivariateTemplateConstruction2.sh ~for 
+computationally distributed optimal (multivariate) template construction.
 
-\subsection{The WarpImageMultiTransform Executable}
-The WarpImageMultiTransform program applies ANTs mappings to images.  One may apply an 
+\subsection{The antsApplyTransforms Executable}
+The antsApplyTransforms program applies ANTs mappings to images.
+antsApplyTransformsToPoints similarly works on point sets (see
+\href{http://stnava.github.io/chicken/}{http://stnava.github.io/chicken/} for details).  One may apply an 
 arbitrarily long series of transformations to an image through this program.  Thus, it enables one 
 to compose a series of affine and deformable mappings -- and/or their inverses -- such that one 
-may avoid multiple interpolations of a single image.  This program is used internally in ANTs 
-optimization to avoid ever using more than one interpolation.  The use-NN option applies nearest 
-neighbor interpolation, otherwise linear interpolation is used. 
+may avoid multiple interpolations of a single image.  Multiple
+interpolation options are available and multiple image types may be
+transformed including:   tensors, vectors, timeseries and
+$d$-dimensional scalar images where $d=2, 3, 4$.
 
-Also, please take a look at 
-\href{http://picsl.upenn.edu/ANTS/ioants.php}{http://picsl.upenn.edu/ANTS/ioants.php} 
-and the section below on I/O.
-
-\subsection{I/O Data Formats In ANTS}
-ANTs support both 2D and 3D images. 
-Since ANTs is implemented in ITK, 
-it is able to read and write the popular data formats supported through ITK. 
-There are four basic types of data for ANTS.
+\subsection{I/O Data Formats In ANTs}
+ANTs supports 2D, 3D and, in some cases, 4D images. 
+Since ANTs is implemented in concert with the Insight ToolKit (ITK) \href{http://www.itk.org/}{http://www.itk.org/}, 
+it is able to read and write the popular data formats supported
+through ITK.  ANTs also uses the ITK view of world-coordinates which
+can be confusing, at times, when one is mixing software.  There is
+much discussion of this on the web and in ANTs discussion
+sites/issues.  Whatever is relevant for ITK
+world coordinates is relevant to ANTs as these two software systems
+agree, in their entirety, about what the voxel to physical space
+coordinate mapping should be. 
+There are four basic types of data for ANTs.
 \subsubsection{Image Volumes}
-ANTs support both 2D and 3D images, including
+ANTs supports 2D, 3D, 4D images, including
 \begin{itemize}
 \item Nifti (.nii, .nii.gz)
 \item Analyze (.hdr + .img / .img.gz)
@@ -329,23 +364,12 @@ ANTs support both 2D and 3D images, including
 \end{itemize}
 \subsubsection{Affine Transformation File}
 ANTs uses the itk::TransformFileReader / itk::TransformFileWriter to handle affine transformation files. 
-These are text files recording the matrix and offset for the affine transform {\bf FIXME NEED MORE DETAIL on definition and geometry of affine matrix}.
-The interpretation depends on the header but generally it breaks down like this:   
-
-
-\#Insight Transform File V1.0 
-
-\# Transform 0 
-
-Transform: MatrixOffsetTransformBase\_double\_3\_3 
-
-Parameters:  $ a~b~c~d~e~f~g~h~i~j~k~l $ 
-
-FixedParameters: $ M~N~O $
-
-The meaning of these different terms: 
-
-The matrix component (rotation, scaling, shearing all composed together): 
+These are Matlab like .mat files recording the matrix and offset for
+the low-dimensional transforms: translation, rigid, affine.
+The ordering of a matrix transformations parameters breaks down like
+this: if parameters are,  $ a~b~c~d~e~f~g~h~i~j~k~l $ , with origin
+(or FixedParameters), $ M~N~O $, then the matrix components (rotation,
+scaling, shearing all composed together) are:
 
 $ \begin{matrix}
 a & b & c \\
@@ -353,48 +377,42 @@ d & e & f  \\
 g & h & i \\ 
 \end{matrix} $
 
-is followed by  $~j~k~l~$ --- this is the translation. 
+followed by  $~j~k~l~$ (the translation) where $L~M~N$  is the center of rotation . 
+You can use the  \verb -r ~option in \verb antsRegistration ~to
+initialize a registration with a matrix of this type or with a
+deformable mapping.
 
-$L~M~N$  is the center of rotation . 
+\subsubsection{Deformation field file}
+ANTs writes the deformation field using image formats that can store
+multi-dimensional pixels, usually a nifti-image.  The values of each
+pixel are the displacements in physical space.   So, $y=u(x)+x$ where
+$u(x)$ is the displacement at $x$.
 
-You can use the --initial-affine  and    --continue-affine  options to control how this is used in registration. 
-
-\subsubsection{Deformation Field File}
-ANTs writes the deformation field using one file for the deformation in each dimension. 
-For example, if the deformation field is named ABCD.nii.gz and exists in three dimensions, the corresponding files are:
-ABCDxvec.nii.gz, 
-ABCDyvec.nii.gz, 
-ABCDzvec.nii.gz (for 3D).  Note that ANTs programs {\em assume} the $*$vec part of the name will exist.  Thus, 
-one refers to the warp file as  ABCD.nii.gz , dropping the $*$vec from the name. 
-\subsubsection{Labeled Point Sets}
+\subsubsection{Labeled point sets---\textit{Currently not supported by
+  antsRegistration, only by old ANTS}}
 There are three formats supported
 \begin{itemize}
-\item  VTK format: point + scalar label in a .vtk file. {\bf FIXME NEED MORE DETAIL -- what type of vtk data ?  polydata?}.
 \item  Labeled point sets are saved as an image volume with the intensity = 1,2,3 for label = 1,2,3. For example, 
 figure~\ref{fig:frown} shows 2D images representing a 3-class labeled point set. 
-\item Avants Format. In this simple format, the point sets are saved as a text file. The first and last line is always 0 0 0 0. Each line in between for a point as X Y Z L (L is the label.)
+\item CSV Format. In this simple format, the point sets are saved as a
+  text csv file.  See the chicken example for details.
 \end{itemize}
-The names and formats of the output files are both specified by -o option to the ANTs executable. 
-For example, for in 3D with -o RegA2B.nii.gz , the typical output files are:
-Affine transform file: 
-RegA2BAffine.txt 
-Warping deformation field: 
-RegA2BWarpxvec.nii.gz, RegA2BWarpyvec.nii.gz, RegA2BWarpzvec.nii.gz
-Inverse warping deformation field:
-RegA2BInverseWarpxvec.nii.gz, RegA2BInverseWarpyvec.nii.gz, RegA2BInverseWarpzvec.nii.gz.  
-To apply the affine transform and the deformation field to the moving image, use WarpImageMultiTransform. 
-For example: to apply the transform to the moving image:
 
-WarpImageMultiTransform 2 A.nii.gz ADeformed.nii.gz -R B.nii.gz RegA2BWarp.nii.gz RegA2BAffine.txt
-
-to apply the inverse transform to the fixed image:
-
-WarpImageMultiTransform 2 B.nii.gz BDeformed.nii.gz -R A.nii.gz -i RegA2BAffine.txt RegA2BInverseWarp.nii.gz 
+\subsection{Using antsApplyTransforms or antsApplyTransformsToPoints}
+To apply an affine transform and deformation field to a moving image, use antsApplyTransforms. 
+For example: to apply the transform to the moving image and the
+inverse to the fixed image:
+\lstinputlisting[style=mystyle]{Ex2.sh}
+The numbers of the transformations (here, 0 and 1 because there is
+only a deformation and affine mapping) relate to the order in which
+the transforms are computed, during optimization, and also the order
+in which they should be applied.  There is reasonably complete
+discussion of this framework in \cite{AvantsITK}.
 
 \subsection{The ImageMath Executable} This is a multi-purpose program that has the following syntax:  ``ImageMath ImageDimension outputfilename   Operation  InputFileName  parameters ``.  Most basic scalar image operations -- and some tensor operations -- may be performed with this program.  Some operations output text files, some output images and some output only to the terminal.   ImageMath allows one to multiply images together (m), to negate images (Neg), to take an image to a power (pow), to test the invertibility of transformations (InvId), to compute the fractional anisotropy of an image (TensorFA) and to perform Markov Random Field segmentation with or without priors (Segment).   Many other operations are available.  Like all other ANTs programs, one may call ImageMath from the command line to see all of its options.   ImageMath is used heavily in ANTs scripts.  
 
 \subsection{ANTs Scripts} 
-The ANTS/Scripts directory contains (hopefully) user-friendly
+The ANTs/Scripts directory contains (hopefully) user-friendly
 wrappings of ANTs tools that enable higher-level error checking and
 combinations of basic ANTs functions.  These scripts are called as
 \verb sh ~ \verb antsscriptname.sh ~ and provide usage when called
@@ -412,11 +430,11 @@ because tcsh does no interpret the brackets as intended.  Using the
 bash shell script interface also avoids this.  The key change involves using the slash to force tcsh to 
 interpet the bracket literally. 
 \newpage
-\section{ImageRegistration with ANTS}
+\section{ImageRegistration with ANTs}
 \begin{wrapfigure}{r}{0.5\textwidth}
 \framebox[0.5\textwidth]{
 \begin{minipage}[t]{0.45\textwidth}
-{\bf Quick Start:} {\color{blue}call ants.sh (from ANTS/Scripts/) to get usage and apply a normalization to some of your existing data.  It is instructional to read the script, modify some of the parameters and re-run to witness the effect of your changes -- image registration is an art as well as science.  Many other ``ready to go'' scripts are available in ANTS/Scripts. The user must set his/her ANTSPATH environment variable  -- which points to the location of ANTs binaries -- within these scripts or in their environment.  Note: All ANTs programs provide usage when called from the command line.  Most require the image dimension to be specified as the first parameter.  E.g. 
+{\bf Quick Start:} {\color{blue}call ants.sh (from ANTs/Scripts/) to get usage and apply a normalization to some of your existing data.  It is instructional to read the script, modify some of the parameters and re-run to witness the effect of your changes -- image registration is an art as well as science.  Many other ``ready to go'' scripts are available in ANTs/Scripts. The user must set his/her ANTsPATH environment variable  -- which points to the location of ANTs binaries -- within these scripts or in their environment.  Note: All ANTs programs provide usage when called from the command line.  Most require the image dimension to be specified as the first parameter.  E.g. 
   ImageMath ImageDimension 
 where ImageDimenion is 2 or 3.}
 \end{minipage}}
@@ -483,7 +501,7 @@ An overview of available models and similarity terms is in Table~\ref{table:char
        {} & Geodesic SyN$^\dagger$ &  CC, PR, MI, MSQ, PSE  &  $~\min~\velocity(\x,t)$ over all time \\
     \bottomrule
     \end{tabular}
-  \caption{Transformations and a subset of the similarity metrics available in ANTS.  Similarity metric acronyms:  CC = fast cross correlation, PR = pure cross correlation (the preferred metric), MSQ = mean squared difference, MI = mutual information, PSE = point-set expectation \cite{Pluta2008}.  ANTs also provides the inverse of those transformations denoted by the `$\dagger$' symbol.  The brief descriptions of the diffeomorphic algorithms contrast the way in which the velocity field is optimized and used to parameterize $\phi$, the mapping.  All 
+  \caption{Transformations and a subset of the similarity metrics available in ANTs.  Similarity metric acronyms:  CC = fast cross correlation, PR = pure cross correlation (the preferred metric), MSQ = mean squared difference, MI = mutual information, PSE = point-set expectation \cite{Pluta2008}.  ANTs also provides the inverse of those transformations denoted by the `$\dagger$' symbol.  The brief descriptions of the diffeomorphic algorithms contrast the way in which the velocity field is optimized and used to parameterize $\phi$, the mapping.  All 
 ANTs Diff algorithms generate $\phi(\x,t)$ over $t \in [ 0, 1]$ through gradient descent.}
   \label{table:chart}
 \end{table*}    
@@ -507,9 +525,9 @@ Metric details will be discussed in a later section.
 \item -i 0 -- no deformable iterations (affine only).
 \item -o ab -- the output prefix.  A specific extension may also be specified, e.g.   -o ab.mhd  .
 \end{itemize}
-The parameter breakdown of the WarpImageMultiTransform call in the affine figure is:
+The parameter breakdown of the antsApplyTransforms call in the affine figure is:
 \begin{itemize}
-\item WarpImageMultiTransform -- to apply the mapping output from ANTs to an image.
+\item antsApplyTransforms -- to apply the mapping output from ANTs to an image.
 \item 2 -- the expected image dimension.
 \item the image to be deformed is input next.
 \item the deformed image output file name is next.
@@ -558,7 +576,7 @@ correspondence of the deformed beetle to the ford image.
 \vspace{-0.1in}
 \label{fig:antshier}
 \end{figure}
-Most ANTS-based applications use symmetric diffeomorphic normalization.  However, 
+Most ANTs-based applications use symmetric diffeomorphic normalization.  However, 
 ANTs also enables a simpler parameterization of a deformable mapping via a regularized 
 vector space.  We term these types of transformations as ``elastic''.  The original Demons algorithm 
 provides a classic example of using a regularized vector space for nonlinear registration.  
@@ -633,7 +651,7 @@ Thus, in three-dimensional scenarios in particular, there are fundamental limits
 degree of invertibility that may be achieved.  The second and third voxels -- from left -- 
 in image A undergo an expansion by a factor of 2.  That is, under the mapping, 
 2 voxels are mapped to 4.  This gives the definition of the Jacobian -- computed 
-by  ANTSJacobian -- which is a unitless measure defined by the 
+by  ANTsJacobian -- which is a unitless measure defined by the 
 ratio of volumes.  Thus, $\mathcal{J}(\x)=V(\phi(\x))/V(\x)$ where $V$ represents 
 the volume operation and $\x$, here, may be a small object.  Thus, if $\phi$ -- the mapping -- 
 causes expansion, then $\mathcal{J}(\x) > 1$. }
@@ -662,7 +680,7 @@ figure~\ref{fig:warp}.
 \includegraphics[width=0.9\textwidth]{Figures/ANTSSyntax2.pdf} 
 \itkcaption[ANTs Warping]{Here, we detail how one applies 
 a deformation and associated inverses.  We also see how 
-WarpImageMultiTransform can be used to concatenate a series 
+antsApplyTransforms can be used to concatenate a series 
 of transformations.}
 \vspace{-0.1in}
 \label{fig:warp}
@@ -717,8 +735,8 @@ TRAN=$TSYN
 ANTs $DIM -o $NAME $ITS  $TRAN  $INT
 INVW=" -i ${NAME}Affine.txt ${NAME}InverseWarp.nii "
 FWDW=" ${NAME}Warp.nii ${NAME}Affine.txt "
-WarpImageMultiTransform  2 ${II} a.nii -R ${JJ} $INVW
-WarpImageMultiTransform  2 ${JJ} b.nii -R ${II} $FWDW
+antsApplyTransforms  2 ${II} a.nii -R ${JJ} $INVW
+antsApplyTransforms  2 ${JJ} b.nii -R ${II} $FWDW
 \end{verbatim}
 Convergence occurs under two conditions: (1) either the maximum number of 
 iterations are reached at a given optimization level or (2) the slope 
@@ -744,7 +762,7 @@ as at right, if the order of the DT entries is wrong.}
 \vspace{-0.1in}
 \label{fig:dterr}
 \end{wrapfigure}  
-\subsection{Multivariate Normalization with ANTS}
+\subsection{Multivariate Normalization with ANTs}
 \begin{figure}
 \includegraphics[width=0.9\textwidth]{Figures/multivariatenorm.pdf} 
 \itkcaption[Multivariate Normalization]{The current version of ANTs 
@@ -752,7 +770,7 @@ may perform normalization of multiple modalities by combining {\em intrasubject,
 group template.  In brain imaging, the intersubject maps are usually guided by the T1 component.}\vspace{-0.1in}
 \label{fig:mvnorm}
 \end{figure}
-Multivariate normalization may be performed in two ways with ANTS.  
+Multivariate normalization may be performed in two ways with ANTs.  
 First, as shown in figure~\ref{fig:mvnorm}, intra-subject mappings may 
 be used to conform all modalities into a common subject space defined by 
 the ``anchor'' modality.  In brain imaging, this is usually the T1 component.  
@@ -771,18 +789,18 @@ than the FA PR metric, 1.25 vs. 1.0.  {\em The convergence criterion for
 the multivariate scenario is a slave to the {\bf last} metric you 
 pass on the ANTs command line}.
 
-\subsection{Optimal Template Construction with ANTS}
+\subsection{Optimal Template Construction with ANTs}
 A useful script for setting up optimal template construction
- is available in ANTS/Scripts.  This method is described in \cite{Avants2004,Avants2006d,Kim2008,Yushkevich2009,Avants2009c}, 
+ is available in ANTs/Scripts.  This method is described in \cite{Avants2004,Avants2006d,Kim2008,Yushkevich2009,Avants2009c}, 
 where more recent publications are more descriptive and incorporate 
 more recent features and optimization strategies. 
 Two versions of this algorithm are available : serial and parallel.  
 Data and a script for building an average face template is available 
-the ANTS/Examples/Data directory.  Two key points about optimal templates:
+the ANTs/Examples/Data directory.  Two key points about optimal templates:
 1. The outcome stabilizes at around ten images, for most populations.
 That is, if we randomly select images from individuals within the same 
 demographic distribution, we will end up with very similar average images.  
-2.  Optimality, for the ANTS-SyN approach, is defined by the minimum shape 
+2.  Optimality, for the ANTs-SyN approach, is defined by the minimum shape 
 and appearance distance image. 
 See the template page for some examples of this and users may 
 contact ANTs developers for previously derived template 
@@ -803,7 +821,7 @@ across this dataset -- is recovered in the derived optimal template.}
 \end{figure}
 \begin{enumerate}
 \item   Make a directory for this example.   Copy or link all the B*tiff images into it.
-\item Copy the file ANTS/Scripts/buildtemplate.sh into that directory.  
+\item Copy the file ANTs/Scripts/buildtemplate.sh into that directory.  
 \item  On the command line, within that directory, run the following command: 
 \verb  sh ~ \verb buildtemplate.sh ~ to get usage. 
 \item If you follow the usage, you will then call the script something like this: 
@@ -870,7 +888,7 @@ ANTs has tools for both tissue based segmentation and prior-based segmentation t
 leverages spatial priors, usually based on a template mapping.  
 \subsection{Basic Segmentation}
 A basic MRF segmentation algorithm is available in ANTs ImageMath.  We apply 
-the segmentation to the example data in: ANTS/Examples/Data/r16slice.nii.  
+the segmentation to the example data in: ANTs/Examples/Data/r16slice.nii.  
 \begin{verbatim}
 ImageMath 2 r16slice.nii Segment r16slice.nii 4 0 
 % output = r16slice_seg.nii, r16slice_prob_0.nii, r16slice_prob_1.nii, r16slice_prob_2.nii .  
@@ -924,7 +942,7 @@ and some CSF -- highlighted by arrows -- as their weight increases.
 \end{figure}
 \subsection{Cortical Thickness}
 Two forms of cortical thickness estimation from probability maps are available 
-in ANTS: first, the traditional Laplacian cortical thickness estimation and, second, 
+in ANTs: first, the traditional Laplacian cortical thickness estimation and, second, 
 the more recently developed Diffeomorphic Registration-based Cortical Thickness 
 (DiReCT) \cite{Das2009}.  Both methods estimate thickness of an object 
 from probability or binary images that define object boundaries.  This tool 
@@ -962,10 +980,10 @@ ANTs 2 -o PSEtest  -i 91x70x55x40x30  -r Gauss[3,0.] -t SyN[0.2]
    -m  PSE[Frown.nii,Smile.nii,Frown.nii,Smile.nii,0.75,0.1,11,0,10] 
    -m  MSQ[Frown.nii,Smile.nii,1,0]    --number-of-affine-iterations 0 
 
-WarpImageMultiTransform  2 Frown.nii FrownToSmile.nii -R Smile.nii
+antsApplyTransforms  2 Frown.nii FrownToSmile.nii -R Smile.nii
    -i PSEtestAffine.txt PSEtestInverseWarp.nii 
 
-WarpImageMultiTransform  2 Smile.nii SmileToFrown.nii -R Frown.nii 
+antsApplyTransforms  2 Smile.nii SmileToFrown.nii -R Frown.nii 
     PSEtestWarp.nii PSEtestAffine.txt 
 
 CreateWarpedGridImage 2 PSEtestInverseWarp.nii grid1.nii
@@ -984,7 +1002,7 @@ traumatic brain injury are a common instance of this.
 The ANTs toolkit handles this situation by a constrained cost-function
 masking approach. In short, the mapping within an excluded region (as
 determined by an inclusive mask) is determined by the solution outside
-of the region. To achieve this with ANTS, one would use a call similar
+of the region. To achieve this with ANTs, one would use a call similar
 to this:
 \begin{verbatim}
 ANTs 3 -m PR[tp22_s1.nii,template.nii.gz,1,4] -i 50x20x0
@@ -1017,13 +1035,13 @@ To take the negative image of the inclusive mask
 and warp the mask to the template :
 \begin{verbatim}
 ImageMath 3 lesionmask.nii.gz Neg inclusivemask.nii.gz
-WarpImageMultiTransform 3 lesionmask.nii.gz lesiontotemplate.nii.gz 
+antsApplyTransforms 3 lesionmask.nii.gz lesiontotemplate.nii.gz 
    -R template.nii.gz -i tp22mapAffine.txt tp22mapInverseWarp.nii
 \end{verbatim}
 More details on this approach are being prepared for publication.
 See also: \verb http://www.ncrrn.org/papers/methodology_papers/sp_norm_kim.pdf .
 
-\subsection{Statistical Mapping with ANTS: Morphometry, Function, Jacobian, Thickness}
+\subsection{Statistical Mapping with ANTs: Morphometry, Function, Jacobian, Thickness}
 ANTs has been applied in a wide array of imaging studies
 \cite{Avants2009a,Avants2009b,Avants2009,Das2009,Klein2009,Massimo2009,Pluta2008,Tustison2009,Yushkevich2009,Avants2008c,Avants2008b,M.Grossman10282008,Kim2008,Simon2008,Sun2008,Yushkevich2008,Aguirre2007,Avants2007,Avants2007i}.
 All of these studies benefit in some way from normalization whether the topic is cortical
@@ -1036,16 +1054,16 @@ From a broad perspective, each of these applications requires the same steps:
 \item Apply the warp to any images one may want to analyze in template space.  
 \item Perform statistics in template space over the region of interest, e.g. all cortex. 
 \end{enumerate}
-We now illustrate this procedure using ANTs tools and example images from ANTS/Examples/Data. 
+We now illustrate this procedure using ANTs tools and example images from ANTs/Examples/Data. 
 The expected output is in figure~\ref{fig:morph}.
 \begin{verbatim}
 1.  ImageMath 2 r64slice.nii Segment r64slice.nii 4 0
 1.  ImageMath 2 r16slice.nii Segment r16slice.nii 4 0
 2.  sh ants.sh 2 r16slice.nii r64slice.nii SPM 100x100x100
 3.  SmoothImage 2 r64slice_prob_1.nii  1. r64slice_prob_1.nii  
-3.  WarpImageMultiTransform 2 r64slice_prob_1.nii  r64slice_prob_1_norm.nii
+3.  antsApplyTransforms 2 r64slice_prob_1.nii  r64slice_prob_1_norm.nii
      -R r16slice.nii SPMWarp.nii SPMAffine.txt 
-3.  ANTSJacobian 2 SPMWarp.nii SPM 1  # take the log
+3.  ANTsJacobian 2 SPMWarp.nii SPM 1  # take the log
 4.  ImageMath 2 SPMlogjacobianmask.nii m SPMlogjacobian.nii r64slice_prob_1_norm.nii
 5.  Repeat for a population and run statistics on log jacobians.
 \end{verbatim}
@@ -1131,10 +1149,10 @@ through a dataset in any of its axes.  It is useful for checking both
 input data quality and output normalization quality.  MeasureImageSimilarity 
 will supply numerical measures of image similarity via three different metrics. 
 
-\subsection{Statistics Beyond ANTS}
+\subsection{Statistics Beyond ANTs}
 Use SPM, {\bf R} or npm (from Chris Rorden's mricron) for computing population statistics.
 
-\subsection{Pipelining with ANTS}
+\subsection{Pipelining with ANTs}
 Use PipeDream for automating large-scale processing:\newline
 \href{https://sourceforge.net/projects/neuropipedream/}{PipeDream
   Homepage :
