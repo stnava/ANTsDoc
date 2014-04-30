@@ -332,9 +332,9 @@ wrapped in \texttt{antsRegistrationSyN.sh} for normalization with ``out of the b
 parameters and in \texttt{antsMultivariateTemplateConstruction2.sh} for 
 computationally distributed optimal (multivariate) template construction.
 
-\subsection{The antsApplyTransforms Executable}
-The antsApplyTransforms program applies ANTs mappings to images.
-antsApplyTransformsToPoints similarly works on point sets (see
+\subsection{The \texttt{antsApplyTransforms} Executable}
+The \texttt{antsApplyTransforms} program applies ANTs mappings to images.
+\texttt{antsApplyTransformsToPoints} similarly works on point sets (see
 \href{http://stnava.github.io/chicken/}{http://stnava.github.io/chicken/} for details).  One may apply an 
 arbitrarily long series of transformations to an image through this program.  Thus, it enables one 
 to compose a series of affine and deformable mappings -- and/or their inverses -- such that one 
@@ -399,7 +399,7 @@ figure~\ref{fig:frown} shows 2D images representing a 3-class labeled point set.
   text csv file.  See the chicken example for details.
 \end{itemize}
 
-\subsection{Using antsApplyTransforms or antsApplyTransformsToPoints}
+\subsection{Using \texttt{antsApplyTransforms} or \texttt{antsApplyTransformsToPoints}}
 To apply an affine transform and deformation field to a moving image,
 use \texttt{antsApplyTransforms}. 
 For example: to apply the transform to the moving image and the
@@ -508,7 +508,7 @@ data is transformed.
 The ANTs toolkit provides a hierarchy of transformations with
 adjustable levels of complexity, regularization, degrees of freedom
 and behavior as optimizers.  The simplest transformation model is the
-rigid and/or affine transform.  The most complex -- and most flexible
+translation, followed by the rigid and/or affine transform.  The most complex -- and most flexible
 -- is a symmetric diffeomorphic transformation based on optimizing and
 integrating a time-varying velocity field.  Computation time also
 increases with transformation model complexity, but most normalization
@@ -541,57 +541,51 @@ An overview of available models and similarity terms is in Table~\ref{table:char
     available in ANTs.  Similarity metric acronyms:  CC = neighborhood
     cross correlation (the preferred metric), MeanSquares = mean
     squared difference, MI = mutual information, PSE = point-set
-    expectation (to be added soon-ish) \cite{Pluta2008}.  ANTs also provides the inverse of those transformations denoted by the `$\dagger$' symbol.  The brief descriptions of the diffeomorphic algorithms contrast the way in which the velocity field is optimized and used to parameterize $\phi$, the mapping.  All 
+    expectation (to be added soon-ish \textcolor{red}{FIXME}) \cite{Pluta2008}.  ANTs also provides the inverse of those transformations denoted by the `$\dagger$' symbol.  The brief descriptions of the diffeomorphic algorithms contrast the way in which the velocity field is optimized and used to parameterize $\phi$, the mapping.  All 
 ANTs Diff algorithms generate $\phi(\x,t)$ over $t \in [ 0, 1]$ through gradient descent.}
   \label{table:chart}
 \end{table*}    
 \vspace{0in}
 
+\paragraph{General Parameters:} ANTs registration options include control of iterations (and,
+optionally, convergence criterion) via
+\texttt{-c 5000x5000x5000} which specifies that the affine registration
+uses a 3 level image pyramid with each level 5000 iterations at
+most.  Multi-resolution options include \texttt{-s} for smoothing and
+\texttt{-f} for ``shrink factors'' i.e. downsampling rates (e.g. 8
+means 1/8$^{th}$ resolution).  
+\texttt{MI[fixed,moving,1,32,Regular,0.1]} means to use Mutual
+Information as similarity metric with 32 bins and regularly spaced
+samples of 10\% of the image; lower sampling rates increases speed and
+is useful in low-dimensional registration.  \texttt{MI[fixed,moving,1,32]} means to use Mutual
+Information as similarity metric with 32 bins and dense sampling of
+the image and would be typically used in deformable registration. See \texttt{antsRegistration --help}
+for more information. 
+
 \subsubsection{Affine and Rigid
   Registration---\textcolor{red}{FIXME---this section and figures}}
+
+
 \begin{figure}
 \includegraphics[width=0.9\textwidth]{./Figures/ANTSanatomy.pdf} 
 \itkcaption[ANTs Introduction]{The anatomy of an ANTs optimization and application of the resulting warping.}
 \vspace{-0.1in}
 \label{fig:aff}
 \end{figure}
-The most basic mapping between images is an affine mapping. The ANTs 
-affine mapping syntax is shown in the affine mapping figure~\ref{fig:aff}. The
-parameter breakdown of the ANTs call in the affine figure is:
-\begin{itemize}
-\item  \texttt{antsRegistration} -- the normalization program
-\item 2 -- the expected image dimension
-\item -m MI[...,...,1,32] -- the similarity metric ``mutual information" with a 32-bin square joint histogram and weight of 1.  
-Metric details will be discussed in a later section. 
-\item -i 0 -- no deformable iterations (affine only).
-\item -o ab -- the output prefix.  A specific extension may also be specified, e.g.   -o ab.mhd  .
-\end{itemize}
-The parameter breakdown of the antsApplyTransforms call in the affine figure is:
-\begin{itemize}
-\item antsApplyTransforms -- to apply the mapping output from ANTs to an image.
-\item 2 -- the expected image dimension.
-\item the image to be deformed is input next.
-\item the deformed image output file name is next.
-\item the transform itself is next -- if is affine and preceded by " -i ", we apply the inverse affine map.
-\item the " -R " option dictates the domain you want to warp into -- usually the ``fixed'' image, unless using the inverse mapping, in which case one switches the role of fixed and moving images. 
-\end{itemize}
-Note that -i 0 (in the ANTs call) means that no deformable mapping is performed. The call "ANTs 2" means to treat the images as 2-dimensional. "ANTs 3" would be called for 3D images. The " -m " term defines the similarity metric. 
-Note that no more than one image interpolation is used during optimization.  
-That is, ANTs always references the original image before applying a transformation or series of transformations. 
+The ANTs affine mapping syntax is shown in the affine mapping
+figure~\ref{fig:aff}. 
 
 Affine mapping may become nontrivial when the region of interest 
 occupies only a small portion of the image data.  In such cases, 
 ANTs enables the user to define a mask to focus the optimization 
 effort on the region of interest.  
 Example code for (affine) registration with a mask: 
-\begin{verbatim}
-ANTs 3 -m MI[AtlasHead.nii,crAnatomical.nii,1,32] 
--o TEST -i 10x10x0  -r Gauss[1.5,0] -t Exp[0.5] -x mask.nii.gz
-\end{verbatim}
+\href{http://stnava.github.io/BasicBrainMapping/}{http://stnava.github.io/BasicBrainMapping/}.
 The difference between this command 
 and a regular ANTs call is the \verb"-x" option, which specifies the mask, defined in the 
-template space (here, AtlasHead.nii).   The mask option also affects the deformable optimization. 
-Other affine registration options include  \verb"--number-of-affine-iterations 5000x5000x5000" which specifies that the affine registration uses a 3 level image pyramid with each level 5000 iterations at most. \verb"--MI-option 48x6000" means to use Mutual Information as similarity metric with 48 bins and 6000 samples. \verb"--affine-gradient-descent-option" defines the options for the gradient descent procedure; the 4 numbers are maximum step length, relaxation factor, minimum step length and translation scale.  
+template space.   The mask option also affects the deformable
+optimization. 
+
 
 
 \noindent{\bf Rigid Registration: }  ANTs will also perform rigid registration.  For example,  
@@ -645,18 +639,15 @@ Gradient descent optimization of an elastic mapping may be summarized (crudely) 
 \text{Regularize the deformation field:  }  \disp(\x) \leftarrow G_\sigma \star \disp(\x),
 \end{align}
 where $\Pi$ is the similarity, $\delta$ is a gradient step length and $G_\sigma$ is a gaussian smoother.
-This optimization is captured in the following ANTs command:
-\begin{verbatim}
-ANTs 3 -m PR[AtlasHead.nii,crAnatomical.nii,1,4] -r Gauss[0,3]  
--o ElasticTest.nii.gz -i 30x20x10  -t Elast[1.5] 
-\end{verbatim}
-Here, we use the PR metric (a cross-correlation implementation) with
+This optimization is captured in the following ANTs command (\textcolor{red}{FIXME})
+\lstinputlisting[style=mystyle]{Ex4.sh}
+Here, we use the CC metric (a cross-correlation implementation) with
 window radius 4, weight 1 and gradient step length 1.5.  The
 optimization will be performed over three resolutions with a maximum
 of 30 iterations at the coarsest level, 20 at the next coarsest and 10
 at the full resolution.  We use a Gaussian regularizer with a sigma of
 3 that operates only on the deformation field and not on the similarity gradient, as 
-0 is passed as the first parameter to \texttt{Gauss} .  One may see the
+0 is passed as the first parameter to \texttt{GaussianDisplacementField} .  One may see the
 correspondence, yet again, between the ANTs call and the optimization
 scheme.  The optimization will stop when either the energy cannot be 
 smoothly minimized or the maximum number of iterations is reached. 
@@ -673,13 +664,9 @@ check the data and run simple, fast tests (few iterations) to perform
 sanity checks before running through loads of data.
 An ANTs deformation consists of
 a standard naming prefix plus a standard naming extension. We usually 
-assume nii but other file types may be used. The standard naming
-extension is Warpxvec.nii for the x component of the deformation with
-similar naming for y and z. Each component is stored in a separate
-scalar image. The value of a voxel of a deformation/warp component
-image is the physical space displacement from that voxel. Note that
-the inverse mapping is stored in InverseWarpxvec.nii and provides the
-mapping in the opposite direction.  Note that an inverse -- in the 
+assume nii but other file types may be used. The value of a voxel of a deformation/warp component
+image is the physical space displacement from that voxel. Note that an
+inverse warp -- in the 
 digital domain -- is only approximate as shown in figure~\ref{fig:inv}.
 \begin{figure}
 \center \includegraphics[width=0.75\textwidth]{Figures/DeformationsInDigitalDomain.pdf} 
@@ -698,20 +685,18 @@ causes expansion, then $\mathcal{J}(\x) > 1$. }
 \end{figure}  
 A few important notes follow. 
 (1) Deformation directionality: Warps/deformations applied to images occur in the opposite direction from warps/deformations applied to points. That is, if we map image B to A using 
-\begin{verbatim}
-ANTs 2 -m PR[A,B,1,2] -o OUTPUT 
-\end{verbatim}
- then we get a deformation called \texttt{OUTPUTWarp+extensions} and an affine transform called \texttt{OUTPUT0GenericAffine.mat} . 
-This composite mapping - when applied to B - will transform B into the space of A. 
+\lstinputlisting[style=mystyle]{Ex4.sh}
+ then we get a deformation called \texttt{OUTPUT1Warp.nii.gz} and an affine transform called \texttt{OUTPUT0GenericAffine.mat} . 
+This composite mapping -- when applied to B -- will transform B into the space of A. 
 However, if we have points defined in B that we want to map to A, 
-we have to use \texttt{OUTPUTInverseWarp} and the inverse of \texttt{OUTPUT0GenericAffine.mat}.  
+we have to use \texttt{OUTPUT1InverseWarp.nii.gz} and the inverse of \texttt{OUTPUT0GenericAffine.mat}.  
 This is because the domain and range of the map's definition need to be dense in a way that is appropriate for the data type. 
 Figure~\ref{fig:inv} illustrates the concept. 
 (2) Older Image Formats: older image formats (e.g. Analyze) may not
 have proper origin/offset/direction support! In these cases, we
 recommend converting to nii and verifying that data overlays properly.
 (3) Transorm Composition: Composition of transforms may be achieved with
-ComposeMultiTransform.  (4) Warping with inverses and concatenations --
+\texttt{antsApplyTransforms}.  (4) Warping with inverses and concatenations --
 viable when using diffeomorphisms -- are described in
 figure~\ref{fig:warp}.
  \begin{figure}
@@ -742,50 +727,28 @@ is invariant to the order of the input images (although the affine mapping is no
 An additional advantage of the diffeomorphic model over the elastic model is 
 that both forward and inverse transformations are computed thus allowing one 
 to deform fixed to moving and also moving to fixed.   The transformation model 
-chosen here -- \texttt{SyN[0.25]} -- may be replaced with other 
-diffeomorphic transformation models.  The most general is global-in-time SyN via \texttt{SyN[0.25,2,0.01]}   , 
+chosen here -- \texttt{SyN[0.1,3,0.0]} -- may be replaced with other 
+diffeomorphic transformation models.  The most general is global-in-time SyN via \texttt{SyN[0.1,3,0.0]}   , 
 where the time step for integration is 0.01 (lower is more accurate).  A fast approximate 
 solution may be gained through 
 exponential mapping via \texttt{Exp[0.25,10]} , where 10 integrations points are used. 
 Update schemes for diffeomorphic optimization are similar to the elastic case 
-and are described elsewhere \cite{Avants2008b,ANTStheory}.   
+and are described elsewhere \cite{Avants2008b}.   
 
 \subsection{ANTs Similarity Terms}
 Here is a script that will let you experiment with different similarity term 
 and transformation model combinations.  A few are listed, with parameters 
 that are a reasonable starting point.
-\begin{verbatim}
-II=r16slice.nii # change to your own images 
-JJ=r64slice.nii 
-DIM=2 # two-dimensional images 
-ITS=" -i 100x100x30 " # 3 optimization levels 
-TSYNWITHTIME=" -t SyN[1,2,0.05]  -r Gauss[3,0.5] "
-TGREEDYSYN=" -t SyN[0.25]  -r Gauss[3,0] "
-TELAST=" -t Elast[1] -r Gauss[0,3] " 
-TEXP="  -t Exp[0.5,10] -r Gauss[0,3] " 
-LABELGUIDED=" -m PSE[${II},${JJ},${II},${JJ},0.75,0.1,25,0,10] "
-INTMSQ=" -m MSQ[${II},${JJ},1,0.1] "
-INTMI=" -m MI[${II},${JJ},1,32] "
-INTPR=" -m PR[${II},${JJ},1,4] "
-NAME=TEST
-INT=$INTPR
-TRAN=$TSYN
-ANTs $DIM -o $NAME $ITS  $TRAN  $INT
-INVW=" -i ${NAME}Affine.txt ${NAME}InverseWarp.nii "
-FWDW=" ${NAME}Warp.nii ${NAME}Affine.txt "
-antsApplyTransforms  2 ${II} a.nii -R ${JJ} $INVW
-antsApplyTransforms  2 ${JJ} b.nii -R ${II} $FWDW
-\end{verbatim}
+\lstinputlisting[style=mystyle]{Ex4.sh}
 Convergence occurs under two conditions: (1) either the maximum number of 
 iterations are reached at a given optimization level or (2) the slope 
 of the change in the optimization objective is negative or very small. 
-{\em Note: ANTs does not like spaces between brackets in the call to the metrics.}
 
 
 \subsection{Choosing a Metric}
 \input{metric.tex}
 
-\subsection{Diffusion Tensor Normalization}
+\subsection{Diffusion tensor normalization}
 The ImageMath program -- via TensorFA and TensorMeanDiffusion -- 
 may derive scalar images from DTI.  Such images may be used to 
 distortion correct DTI to T1 or to map DTI together.   See the 
@@ -894,7 +857,7 @@ there is such severe atrophy nearby.
 }
 \label{fig:large}
 \end{figure}
-\noindent{\bf Turning "Failures" into Successes:} 
+\noindent{\bf Turning ``Failures" into Successes:} 
 Below are some pointers to follow if you are unable to recreate such normalization quality.  
 Usually, reasons for registration failure are one of a very few things: 
 \begin{enumerate}
@@ -908,7 +871,11 @@ A recent study used the following call to ANTs across a dataset of elderly subje
 ANTs 3 -m PR[template.nii.gz,subject.nii.gz,1,2] -i 10x50x50x20
  -o subjectmap.nii -t SyN[0.25] -r Gauss[3,0]
 \end{verbatim}
-This succeeded for all subjects but one.  This subject had severe neurodegeneration which caused "under-normalization" to result.  A larger deformation mapping was required and so we increased the maximum number of iterations (the "-i" parameter).  One might also increase the gradient-descent step-size (SyN[0.25] => SyN[0.5]).   Large deformation mapping is challenging not only because of the amount of deformation, but also because the "true" solution is difficult to find.  Keeping this in mind, we also increased the "span" (radius) of the correlation window in the similarity metric (which also increases computation time). These modified parameters succeeded: 
+This succeeded for all subjects but one.  This subject had severe
+neurodegeneration which caused "under-normalization" to result.  A
+larger deformation mapping was required and so we increased the
+maximum number of iterations (the "-i" parameter).  One might also
+increase the gradient-descent step-size (SyN[0.1] $\rightarrow$ SyN[0.25]).   Large deformation mapping is challenging not only because of the amount of deformation, but also because the "true" solution is difficult to find.  Keeping this in mind, we also increased the "span" (radius) of the correlation window in the similarity metric (which also increases computation time). These modified parameters succeeded: 
 \begin{verbatim}
 ANTs 3 -m PR[template.nii.gz,subject.nii.gz,1,4] -i 100x100x100x20
  -o subjectmap.nii -t SyN[0.25] -r Gauss[3,0] 

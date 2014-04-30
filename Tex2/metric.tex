@@ -1,4 +1,4 @@
-ANTS supports both volumetric registration and point set registration. The image / point set similarity metrics in ANTS are unified in the form of a function on the images or the point sets:       $$\textbf{Simlarity}[\textbf{fixedImage}, \textbf{movingImage}, \textbf{weight}, \textbf{parameters}].$$
+ANTS supports both volumetric registration and point set registration. The image / point set similarity metrics in ANTS are unified in the form of a function on the images or the point sets:       $$\textbf{Similarity}[\textbf{fixedImage}, \textbf{movingImage}, \textbf{weight}, \textbf{parameters}].$$
         
 The similarity type for the deformation transformation is specified by \verb -m  option, which contains two parts: simarity type and the parameters inside the brackets. (Note: no white spaces exist between parameters.) The possible similarity metrics for volumetric images are: 
 \begin{itemize}
@@ -10,15 +10,25 @@ The similarity type for the deformation transformation is specified by \verb -m 
         \item the region radius for computing cross correlation is 5
     \end{itemize}
 
-    \item Mutual information: \verb"-m MI[fixedImage,movingImage,weight,number-of-histogram-bins]". This metric works both well for intra-modality and inter-modality image registration. For example, the first three parameters in \verb"-m MI[fixed.nii,moving.nii,1,32]" is similar to the example above in cross correlation, except that the last parameter means that the number of bins in computing mutual information is 32.
+    \item Mutual information: \verb"-m MI[fixedImage,movingImage,weight,number-of-histogram-bins,samplingStrategy,samplingPercentage]". This
+      metric works both well for intra-modality and inter-modality
+      image registration. For example, the first three parameters in
+      \verb"-m MI[fixed.nii,moving.nii,1,32]" is similar to the
+      example above in cross correlation, except that the last
+      parameter means that the number of bins in computing mutual
+      information is 32. 
 
-    \item PR: \verb"-m PR[fixedImage,movingImage,weight,radius]". This metric works for intra-modality image registration and some inter-modality cases. This metric is a strict implementation of correlation whereas CC estimates correlation-like optical flow. The meaning of parameters are similar to cross correlation.
+    \item Global correlation: \verb"-m GC[fixedImage,movingImage,weight,0,samplingStrategy,samplingPercentage]". This
+      metric works both well for intra-modality and inter-modality
+      image registration. For example, 
+      \verb"-m GC[fixed.nii,moving.nii,1,0,Random,0.1]" uses 10\%
+      random sampling of the image to estimate the global correlation.
 
-    \item Mean square difference: \verb"-m MSQ[fixedImage,movingImage,weight,0]". This metric works for intra-modality image registration. The last parameter \verb"0" is a padding value of no real meaning. For example, \verb"-m MSQ[fixed.nii,moving.nii,1,0]". 
+    \item Mean square difference: \verb"-m MeanSquares[fixedImage,movingImage,weight,0]". This metric works for intra-modality image registration. The last parameter \verb"0" is a padding value of no real meaning. For example, \verb"-m MeanSquares[fixed.nii,moving.nii,1,0]". 
 
 \end{itemize}
 
-ANTS also support registration of point sets. The supported formats for point sets can be found in I/O section. The similarity metrics for point sets are:
+ANTs also support registration of point sets. The supported formats for point sets can be found in I/O section. The similarity metrics for point sets are:
 \begin{itemize}
     \item Point set expectation: 
      \begin{verbatim}
@@ -64,16 +74,11 @@ meshResolution,splineOrder,numberOfLevels,useAnisotropicCovariances]
 
 \end{itemize}
 
-In current implementation, the affine registration only supports two types of similarity metrics on volumetric images, which are specified using \verb"--affine-metric-type":
-\begin{itemize}
-    \item Mutual information, specified as \verb"--affine-metric-type MI". This usually works for both inter and intra-modalities in 3D. Also, the options used in computing mututal information in affine registration can be specified as \verb"--MI-option N1xN2". The first parameter \verb"N1" specifies the number of bins. The second parameter \verb"N2" specifies the number of samples. For example: \verb"--MI-option 32x8000".
-
-    \item Mean square difference, specified using \verb"--affine-metric-type MSE". There is no options for this metric.
-\end{itemize}
 
 Fig. \ref{fig:metric_example} shows the registration result using intensity difference with the following command:
 \begin{verbatim}
-ANTS 2 -m MSQ[r16slice.nii,r64slice.nii,1,0] -r Gauss[3,0] -t SyN[0.5] -i 50x50x30
+antsRegistration -d 2 -m MeanSquares[r16slice.nii,r64slice.nii,1,0] -t
+  GaussianDisplacementField[0.5,3,0.5] -c 50x50x30 -o test.nii.gz
 \end{verbatim}
 
 %        \begin{wrapfigure}{r}{0.5\textwidth}
