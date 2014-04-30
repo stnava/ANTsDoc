@@ -1,5 +1,5 @@
 
-for FL in ants # antstheory # ants
+for FL in ants2 # antstheory # ants
   do 
 for i in 1 2 3 
 do
@@ -8,5 +8,4 @@ bibtex   $FL
 done
 cp ${FL}.pdf ../
 done 
-rm -f *.bbl *.log *.aux *.toc *.blg *.brf *.out *.spl *~ 
-
+rm -f ${FL}.pdf *.bbl *.log *.aux *.toc *.blg *.brf *.out *.spl *~ 
