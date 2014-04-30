@@ -440,11 +440,11 @@ from the command line.  For instance, try \texttt{bash}  \texttt{antsRegistratio
 Additionally, if you run ants in tcsh shells, you will need to call it
 as follows (using \texttt{antsRegistration} as an example):
 \begin{verbatim}
-antsRegistration -d 2 -m CC\[r16slice.nii,r64slice.nii,1,2\]
+antsRegistration -d 2 -m CC\[r16slice.nii,r64slice.nii,1,2\] ...
 \end{verbatim}
 instead of
 \begin{verbatim}
-antsRegistration -d 2 -m CC[r16slice.nii,r64slice.nii,1,2 ]
+antsRegistration -d 2 -m CC[r16slice.nii,r64slice.nii,1,2 ] ...
 \end{verbatim}
 because tcsh does no interpret the brackets as intended.  Using the
 bash shell script interface also avoids this.  The key change involves using the slash to force tcsh to 
@@ -466,14 +466,20 @@ interpet the bracket literally.
   ImageMath ImageDimension where ImageDimenion is 2, 3, 4.}
 \end{minipage}}
 \end{wrapfigure}
-There are two general applications of image registration. The first application is transforming labeled data from a template image space into an individual space. This strategy is important when appearance alone is not enough to locate a structure as, for example, in the case of hippocampus segmentation. The template provides a prediction of the hippocampus-amygdala boundary.
-The second application operates in the "inverse" direction of the first: instead of mapping template to individual, we map individual(s) to the template. Voxel-based population studies of either functional or structural variables depend on mapping to a template space. The common coordinate system enables a statistical evaluation of the likelihood of consistent activation across a group or, in other contexts, the differences in anatomy between two groups. 
+There are two general applications of image registration. The first
+application is transforming labeled data from a template image space
+into an individual space. This strategy is important when appearance
+alone is not enough to locate a structure as, for example, in the case
+of hippocampus segmentation. The template provides a prediction of the
+hippocampus-amygdala boundary.  Mapping multiple templates to an
+individual (multi-template labeling) can further improve accuracy \cite{Wang2011,Avants2011a}.
+The second application operates in the ``inverse'' direction of the first: instead of mapping template to individual, we map individual(s) to the template. Voxel-based population studies of either functional or structural variables depend on mapping to a template space. The common coordinate system enables a statistical evaluation of the likelihood of consistent activation across a group or, in other contexts, the differences in anatomy between two groups. 
 
 The ANTs toolkit enables both types of mapping. The main challenge in image and brain mapping is defining the way in which images/anatomy are compared. There are two components to the comparison.
 The shape transformation space defines the range of shape variation that will be allowed in the optimization.
 The appearance similarity space defines the statistical assumptions that determine when one image is considered to appear similar to another. 
 
-These two components interact in a weighted optimization within a multiple resolution gradient descent framework. Each component may use either "strict" or "flexible" assumptions about the shape or appearance similarity. The selection of these models should be done in a principled way that fits the problem at hand. No single choice is appropriate for all scenarios (see the "no free lunch" theorem). 
+These two components interact in a weighted optimization within a multiple resolution gradient descent framework. Each component may use either ``strict" or ``flexible" assumptions about the shape or appearance similarity. The selection of these models should be done in a principled way that fits the problem at hand. No single choice is appropriate for all scenarios (see the ``no free lunch" theorem). 
 
 Thus, ANTs enables many operating points from both the transformation and appearance domains such that users may make choices appropriate for their problems. The ANTs command-line syntax, shown in figure~\ref{fig:cmd}, reflects these operating points and the various components that interact in the optimization.
 \begin{figure}
@@ -481,20 +487,21 @@ Thus, ANTs enables many operating points from both the transformation and appear
 \itkcaption[ANTs Command Line]{The relationship between the variational 
 form that defines the optimization goals and the ANTs command line.  The 
 SyN option implements the method in \cite{Avants2008b} and evaluated in 
-\cite{Klein2009}.}
+\cite{Klein2009}.  The newer version of the ants registration
+executable is called \texttt{antsRegistration} and uses a similar
+command line that is connected to the variational objective function.}
 \vspace{-0.1in}
 \label{fig:cmd}
 \end{figure}
 ANTs may be used to navigate the transformation and similarity metric space. 
 \subsection{Use Your Header!} ANTs uses the direction/orientation, spacing
 and origin in its definitions of the mapping between images.  That is,
-ANTs uses the nifti standard defintions of an image space.  So, the
-image orientation (direction), origin and spacing are important!  You
-may ``check'' for consistency between two image header definitions by
-using: ImageMath 3 Image2repaired.nii.gz CompareHeadersAndImages
-Image1.nii.gz Image2.nii.gz \newline This will compare Image2 to
-Image1 and ``fix'' the header of Image2, writing out to
-Image2repaired.
+ANTs uses the ITK standard defintions of an image space.  So, the
+image orientation, direction matrix, origin and spacing are important!
+If in doubt about, for example, which side is viewed as left or right
+by ANTs, then take a look at ITK-SNAP \href{http://www.itksnap.org}{http://www.itksnap.org} and label an image's known left
+side.  Then apply an ANTs or ITK mapping to the image to see how the
+data is transformed.
 
 
 \subsection{ANTs Transformation Models}
@@ -515,26 +522,33 @@ An overview of available models and similarity terms is in Table~\ref{table:char
     {\bf Category} & {\bf Transformation, $\phi$} & {\bf Similarity Measures} & {\bf Brief Description} \\
     \toprule     
     \multirow{2}*{\bf Linear}
-           & Rigid$^\dagger$ & MI, MSQ & Rigid registration. \\
-       {} & Affine$^\dagger$ & MI, MSQ & Affine registration. \\
+           & Rigid$^\dagger$ & MI, MeanSquares, GC & Rigid registration. \\
+       {} & Similarity$^\dagger$ & MI, MeanSquares, GC & Affine registration. \\
+       {} & Affine$^\dagger$ & MI, MeanSquares, GC & Affine registration. \\
        \cmidrule(l){2-4}
     \multirow{2}*{\bf Elastic}
-           & Deformable & CC, PR, MI, MSQ, PSE & Demons-like algorithm. \\
-       {} & DMFFD & CC, PR, MI, MSQ, PSE  & FFD variant. \\
+           & GaussianDisplacementField & CC, MI, MeanSquares, Demons & Demons-like algorithm. \\
+       {} & BSplineDisplacementField & CC, MI, MeanSquares, Demons  & FFD variant. \\
        \cmidrule(l){2-4}
     \multirow{2}*{\bf Diffeo.}
-           & Exponential$^\dagger$ &  CC,PR, MI, MSQ, PSE  & $~\min~\velocity(\x)$ \\
-       {} & Greedy SyN$^\dagger$ &  CC, PR, MI, MSQ, PSE  & ~locally in time~$\min~\velocity(\x,t)$\\
-       {} & Geodesic SyN$^\dagger$ &  CC, PR, MI, MSQ, PSE  &  $~\min~\velocity(\x,t)$ over all time \\
+           & Exponential$^\dagger$ &  CC, MI, MeanSquares, Demons& $~\min~\velocity(\x)$ \\
+       {} & SyN$^\dagger$ &  CC, MI, MeanSquares, Demons  & ~locally in time~$\min~\velocity(\x,t)$\\
+       {} & BSplineSyN$^\dagger$ &  CC, MI, MeanSquares, Demons  & ~locally in time~$\min~\velocity(\x,t)$\\
+       {} & TimeVaryingVelocityField$^\dagger$ &  CC, MI, MeanSquares, Demons  &  $~\min~\velocity(\x,t)$ over all time \\
     \bottomrule
     \end{tabular}
-  \caption{Transformations and a subset of the similarity metrics available in ANTs.  Similarity metric acronyms:  CC = fast cross correlation, PR = pure cross correlation (the preferred metric), MSQ = mean squared difference, MI = mutual information, PSE = point-set expectation \cite{Pluta2008}.  ANTs also provides the inverse of those transformations denoted by the `$\dagger$' symbol.  The brief descriptions of the diffeomorphic algorithms contrast the way in which the velocity field is optimized and used to parameterize $\phi$, the mapping.  All 
+  \caption{Transformations and a subset of the similarity metrics
+    available in ANTs.  Similarity metric acronyms:  CC = neighborhood
+    cross correlation (the preferred metric), MeanSquares = mean
+    squared difference, MI = mutual information, PSE = point-set
+    expectation (to be added soon-ish) \cite{Pluta2008}.  ANTs also provides the inverse of those transformations denoted by the `$\dagger$' symbol.  The brief descriptions of the diffeomorphic algorithms contrast the way in which the velocity field is optimized and used to parameterize $\phi$, the mapping.  All 
 ANTs Diff algorithms generate $\phi(\x,t)$ over $t \in [ 0, 1]$ through gradient descent.}
   \label{table:chart}
 \end{table*}    
 \vspace{0in}
 
-\subsubsection{Affine and Rigid Registration}
+\subsubsection{Affine and Rigid
+  Registration---\textcolor{red}{FIXME---this section and figures}}
 \begin{figure}
 \includegraphics[width=0.9\textwidth]{./Figures/ANTSanatomy.pdf} 
 \itkcaption[ANTs Introduction]{The anatomy of an ANTs optimization and application of the resulting warping.}
@@ -545,9 +559,9 @@ The most basic mapping between images is an affine mapping. The ANTs
 affine mapping syntax is shown in the affine mapping figure~\ref{fig:aff}. The
 parameter breakdown of the ANTs call in the affine figure is:
 \begin{itemize}
-\item  ANTs -- the normalization program
+\item  \texttt{antsRegistration} -- the normalization program
 \item 2 -- the expected image dimension
-\item -m MI[...,...,1,32] -- the similarity metric "mutual information" with a 32-bin square joint histogram and weight of 1.  
+\item -m MI[...,...,1,32] -- the similarity metric ``mutual information" with a 32-bin square joint histogram and weight of 1.  
 Metric details will be discussed in a later section. 
 \item -i 0 -- no deformable iterations (affine only).
 \item -o ab -- the output prefix.  A specific extension may also be specified, e.g.   -o ab.mhd  .
@@ -580,15 +594,12 @@ template space (here, AtlasHead.nii).   The mask option also affects the deforma
 Other affine registration options include  \verb"--number-of-affine-iterations 5000x5000x5000" which specifies that the affine registration uses a 3 level image pyramid with each level 5000 iterations at most. \verb"--MI-option 48x6000" means to use Mutual Information as similarity metric with 48 bins and 6000 samples. \verb"--affine-gradient-descent-option" defines the options for the gradient descent procedure; the 4 numbers are maximum step length, relaxation factor, minimum step length and translation scale.  
 
 
-\noindent{\bf Rigid Registration: }  ANTs will also perform rigid registration.  
-To force the linear component of registration to be purely rigid (no scaling or shearing), 
-then pass the parameter  \verb"--rigid-affine true " to 
-the ANTs command line.   For example,  
-\begin{verbatim}
-ANTs 3 -m MI[AtlasHead.nii,crAnatomical.nii,1,32] 
--o TEST -i 0 --rigid-affine true 
-\end{verbatim}
-The jacobian of the resulting affine mapping should be unity. 
+\noindent{\bf Rigid Registration: }  ANTs will also perform rigid registration.  For example,  
+\lstinputlisting[style=mystyle]{Ex3.sh}
+The jacobian of the resulting affine mapping should be unity.  Compare
+the \texttt{antsRegistrationSyNQuick.sh} and
+\texttt{antsRegistrationSyN.sh} scripts to see how one might improve
+or modify registration parameters for different problems.
 
 \subsubsection{Deformable Registration}
 Affine mapping is adequate when the
