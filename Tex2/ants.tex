@@ -252,18 +252,19 @@ Additional information is available online -- see
 \href{http://stnava.github.io/ANTs/}{http://stnava.github.io/ANTs/}.
 For compilation details, see: \href{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}.
 The most important core C${++}$-based ANTs programs are: 
-\verb antsRegistration, \verb antsApplyTransforms, \verb Atropos ~for segmentation, \verb N4BiasFieldCorrection ~for
-inhomogeneity correction,  \verb KellyKapowski ~for estimating
-thickness, \verb ImageMath ~image processing utilities
-and, finally, \verb sccan ~for sparse dimensionality reduction.  There
+\texttt{antsRegistration, antsApplyTransforms, Atropos} for
+segmentation, \texttt{N4BiasFieldCorrection} for
+inhomogeneity correction,  \texttt{KellyKapowski} for estimating
+thickness, \texttt{ImageMath} image processing utilities
+and, finally, \texttt{sccan} for sparse dimensionality reduction.  There
 are many other programs which are listed in
 \href{https://github.com/stnava/ANTs/tree/master/Examples}{https://github.com/stnava/ANTs/tree/master/Examples}.
 The scripts in ANTs wrap the core programs and are in
 \href{https://github.com/stnava/ANTs/tree/master/Scripts}{https://github.com/stnava/ANTs/tree/master/Scripts}.
-Perhaps the most important are \verb antsCorticalThickness.sh ~as a
+Perhaps the most important are \texttt{antsCorticalThickness.sh}~as a
 wrapper of several sub-programs that support our
-cortical thickness pipeline \cite{TustisonACT}, \verb antsMultivariateTemplateConstruction2.sh ~for template construction
-and \verb antsRegistrationSyN.sh ~as a basic interface to a few commonly used registration approaches.
+cortical thickness pipeline \cite{TustisonACT}, \texttt{antsMultivariateTemplateConstruction2.sh}~for template construction
+and \texttt{antsRegistrationSyN.sh}~as a basic interface to a few commonly used registration approaches.
 \footnote{This document is a work in progress. Please check for updates with each release.}
 \begin{figure}
 \includegraphics[width=0.33\textwidth]{Figures/grid1100.pdf} 
@@ -292,10 +293,10 @@ ANTs-related repositories.
 \subsection{Example 1: Quick SyN}
 If you want a decent, fast registration you might run something like this:
 \lstinputlisting[style=mystyle]{Ex1.sh}
-The \verb -d ~option denotes image dimensionality, \verb -f ~option denotes the ``fixed'' image and the \verb -m ~option
+The \texttt{-d} option denotes image dimensionality, \texttt{-f} option denotes the ``fixed'' image and the \texttt{-m} option
 denotes the ``moving'' image.  The moving image will be deformed to
 match the fixed image.  The inverse of these maps deform the fixed to
-the moving image.  Output is determined by \verb -o ~where the output
+the moving image.  Output is determined by \texttt{-o} where the output
 will be named with prefix$=$outputEx1.sh (the word output concatenated
 with the name of the Example 1 script) and include a
 prefix0GenericAffine.mat (the low-dimensional affine transform which
@@ -321,14 +322,14 @@ issues have been discussed previously and you might find answers by
 searching the archives.
 
 \subsection{The antsRegistration Executable}
-The \verb antsRegistration ~program itself is the central program encapsulating
+The \texttt{antsRegistration} program itself is the central program encapsulating
 normalization/registration functionality.  Its main output is an
 affine transform file and a deformation field, potentially with
 inverse.  Options allow the user to navigate the similarity
-and transformations that are available.  \verb antsRegistration ~allows multiple
+and transformations that are available.  \texttt{antsRegistration} allows multiple
 similarity and optimization criteria as options.  The program is
-wrapped in \verb antsRegistrationSyN.sh ~for normalization with ``out of the box''
-parameters and in \verb antsMultivariateTemplateConstruction2.sh ~for 
+wrapped in \texttt{antsRegistrationSyN.sh} for normalization with ``out of the box''
+parameters and in \texttt{antsMultivariateTemplateConstruction2.sh} for 
 computationally distributed optimal (multivariate) template construction.
 
 \subsection{The antsApplyTransforms Executable}
@@ -378,7 +379,7 @@ g & h & i \\
 \end{matrix} $
 
 followed by  $~j~k~l~$ (the translation) where $L~M~N$  is the center of rotation . 
-You can use the  \verb -r ~option in \verb antsRegistration ~to
+You can use the  \texttt{-r} option in \texttt{antsRegistration} to
 initialize a registration with a matrix of this type or with a
 deformable mapping.
 
@@ -400,7 +401,7 @@ figure~\ref{fig:frown} shows 2D images representing a 3-class labeled point set.
 
 \subsection{Using antsApplyTransforms or antsApplyTransformsToPoints}
 To apply an affine transform and deformation field to a moving image,
-use \verb antsApplyTransforms . 
+use \texttt{antsApplyTransforms}. 
 For example: to apply the transform to the moving image and the
 inverse to the fixed image:
 \lstinputlisting[style=mystyle]{Ex2.sh}
@@ -410,7 +411,7 @@ the transforms are computed, during optimization, and also the order
 in which they should be applied.  There is reasonably complete
 discussion of this framework in \cite{AvantsITK}.
 
-The usage of \verb antsApplyTransformsToPoints ~is nearly identical.
+The usage of \texttt{antsApplyTransformsToPoints} is nearly identical.
 \textit{However}, it is critical to recognize that transforms that are
 one-to-one and onto in image space may not be in point space.
 Therefore, points are transformed by the inverses of the
@@ -418,34 +419,51 @@ transformation that is applied to images.   This is discussed in
 several places in the image registration literature but we first
 discussed this in \cite{Avants2006d}.
 
-\subsection{The ImageMath Executable} This is a multi-purpose program that has the following syntax:  ``ImageMath ImageDimension outputfilename   Operation  InputFileName  parameters ``.  Most basic scalar image operations -- and some tensor operations -- may be performed with this program.  Some operations output text files, some output images and some output only to the terminal.   ImageMath allows one to multiply images together (m), to negate images (Neg), to take an image to a power (pow), to test the invertibility of transformations (InvId), to compute the fractional anisotropy of an image (TensorFA) and to perform Markov Random Field segmentation with or without priors (Segment).   Many other operations are available.  Like all other ANTs programs, one may call ImageMath from the command line to see all of its options.   ImageMath is used heavily in ANTs scripts.  
+\subsection{The ImageMath executable} This is a multi-purpose program
+that has the following syntax:  ``ImageMath ImageDimension
+outputfilename   Operation  InputFileName  parameters ``.  Most basic
+scalar image operations -- and some tensor operations -- may be
+performed with this program.  Some operations output text files, some
+output images and some output only to the terminal.   ImageMath allows
+one to multiply images together (m), to negate images (Neg), to take
+an image to a power (pow), to test the invertibility of
+transformations (InvId), to compute the fractional anisotropy of an
+image (TensorFA) and to compute the gradient or laplacian of an image
+(Gradient, Laplacian).   Many other operations are available.  Like all other ANTs programs, one may call ImageMath from the command line to see all of its options.   ImageMath is used heavily in ANTs scripts.  
 
 \subsection{ANTs Scripts} 
-The ANTs/Scripts directory contains (hopefully) user-friendly
+The ANTS/Scripts directory contains (hopefully) user-friendly
 wrappings of ANTs tools that enable higher-level error checking and
 combinations of basic ANTs functions.  These scripts are called as
-\verb sh ~ \verb antsscriptname.sh ~ and provide usage when called
-from the command line.  For instance, try \verb sh ~ \verb ants.sh .
+\texttt{bash}  \texttt{antsscriptname.sh}  and provide usage when called
+from the command line.  For instance, try \texttt{bash}  \texttt{antsRegistrationSyN.sh}.
 Additionally, if you run ants in tcsh shells, you will need to call it
-as follows:
+as follows (using \texttt{antsRegistration} as an example):
 \begin{verbatim}
-~/Code/ANTSSourceForgeSVN/bin/ANTs 2 -m PR\[r16slice.nii,r64slice.nii,1,2\]
+antsRegistration -d 2 -m CC\[r16slice.nii,r64slice.nii,1,2\]
 \end{verbatim}
 instead of
 \begin{verbatim}
-~/Code/ANTSSourceForgeSVN/bin/ANTs 2 -m PR[r16slice.nii,r64slice.nii,1,2]
+antsRegistration -d 2 -m CC[r16slice.nii,r64slice.nii,1,2 ]
 \end{verbatim}
 because tcsh does no interpret the brackets as intended.  Using the
 bash shell script interface also avoids this.  The key change involves using the slash to force tcsh to 
 interpet the bracket literally. 
 \newpage
-\section{ImageRegistration with ANTs}
+\section{Image registration with ANTs}
 \begin{wrapfigure}{r}{0.5\textwidth}
 \framebox[0.5\textwidth]{
 \begin{minipage}[t]{0.45\textwidth}
-{\bf Quick Start:} {\color{blue}call ants.sh (from ANTs/Scripts/) to get usage and apply a normalization to some of your existing data.  It is instructional to read the script, modify some of the parameters and re-run to witness the effect of your changes -- image registration is an art as well as science.  Many other ``ready to go'' scripts are available in ANTs/Scripts. The user must set his/her ANTsPATH environment variable  -- which points to the location of ANTs binaries -- within these scripts or in their environment.  Note: All ANTs programs provide usage when called from the command line.  Most require the image dimension to be specified as the first parameter.  E.g. 
-  ImageMath ImageDimension 
-where ImageDimenion is 2 or 3.}
+{\bf Quick Start:} {\color{blue}call \texttt{antsRegistrationSyNQuick.sh}  (after copying the contents of ANTs/Scripts/ to your bin directory)
+  to get usage and apply a normalization to some of your existing
+  data.  It is instructional to read the script, modify some of the
+  parameters and re-run to witness the effect of your changes -- image
+  registration is an art as well as science.  Many other ``ready to
+  go'' scripts are available in ANTS/Scripts. Often, the user must set
+  his/her ANTSPATH environment variable  -- which points to the
+  location of ANTs binaries -- within these scripts or export the
+  ANTSPATH variable into the user or script environment.  Note: All ANTs programs provide usage when called from the command line.  Most require the image dimension to be specified as the first parameter.  E.g. 
+  ImageMath ImageDimension where ImageDimenion is 2, 3, 4.}
 \end{minipage}}
 \end{wrapfigure}
 There are two general applications of image registration. The first application is transforming labeled data from a template image space into an individual space. This strategy is important when appearance alone is not enough to locate a structure as, for example, in the case of hippocampus segmentation. The template provides a prediction of the hippocampus-amygdala boundary.
@@ -506,7 +524,7 @@ An overview of available models and similarity terms is in Table~\ref{table:char
        \cmidrule(l){2-4}
     \multirow{2}*{\bf Diffeo.}
            & Exponential$^\dagger$ &  CC,PR, MI, MSQ, PSE  & $~\min~\velocity(\x)$ \\
-       {} & Greedy SyN$^\dagger$ &  CC, PR, MI, MSQ, PSE  & ~~locally in time~$\min~\velocity(\x,t)$\\
+       {} & Greedy SyN$^\dagger$ &  CC, PR, MI, MSQ, PSE  & ~locally in time~$\min~\velocity(\x,t)$\\
        {} & Geodesic SyN$^\dagger$ &  CC, PR, MI, MSQ, PSE  &  $~\min~\velocity(\x,t)$ over all time \\
     \bottomrule
     \end{tabular}
@@ -627,7 +645,7 @@ optimization will be performed over three resolutions with a maximum
 of 30 iterations at the coarsest level, 20 at the next coarsest and 10
 at the full resolution.  We use a Gaussian regularizer with a sigma of
 3 that operates only on the deformation field and not on the similarity gradient, as 
-0 is passed as the first parameter to \verb Gauss .  One may see the
+0 is passed as the first parameter to \texttt{Gauss} .  One may see the
 correspondence, yet again, between the ANTs call and the optimization
 scheme.  The optimization will stop when either the energy cannot be 
 smoothly minimized or the maximum number of iterations is reached. 
@@ -672,10 +690,10 @@ A few important notes follow.
 \begin{verbatim}
 ANTs 2 -m PR[A,B,1,2] -o OUTPUT 
 \end{verbatim}
- then we get a deformation called \verb OUTPUTWarp+extensions ~and an affine transform called \verb OUTPUTAffine.txt . 
+ then we get a deformation called \texttt{OUTPUTWarp+extensions} and an affine transform called \texttt{OUTPUT0GenericAffine.mat} . 
 This composite mapping - when applied to B - will transform B into the space of A. 
 However, if we have points defined in B that we want to map to A, 
-we have to use \verb OUTPUTInverseWarp ~and the inverse of \verb OUTPUTAffine.txt .  
+we have to use \texttt{OUTPUTInverseWarp} and the inverse of \texttt{OUTPUT0GenericAffine.mat}.  
 This is because the domain and range of the map's definition need to be dense in a way that is appropriate for the data type. 
 Figure~\ref{fig:inv} illustrates the concept. 
 (2) Older Image Formats: older image formats (e.g. Analyze) may not
@@ -713,11 +731,11 @@ is invariant to the order of the input images (although the affine mapping is no
 An additional advantage of the diffeomorphic model over the elastic model is 
 that both forward and inverse transformations are computed thus allowing one 
 to deform fixed to moving and also moving to fixed.   The transformation model 
-chosen here -- \verb SyN[0.25] -- may be replaced with other 
-diffeomorphic transformation models.  The most general is global-in-time SyN via \verb SyN[0.25,2,0.01]   , 
+chosen here -- \texttt{SyN[0.25]} -- may be replaced with other 
+diffeomorphic transformation models.  The most general is global-in-time SyN via \texttt{SyN[0.25,2,0.01]}   , 
 where the time step for integration is 0.01 (lower is more accurate).  A fast approximate 
 solution may be gained through 
-exponential mapping via \verb Exp[0.25,10] , where 10 integrations points are used. 
+exponential mapping via \texttt{Exp[0.25,10]} , where 10 integrations points are used. 
 Update schemes for diffeomorphic optimization are similar to the elastic case 
 and are described elsewhere \cite{Avants2008b,ANTStheory}.   
 
@@ -760,7 +778,7 @@ of the change in the optimization objective is negative or very small.
 The ImageMath program -- via TensorFA and TensorMeanDiffusion -- 
 may derive scalar images from DTI.  Such images may be used to 
 distortion correct DTI to T1 or to map DTI together.   See the 
-ANTS/Scripts program called \verb antswithdt.sh ~for a 
+ANTS/Scripts program called \texttt{antswithdt.sh} for a 
 ready to go example.   Figure~\ref{fig:dterr} shows what might 
 happen if your tensor entries are stored in the wrong order. 
 ANTs expects the nifti standard ordering of the DT six vector.
@@ -832,19 +850,19 @@ across this dataset -- is recovered in the derived optimal template.}
 \item   Make a directory for this example.   Copy or link all the B*tiff images into it.
 \item Copy the file ANTs/Scripts/buildtemplate.sh into that directory.  
 \item  On the command line, within that directory, run the following command: 
-\verb  sh ~ \verb buildtemplate.sh ~ to get usage. 
+\texttt{sh}  \texttt{buildtemplateparallel.sh}  to get usage. 
 \item If you follow the usage, you will then call the script something like this: 
-\verb sh ~ \verb buildtemplate.sh ~ \verb 2 ~ \verb B ~ \verb tiff ~ \verb OUT ~ \verb 4 ~ . 
+\texttt{sh}  \texttt{buildtemplateparallel.sh}  \texttt{2}  \texttt{B}  \texttt{tiff}  \texttt{OUT}  \texttt{4}  . 
 \item The script should exit and ask if the parameters are ok for your problem.  
 Check the path to the programs, the fact that all the images you want to use are being 
 listed and that the template output name is ok with you.  
 Once everything is prepared, then edit the script to remove the exit call at the end of the parameter check. 
 \item  Call the script as in step 4 and then wait for the output.  The template will 
-be called something like (in this example)  \verb OUTtemplate.nii .
+be called something like (in this example)  \texttt{OUTtemplate.nii.gz}.
 \end{enumerate}
 The script is fairly easy to alter so that you can send the whole thing to distributed computing. 
 Typically, one would use voxbo or the qsub program available in the Sun Grid Engine.  This 
-is what is done in \verb buildtemplateparallel.sh .  
+is what is done in \texttt{buildtemplateparallel.sh}.  
 Figure~\ref{fig:template} shows the data and a result that may be recreated by the user.
 \subsection{Notes on Large Deformation Mapping} 
 Figure~\ref{fig:large} defines what one might expect from a 
@@ -902,7 +920,7 @@ the segmentation to the example data in: ANTs/Examples/Data/r16slice.nii.
 ImageMath 2 r16slice.nii Segment r16slice.nii 4 0 
 % output = r16slice_seg.nii, r16slice_prob_0.nii, r16slice_prob_1.nii, r16slice_prob_2.nii .  
 \end{verbatim}
-The parameter \verb 4 ~indicates 3 tissues plus background are sought.  The \verb 0 ~indicates 
+The parameter \texttt{4} indicates 3 tissues plus background are sought.  The \texttt{0} indicates 
 that there are no prior images available to guide the segmentation.  Output is shown 
 in figure~\ref{fig:seg} and -- with priors -- in figure~\ref{fig:seg2}.
 \begin{figure}
@@ -927,7 +945,7 @@ ImageMath 2 r16sliceprior.nii Segment r16slice.nii 4 0.5
 % output = r16sliceprior_seg.nii  r16sliceprior_prob_0.nii  
 % r16sliceprior_prob_1.nii  r16sliceprior_prob_2.nii .  
 \end{verbatim}
-The parameter \verb 4 indicates 3 tissues plus background are sought.  The \verb 0.5 indicates 
+The parameter \texttt{4 indicates 3 tissues plus background are sought}.  The \texttt{0.5} indicates 
 we weight the priors equally as the data term and use a spatially varying set of Gaussians 
 to estimate the segmentation.  In this way, data from the priors may be used to modify 
 and guide the segmentation in a locally varying way, accomodating for both inhomogeneity 
@@ -1018,7 +1036,7 @@ ANTs 3 -m PR[tp22_s1.nii,template.nii.gz,1,4] -i 50x20x0
    -o tp22map -t SyN[0.5] -x mask.nii.gz -r Gauss[3,0] 
 \end{verbatim}
 The additional parameter needed for this approach 
-is the \verb -x ~ \verb mask.nii.gz ~ which 
+is the \texttt{-x}  \texttt{mask.nii.gz}  which 
 is the mask defined in the "fixed" (or individual) image space.  
 Mask values above 0.5 are considered non-outlier or non-lesioned regions.
 The labeling may be performed with ITK-SNAP. 
@@ -1048,7 +1066,7 @@ antsApplyTransforms 3 lesionmask.nii.gz lesiontotemplate.nii.gz
    -R template.nii.gz -i tp22mapAffine.txt tp22mapInverseWarp.nii
 \end{verbatim}
 More details on this approach are being prepared for publication.
-See also: \verb http://www.ncrrn.org/papers/methodology_papers/sp_norm_kim.pdf .
+See also: \href{http://www.ncrrn.org/papers/methodology\_papers/sp\_norm\_kim.pdf}{http://www.ncrrn.org/papers/methodology\_papers/sp\_norm\_kim.pdf}.
 
 \subsection{Statistical Mapping with ANTs: Morphometry, Function, Jacobian, Thickness}
 ANTs has been applied in a wide array of imaging studies
@@ -1058,7 +1076,7 @@ thickness, Jacobian-based morphometry, volumetric morphometry or functional stud
 From a broad perspective, each of these applications requires the same steps:
 \begin{enumerate}
 \item Preprocess images -- bias correction, segmentation, etc.  Potentially construct an optimal template. 
-\item Normalize images -- run \verb ants.sh ~ to map a population of images to a template and store the deformations. 
+\item Normalize images -- run \texttt{antsRegistrationSyN.sh} to map a population of images to a template and store the deformations. 
 \item Derive any data from the deformation that may be necessary, e.g. the log-Jacobian.
 \item Apply the warp to any images one may want to analyze in template space.  
 \item Perform statistics in template space over the region of interest, e.g. all cortex. 
