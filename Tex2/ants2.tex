@@ -1141,7 +1141,7 @@ From a broad perspective, each of these applications requires the same steps:
 \item Perform statistics in template space over the region of interest, e.g. all cortex. 
 \end{enumerate}
 We now list ANTs tools needed for basic morphometry and/or brain labeling.
-The expected output is in figure~\ref{fig:morph}.
+Typical output is in figure~\ref{fig:morph}.
 \begin{verbatim}
 0.  antsMultivariateTemplateConstruction2.sh for template building
 1.  Atropos for segmentation.
@@ -1158,9 +1158,9 @@ See \cite{Wang2011} to learn more about joint fusion.
 \itkcaption[ANTs Morphometry]{The output from the ANTs morphometry example.}
 \label{fig:morph}
 \end{figure}
-This example uses a standard Jacobian-based approach to morphometry.
-Here, we use the log-Jacobian because it is symmetric about zero and
-mask with the gray matter segmentation to restrict the analysis to the
+Figure~\ref{fig:morph} shows a more or less standard Jacobian-based approach to morphometry.
+Often, we use the log-Jacobian because it is symmetric about zero.
+Some suggest to mask with the gray matter segmentation to restrict the analysis to the
 cortex.  The Jacobian is discussed in figure~\ref{fig:inv} and visualization of
 the Jacobian is shown in figure~\ref{fig:jac}.  This Jacobian comes
 from the mapping shown in figure~\ref{fig:large}.
