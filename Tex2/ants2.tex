@@ -933,6 +933,16 @@ Typically, one would use voxbo or the qsub program available in the Sun Grid Eng
 is what is done in \texttt{antsMultivariateTemplateConstruction2.sh}.  
 Figure~\ref{fig:template} shows the data and a result similar to what may be recreated by the user.
 
+\subsection{2D to 3D registration}
+There has been much discussion of this on the ITK and ANTs lists.
+What it boils down to is this:  the 2D to 3D (or vice versa) problem
+is inherently asymmetric and (very) ill-posed.  So, we currently
+recommend, as a start, running \texttt{antsRegistrationSyNQuick.sh} in both
+directions and seeing which works better.   Both directions means pass
+the 2D image to the \texttt{-f} option and compare to the result of
+the 2D image to the \texttt{-m} option, noting that the resulting transforms are NOT inverses of
+each other.
+
 \subsection{More ANTs examples}
 The paper
 \href{http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00044/abstract}{http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00044/abstract}
