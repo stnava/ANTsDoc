@@ -1,6 +1,6 @@
 ANTS supports both volumetric registration and point set registration. The image / point set similarity metrics in ANTS are unified in the form of a function on the images or the point sets:       $$\textbf{Similarity}[\textbf{fixedImage}, \textbf{movingImage}, \textbf{weight}, \textbf{parameters}].$$
         
-The similarity type for the deformation transformation is specified by \verb -m  option, which contains two parts: simarity type and the parameters inside the brackets. (Note: no white spaces exist between parameters.) The possible similarity metrics for volumetric images are: 
+The similarity type for the deformation transformation is specified by \verb -m  option, which contains two parts: simarity type and the parameters inside the brackets. The possible similarity metrics for volumetric images are: 
 \begin{itemize}
     \item Cross correlation estimate:  \verb"-m CC[fixedImage,movingImage,weight,radius]". This metric works well for intra-modality image registration. For exxample, \verb"-m CC[fixed.nii,moving.nii,1,5]" specifies:
     \begin{itemize}
@@ -10,25 +10,33 @@ The similarity type for the deformation transformation is specified by \verb -m 
         \item the region radius for computing cross correlation is 5
     \end{itemize}
 
-    \item Mutual information: \verb"-m MI[fixedImage,movingImage,weight,number-of-histogram-bins,samplingStrategy,samplingPercentage]". This
+    \item Mutual information: \newline\texttt{-m
+        MI[fixedImage,movingImage,weight,number-of-histogram-bins,
+        samplingStrategy,samplingPercentage]}\newline This
       metric works both well for intra-modality and inter-modality
       image registration. For example, the first three parameters in
-      \verb"-m MI[fixed.nii,moving.nii,1,32]" is similar to the
+      \texttt{-m MI[fixed.nii,moving.nii,1,32]} similar to the
       example above in cross correlation, except that the last
       parameter means that the number of bins in computing mutual
       information is 32. 
 
-    \item Global correlation: \verb"-m GC[fixedImage,movingImage,weight,0,samplingStrategy,samplingPercentage]". This
+    \item Global correlation: \newline\texttt{-m  GC[fixedImage,movingImage,weight,0,
+          samplingStrategy,samplingPercentage]}\newline This
       metric works both well for intra-modality and inter-modality
-      image registration. For example, 
-      \verb"-m GC[fixed.nii,moving.nii,1,0,Random,0.1]" uses 10\%
+      image registration. For example, \newline
+      \texttt{-m GC[fixed.nii,moving.nii,1,0,Random,0.1]}\newline uses 10\%
       random sampling of the image to estimate the global correlation.
 
-    \item Mean square difference: \verb"-m MeanSquares[fixedImage,movingImage,weight,0]". This metric works for intra-modality image registration. The last parameter \verb"0" is a padding value of no real meaning. For example, \verb"-m MeanSquares[fixed.nii,moving.nii,1,0]". 
+    \item Mean square difference: \newline\texttt{-m
+        MeanSquares[fixedImage,movingImage,weight,0]}\newline This metric
+      works for intra-modality image registration. The last parameter
+      \verb 0 is a padding value of no real meaning. For example, \texttt{-m MeanSquares[fixed.nii,moving.nii,1,0]}. 
 
 \end{itemize}
 
-ANTs also support registration of point sets. The supported formats for point sets can be found in I/O section. The similarity metrics for point sets are:
+ANTs also support registration of point sets
+\textcolor{red}{FIXME---only old ANTS so far ... will be added to
+  \texttt{antsRegistration} in the near future}. The supported formats for point sets can be found in I/O section. The similarity metrics for point sets are:
 \begin{itemize}
     \item Point set expectation: 
      \begin{verbatim}
@@ -75,12 +83,7 @@ meshResolution,splineOrder,numberOfLevels,useAnisotropicCovariances]
 \end{itemize}
 
 
-Fig. \ref{fig:metric_example} shows the registration result using intensity difference with the following command:
-\begin{verbatim}
-antsRegistration -d 2 -m MeanSquares[r16slice.nii,r64slice.nii,1,0] -t
-  GaussianDisplacementField[0.5,3,0.5] -c 50x50x30 -o test.nii.gz
-\end{verbatim}
-
+Fig. \ref{fig:metric_example} shows the registration result using intensity difference.
 %        \begin{wrapfigure}{r}{0.5\textwidth}
 \begin{figure}
     \label{fig:metric_example}
@@ -96,13 +99,6 @@ antsRegistration -d 2 -m MeanSquares[r16slice.nii,r64slice.nii,1,0] -t
     \itkcaption{registration using mean square intensity difference}
 \end{figure}
     %    \end{wrapfigure}
-Here is also an example script to register a pair of images using mean square intensity difference and computing the metrics of the registration image.
-\begin{verbatim}
-#use intensity difference with radius 0 -- radius no effect on intensity difference
-ANTS 2 -m MSQ[r16slice.nii,r64slice.nii,1,0] -r Gauss[3,0] -t SyN[0.5] -i 50x50x30
-WarpImageMultiTransform 2 r64slice.nii resMSQ.nii Warp.nii Affine.txt
-MeasureImageSimilarity 2 0 r16slice.nii resMSQ.nii metricexamplelog.txt
-MeasureImageSimilarity 2 1 r16slice.nii resMSQ.nii metricexamplelog.txt
-MeasureImageSimilarity 2 2 r16slice.nii resMSQ.nii metricexamplelog.txt
-ConvertToJpg resMSQ.nii resMSQ.jpg
-\end{verbatim}
+Here is also an example script to register a pair of images using mean
+square intensity difference and computing the metrics of the
+registration image.
