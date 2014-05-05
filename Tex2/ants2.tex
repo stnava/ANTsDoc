@@ -252,7 +252,9 @@ provide a practical overview of basic functionality and some of the common use c
 users seek.
 Additional information is available online -- see 
 \href{http://stnava.github.io/ANTs/}{http://stnava.github.io/ANTs/}.
-For compilation details, see: \href{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}.
+For compilation details, see:
+\href{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}{https://brianavants.wordpress.com/2012/04/13/updated-ants-compile-instructions-april-12-2012/}
+or section~\ref{sec:comp}.
 The most important core C${++}$-based ANTs programs are: 
 \texttt{antsRegistration, antsApplyTransforms, Atropos} for
 segmentation, \texttt{N4BiasFieldCorrection} for
@@ -801,7 +803,7 @@ brain mapping.  These two goals may, at times, be adversarial.
 A simple and ``fast'' brain registration example is here
 \href{http://stnava.github.io/BasicBrainMapping/}{http://stnava.github.io/BasicBrainMapping/}.
 This example shows a non-optimized use of \texttt{antsRegistration}
-and compares it to the case wehre the registration is \textit{masked}
+and compares it to the case where the registration is \textit{masked}
 in order to focus the registration.  Such strategies may be used for
 brains with missing data e.g. lesions.
 
@@ -860,12 +862,13 @@ there is such severe atrophy nearby.
 }
 \label{fig:large}
 \end{figure}
+
 \noindent{\bf Turning ``Failures" into Successes:} 
 Below are some pointers to follow if you are unable to recreate such normalization quality.  
 Usually, reasons for registration failure are one of a very few things: 
 \begin{enumerate}
 \item The initialization is so off mark that affine registration fails -- thus meaning all subsequent deformable registration will not be meaningful.
-\item The information within headers is inconsistent e.g. origins are defined in different ways, the "directions" are not correct or some combination of these.    The PrintHeader executable can help one in debugging this type of problem.  
+\item The information within headers is inconsistent e.g. origins are defined in different ways, the ``directions" are not correct or some combination of these.    The PrintHeader executable can help one in debugging this type of problem.  
 \item  The similarity or transformation model is inappropriate or has too small a capture region for the problem. 
 \end{enumerate}
 
@@ -904,7 +907,8 @@ The goal of template construction is to derive a ``most representative'' single 
 The steps are: 
 \begin{figure}
 \center \includegraphics[width=0.7\textwidth]{Figures/templateex.jpg} 
-\itkcaption[ANTs Optimal Template]{This example may be recreated by the user.  
+\itkcaption[ANTs Optimal Template]{This example may be recreated by
+  the user via \href{http://ntustison.github.io/TemplateBuildingExample/}{http://ntustison.github.io/TemplateBuildingExample/}. 
 The shared anatomy -- 
 across this dataset -- is recovered in the derived optimal template.}
 \label{fig:template}
@@ -929,7 +933,7 @@ Figure~\ref{fig:template} shows the data and a result similar to what may be rec
 ANTs has tools for both tissue based segmentation and prior-based segmentation that 
 leverages spatial priors, usually based on a template mapping.  
 \subsection{Basic Segmentation}
-A basic MRF segmentation algorithm is available in ANTs \texttt{ImageMath}.  We apply 
+A basic MRF segmentation algorithm is available in ANTs \texttt{Atropos}.  We apply 
 the segmentation to the example data in: ANTs/Examples/Data/r16slice.nii.  
 \begin{verbatim}
 ImageMath 2 r16slice.nii Segment r16slice.nii 4 0 
@@ -946,8 +950,8 @@ The ANTs program N3BiasFieldCorrection is very valuable as preprocessing
 for this naive approach to segmentation.   The last panel -- far right -- 
 shows the thickness derived from the white matter and gray matter 
 probabilities where a prior on thickness was used to prevent thickness
-overestimation.   Thickness was derived with DiReCT \cite{Das2009}, a software 
-tool available in binary form only -- a future release may provide code.  
+overestimation.   Thickness was derived with DiReCT \cite{Das2009}
+which is called \texttt{KellyKapowski} in its implementation.  
 }
 \label{fig:seg}
 \end{figure}
@@ -1168,7 +1172,7 @@ ImageMath 3 testresult.nii ConvertVectorToImage mask.nii testresultvec.nii
 Most statistical requirements may be met with this setup. 
 \newpage
 \section{Dependencies and Related Software}
-\subsection{Dependencies and Compilation}
+\subsection{Dependencies and Compilation}\label{sec:comp}
 ANTs depends on the most recent version of the Insight ToolKit (ITK)
 -- www.itk.org.   File types that may be read and written are 
 all of those available in itk and a few more \href{http://picsl.upenn.edu/ANTS/ioants.php}{http://picsl.upenn.edu/ANTS/ioants.php}.

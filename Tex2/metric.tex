@@ -1,6 +1,10 @@
-ANTS supports both volumetric registration and point set registration. The image / point set similarity metrics in ANTS are unified in the form of a function on the images or the point sets:       $$\textbf{Similarity}[\textbf{fixedImage}, \textbf{movingImage}, \textbf{weight}, \textbf{parameters}].$$
+ANTS supports both volumetric registration and point set
+registration. The image / point set similarity metrics in ANTS are
+unified in the form of a function on the images or the point
+sets:       $$\textbf{Similarity}[\textbf{fixedImage},
+\textbf{movingImage}, \textbf{weight}, \textbf{samplingStrategy}, \textbf{parameters}].$$
         
-The similarity type for the deformation transformation is specified by \verb -m  option, which contains two parts: simarity type and the parameters inside the brackets. The possible similarity metrics for volumetric images are: 
+The similarity type for the transformation is specified by \verb -m  option, which contains two parts: simarity type and the parameters inside the brackets. The possible similarity metrics for volumetric images are: 
 \begin{itemize}
     \item Cross correlation estimate:  \verb"-m CC[fixedImage,movingImage,weight,radius]". This metric works well for intra-modality image registration. For exxample, \verb"-m CC[fixed.nii,moving.nii,1,5]" specifies:
     \begin{itemize}
@@ -30,7 +34,7 @@ The similarity type for the deformation transformation is specified by \verb -m 
     \item Mean square difference: \newline\texttt{-m
         MeanSquares[fixedImage,movingImage,weight,0]}\newline This metric
       works for intra-modality image registration. The last parameter
-      \verb 0 is a padding value of no real meaning. For example, \texttt{-m MeanSquares[fixed.nii,moving.nii,1,0]}. 
+      \texttt{0} is a padding value of no real meaning. For example, \texttt{-m MeanSquares[fixed.nii,moving.nii,1,0]}. 
 
 \end{itemize}
 
@@ -89,14 +93,15 @@ Fig. \ref{fig:metric_example} shows the registration result using intensity diff
     \label{fig:metric_example}
     \centering
     \begin{tabular}[h]{c|c|c}
-%        \includegraphics[width=0.16\textwidth]{Figures/r16slice.jpg} &
-%        \includegraphics[width=0.16\textwidth]{Figures/r64slice.jpg} &
- %       \includegraphics[width=0.16\textwidth]{Figures/resMSQ.jpg} \\
+        \includegraphics[width=0.16\textwidth]{Figures/r16slice.jpg} &
+        \includegraphics[width=0.16\textwidth]{Figures/r64slice.jpg} &
+        \includegraphics[width=0.16\textwidth]{Figures/resMSQ.jpg} \\
         fixed image &
         moving image & 
         MSE  \\
     \end{tabular} 
-    \itkcaption{registration using mean square intensity difference}
+    \itkcaption{registration using mean square intensity
+      difference---note: brains are upside-down, sorry!}
 \end{figure}
     %    \end{wrapfigure}
 Here is also an example script to register a pair of images using mean
