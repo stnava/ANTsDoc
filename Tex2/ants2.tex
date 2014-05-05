@@ -943,7 +943,7 @@ What it boils down to is this:  the 2D to 3D (or vice versa) problem
 is inherently asymmetric and (very) ill-posed.  So, we currently
 recommend, as a start, running \texttt{antsRegistrationSyNQuick.sh} in both
 directions and seeing which works better.   Both directions means pass
-the 2D image to the \texttt{-f} option and compare to the result of
+the 2D image to the \texttt{-f} option and compare to the result of passing
 the 2D image to the \texttt{-m} option, noting that the resulting transforms are NOT inverses of
 each other.
 
@@ -1097,7 +1097,7 @@ of the region. To achieve this with ANTs, one would use a call similar
 to this \href{http://stnava.github.io/BasicBrainMapping/}{http://stnava.github.io/BasicBrainMapping/}.
 The additional parameter needed for this approach 
 is the \texttt{-x}  \texttt{mask.nii.gz}  which 
-is the mask defined in the "fixed" (or individual) image space.  
+is the mask defined in the ``fixed" (or individual) image space.  
 Mask values above 0.5 are considered non-outlier or non-lesioned regions.
 The labeling may be performed with ITK-SNAP. 
 Figure~\ref{fig:lesion} illustrates the approach.
