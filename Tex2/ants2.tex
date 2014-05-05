@@ -292,7 +292,8 @@ github repositories, to which we will refer.  Other (simpler) examples will use
 data and scripts that are stored in the ANTsDoc git repository.  These
 scripts are (loosely speaking) tested and should serve as reproducible
 examples for the reader to try.  All data and code is available via
-ANTs-related repositories.
+ANTs-related repositories.  The \texttt{compile} script builds both
+latex and tests the example scripts.
 
 \subsection{Example 1: Quick SyN}
 If you want a decent, fast registration you might run something like this:
@@ -325,7 +326,7 @@ Feel free to use either to ask clarifying questions.  We note that many
 issues have been discussed previously and you might find answers by
 searching the archives.
 
-\subsection{The antsRegistration Executable}
+\subsection{The \texttt{antsRegistration} executable}
 The \texttt{antsRegistration} program itself is the central program encapsulating
 normalization/registration functionality.  Its main output is an
 affine transform file and a deformation field, potentially with
@@ -344,7 +345,7 @@ scripts for examples.  The output transformation will include the
 initial transformation. \textcolor{red}{FIXME need to check this}.
 
 
-\subsection{The \texttt{antsApplyTransforms} Executable}
+\subsection{The \texttt{antsApplyTransforms} executable}
 The \texttt{antsApplyTransforms} program applies ANTs mappings to
 images including scalars, tensors, time-series and vector images.  
 It also composes transforms together and is able to compute
@@ -377,8 +378,16 @@ transformation that is applied to images.   This is discussed in
 several places in the image registration literature but we first
 discussed this in \cite{Avants2006d}.
 
+\subsection{The \texttt{antsMotionCorr} executable }
+Performs motion correction of time-series data.  Control parameters
+are similar to \texttt{antsRegistration}.  See the example
+\href{http://stnava.github.io/fMRIANTs/}{http://stnava.github.io/fMRIANTs/}.
+This example also shows how to run basic CompCor on fmri data.  Our
+minimal fMRI pipeline involves running \texttt{antsMotionCorr} and
+\texttt{CompCorr} to factor out nuisance variables.  More complex
+approaches require \textit{ANTsR}.
 
-\subsection{I/O Data Formats In ANTs}
+\subsection{I/O data formats in ANTs}
 ANTs supports 2D, 3D and, in some cases, 4D images. 
 Since ANTs is implemented in concert with the Insight ToolKit (ITK) \href{http://www.itk.org/}{http://www.itk.org/}, 
 it is able to read and write the popular data formats supported
@@ -390,7 +399,7 @@ world coordinates is relevant to ANTs as these two software systems
 agree, in their entirety, about what the voxel to physical space
 coordinate mapping should be. 
 There are four basic types of data for ANTs.
-\subsubsection{Image Volumes}
+\subsubsection{Image volumes}
 ANTs supports 2D, 3D, 4D images, including
 \begin{itemize}
 \item Nifti (.nii, .nii.gz)
@@ -398,7 +407,7 @@ ANTs supports 2D, 3D, 4D images, including
 \item MetaImage (.mha)
 \item Other formats through itk::ImageFileWriter / itk::ImageFileWriter such as jpg, tiff, etc.  See ITK documentation. 
 \end{itemize}
-\subsubsection{Affine Transformation File}
+\subsubsection{Affine transformation file}
 ANTs uses the itk::TransformFileReader / itk::TransformFileWriter to handle affine transformation files. 
 These are Matlab like .mat files recording the matrix and offset for
 the low-dimensional transforms: translation, rigid, affine.
@@ -444,7 +453,7 @@ transformations (InvId), to compute the fractional anisotropy of an
 image (TensorFA) and to compute the gradient or laplacian of an image
 (Gradient, Laplacian).   Many other operations are available.  Like all other ANTs programs, one may call \texttt{ImageMath} from the command line to see all of its options.   \texttt{ImageMath} is used heavily in ANTs scripts.  
 
-\subsection{ANTs Scripts} 
+\subsection{ANTs/Scripts} 
 The ANTS/Scripts directory contains (hopefully) user-friendly
 wrappings of ANTs tools that enable higher-level error checking and
 combinations of basic ANTs functions.  These scripts are called as
@@ -532,7 +541,7 @@ mind that viewing images with software that does not conform to ITK
 world coordinates will make the images ``look wrong'' with respect to
 image orientation.  This caveat may include NiPy, FSL, SPM etcetera.
 
-\subsection{ANTs Transformation Models}
+\subsection{ANTs transformation models}
 The ANTs toolkit provides a hierarchy of transformations with
 adjustable levels of complexity, regularization, degrees of freedom
 and behavior as optimizers.  The simplest transformation model is the
@@ -591,8 +600,8 @@ Information as similarity metric with 32 bins and dense sampling of
 the image and would be typically used in deformable registration. See \texttt{antsRegistration --help}
 for more information. 
 
-\subsubsection{Affine and Rigid
-  Registration---\textcolor{red}{FIXME---this section and figures}}
+\subsubsection{Affine and rigid
+  registration---\textcolor{red}{FIXME---this section and figures}}
 
 
 \begin{figure}
@@ -624,7 +633,7 @@ the \texttt{antsRegistrationSyNQuick.sh} and
 \texttt{antsRegistrationSyN.sh} scripts to see how one might improve
 or modify registration parameters for different problems.
 
-\subsubsection{Deformable Registration}
+\subsubsection{Deformable registration}
 Affine mapping is adequate when the
 difference between images involves only rotation, scaling or shearing.
 Other data requires more deformable mappings to capture shape
@@ -775,7 +784,7 @@ exponential mapping via \texttt{Exponential[0.1,3,0.5,10]} , where 10 integratio
 Update schemes for diffeomorphic optimization are similar to the elastic case 
 and are described elsewhere \cite{Avants2008b}.   
 
-\subsection{ANTs Similarity Terms}
+\subsection{ANTs similarity terms}
 Here is a script that will let you experiment with different similarity term 
 and transformation model combinations.  A few are listed, with parameters 
 that are a reasonable starting point.  This example implements an
@@ -792,7 +801,7 @@ iterations are reached at a given optimization level or (2) the slope
 of the change in the optimization objective is negative or very small. 
 
 
-\subsection{Choosing a Metric}
+\subsection{Choosing a metric}
 \input{metric.tex}
 \lstinputlisting[style=mystyle]{Ex7.sh}
 
@@ -822,7 +831,7 @@ as at right, if the order of the DT entries is wrong.}
 \vspace{-0.1in}
 \label{fig:dterr}
 \end{wrapfigure}  
-\subsection{Multivariate Normalization with ANTs}
+\subsection{Multivariate normalization with ANTs}
 \begin{figure}
 \includegraphics[width=0.9\textwidth]{Figures/multivariatenorm.pdf} 
 \itkcaption[Multivariate Normalization]{The current version of ANTs 
@@ -886,7 +895,7 @@ but account for the large majority of the shape variation.  Therefore,
 inspecting results after only low resolution registration is performed
 can save significant time and make parameter optimization more rapid.
 
-\subsection{Optimal Template Construction with ANTs}
+\subsection{Optimal template construction with ANTs}
 A useful script for setting up optimal template construction
  is available in ANTs/Scripts.  This method is described in \cite{Avants2004,Avants2006d,Kim2008,Yushkevich2009,Avants2009c}, 
 where more recent publications are more descriptive and incorporate 
@@ -928,25 +937,46 @@ Typically, one would use voxbo or the qsub program available in the Sun Grid Eng
 is what is done in \texttt{antsMultivariateTemplateConstruction2.sh}.  
 Figure~\ref{fig:template} shows the data and a result similar to what may be recreated by the user.
 
+\subsection{2D to 3D registration}
+There has been much discussion of this on the ITK and ANTs lists.
+What it boils down to is this:  the 2D to 3D (or vice versa) problem
+is inherently asymmetric and (very) ill-posed.  So, we currently
+recommend, as a start, running \texttt{antsRegistrationSyNQuick.sh} in both
+directions and seeing which works better.   Both directions means pass
+the 2D image to the \texttt{-f} option and compare to the result of
+the 2D image to the \texttt{-m} option, noting that the resulting transforms are NOT inverses of
+each other.
+
+\subsection{More ANTs examples}
+The paper
+\href{http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00044/abstract}{http://journal.frontiersin.org/Journal/10.3389/fninf.2014.00044/abstract}
+shows or links to several more examples.  Some of these include
+morphometry.  
+Many other examples are available in the literature \href{http://scholar.google.com/citations?user=ox-mhOkAAAAJ&hl=en}{Google
+  Scholar Search}.
+
+
 \newpage
-\section{Image Segmentation and Labeling}
+\section{Image segmentation and labeling}
 ANTs has tools for both tissue based segmentation and prior-based segmentation that 
 leverages spatial priors, usually based on a template mapping.  
-\subsection{Basic Segmentation}
-A basic MRF segmentation algorithm is available in ANTs \texttt{Atropos}.  We apply 
-the segmentation to the example data in: ANTs/Examples/Data/r16slice.nii.  
-\begin{verbatim}
-ImageMath 2 r16slice.nii Segment r16slice.nii 4 0 
-% output = r16slice_seg.nii, r16slice_prob_0.nii, r16slice_prob_1.nii, r16slice_prob_2.nii .  
-\end{verbatim}
-The parameter \texttt{4} indicates 3 tissues plus background are sought.  The \texttt{0} indicates 
-that there are no prior images available to guide the segmentation.  Output is shown 
+\subsection{Basic segmentation}
+A suite of segmentation algorithm approaches are available by
+combining the \texttt{Atropos} tool with various feature images,
+priors and objective functions.  But let's show a simple example
+first. We apply k-means segmentation to 2D data (the call is the same
+in 3D except for the dimensionality flag). 
+\lstinputlisting[style=mystyle]{Ex8.sh}
+The parameter \texttt{4} indicates 4 tissues plus background are
+sought.  The \texttt{mask} identifies the region that will be segmented. 
+There are no prior images available to guide the segmentation.
+Representative output is shown 
 in figure~\ref{fig:seg} and -- with priors -- in figure~\ref{fig:seg2}.
 \begin{figure}
 \includegraphics[width=1\textwidth]{Figures/segmentation.pdf} 
 \itkcaption[ANTs Segmentation]{ANTs provides basic 
 Markov Random Field regularized Gaussian model tissue segmentation. 
-The ANTs program N3BiasFieldCorrection is very valuable as preprocessing 
+The ANTs program N4 or N3BiasFieldCorrection is very valuable as preprocessing 
 for this naive approach to segmentation.   The last panel -- far right -- 
 shows the thickness derived from the white matter and gray matter 
 probabilities where a prior on thickness was used to prevent thickness
@@ -955,15 +985,9 @@ which is called \texttt{KellyKapowski} in its implementation.
 }
 \label{fig:seg}
 \end{figure}
-\subsection{Prior and Template-based Image Segmentation}
+\subsection{Prior and template-based image segmentation}
 The same algorithm may be augmented 
 to perform Prior-based segmentation.  
-\begin{verbatim}
-ImageMath 2 r16sliceprior.nii Segment r16slice.nii 4 0.5 
-   csfprior.nii wmprior.nii  gmprior.nii 
-% output = r16sliceprior_seg.nii  r16sliceprior_prob_0.nii  
-% r16sliceprior_prob_1.nii  r16sliceprior_prob_2.nii .  
-\end{verbatim}
 The parameter \texttt{4 indicates 3 tissues plus background are sought}.  The \texttt{0.5} indicates 
 we weight the priors equally as the data term and use a spatially varying set of Gaussians 
 to estimate the segmentation.  In this way, data from the priors may be used to modify 
@@ -986,7 +1010,14 @@ and some CSF -- highlighted by arrows -- as their weight increases.
 }
 \label{fig:seg2}
 \end{figure}
-\subsection{Cortical Thickness}
+This listing also shows how Atropos becomes instantaneously
+multivariate with more input feature images and that the likelihood
+model \texttt{ -k } is also flexible.
+More detailed examples are here:
+\href{https://github.com/ntustison/antsAtroposN4Example}{https://github.com/ntustison/antsAtroposN4Example}
+with brain extraction here: \href{https://github.com/ntustison/antsBrainExtractionExample}{https://github.com/ntustison/antsBrainExtractionExample}.
+
+\subsection{Cortical thickness}
 Two forms of cortical thickness estimation from probability maps are available 
 in ANTs: first, the traditional Laplacian cortical thickness estimation and, second, 
 the more recently developed Diffeomorphic Registration-based Cortical Thickness 
@@ -1000,10 +1031,11 @@ which implements the method described in ``Three-dimensional mapping of cortical
 Jones, et al \cite{}.  Super-sampling 
 and controlling segmentation accuracy for input to this program is up 
 to the user.  Otherwise, the Laplacian method may grossly overestimate 
-thickness in closed sulci.  
+thickness in closed sulci.  See the full example:  \href{https://github.com/ntustison/antsCorticalThicknessExample}{https://github.com/ntustison/antsCorticalThicknessExample}.
 
  
-\subsection{User/Label-Guided Normalization for Hippocampus Mapping}
+\begin{comment}
+\subsection{User/label-guided normalization for hippocampus mapping}
 See the link for details on hippocampus labeling:
 \href{http://picsl.upenn.edu/ANTS/hipptutorial.php}{http://picsl.upenn.edu/ANTS/hipptutorial.php}.
 \noindent{\bf Expectation-Based Point-Set Registration.}
@@ -1035,12 +1067,25 @@ antsApplyTransforms  2 Smile.nii SmileToFrown.nii -R Frown.nii
 CreateWarpedGridImage 2 PSEtestInverseWarp.nii grid1.nii
 CreateWarpedGridImage 2 PSEtestWarp.nii grid2.nii
 \end{verbatim}
-This example should run on the downloaded ANTs data so you may see the results.
+This example should run on the downloaded ANTs data so you may see the
+results.
+\end{comment}
 %\input{ANTSLabeledDataExample}
 %\input{ANTSMaskedImageRegistrationExample}
 \newpage
-\section{Application to Studies}
-\subsection{Brain Mapping in the Presence of Lesions}
+\section{ANTs-based studies}
+We've performed several types of applied studies with ANTs.  Some of
+my favorite include our recent work on eigenanatomy
+\href{http://scholar.google.com/scholar?q=eigenanatomy+avants&btnG=&hl=en&as_sdt=0%2C39}{eigenanatomy-gs},
+\href{http://www.ncbi.nlm.nih.gov/pubmed/?term=eigenanatomy}{eigenanatomy-pubmed}
+and sccan \href{http://scholar.google.com/scholar?q=canonical+correlation+avants&btnG=&hl=en&as_sdt=0%2C39}{sccan-gs},
+\href{http://www.ncbi.nlm.nih.gov/pubmed/?term=canonical+correlation+avants}{sccan-pubmed} 
+\href{}{} as well as a recent large-scale comparison with Freesurfer (if interested,
+google it).  These all use open source tools that are freely available
+via ANTs and/or \textit{ANTsR}.  We are also currently validating significant
+resources for processing BOLD and ASL functional MRI.
+
+\subsection{Brain mapping in the presence of lesions}
 Many cases violate the basic assumption of a one-to-one mapping from a
 template image to a target image. Brain lesions caused by stroke or
 traumatic brain injury are a common instance of this.
@@ -1049,11 +1094,7 @@ The ANTs toolkit handles this situation by a constrained cost-function
 masking approach. In short, the mapping within an excluded region (as
 determined by an inclusive mask) is determined by the solution outside
 of the region. To achieve this with ANTs, one would use a call similar
-to this:
-\begin{verbatim}
-ANTs 3 -m PR[tp22_s1.nii,template.nii.gz,1,4] -i 50x20x0
-   -o tp22map -t SyN[0.5] -x mask.nii.gz -r Gauss[3,0] 
-\end{verbatim}
+to this \href{http://stnava.github.io/BasicBrainMapping/}{http://stnava.github.io/BasicBrainMapping/}.
 The additional parameter needed for this approach 
 is the \texttt{-x}  \texttt{mask.nii.gz}  which 
 is the mask defined in the "fixed" (or individual) image space.  
@@ -1081,13 +1122,16 @@ To take the negative image of the inclusive mask
 and warp the mask to the template :
 \begin{verbatim}
 ImageMath 3 lesionmask.nii.gz Neg inclusivemask.nii.gz
-antsApplyTransforms 3 lesionmask.nii.gz lesiontotemplate.nii.gz 
-   -R template.nii.gz -i tp22mapAffine.txt tp22mapInverseWarp.nii
+antsApplyTransforms -d 3 -i lesionmask.nii.gz -o lesiontotemplate.nii.gz 
+   -r template.nii.gz -t [output0GenericAffine.mat.] -t output1InverseWarp.nii.gz
 \end{verbatim}
-More details on this approach are being prepared for publication.
+There are several examples of this approach in the literature:
+\href{http://www.ncbi.nlm.nih.gov/pubmed/?term=coslett+kim+injury}{http://www.ncbi.nlm.nih.gov/pubmed/?term=coslett+kim+injury}
+or
+\href{http://scholar.google.com/scholar?q=brain+normalization+MRI+ANTs+advanced+lesion+tools+-ant&btnG=&hl=en&as_sdt=0%2C39}{relevant google-scholar search}.
 See also: \href{http://www.ncrrn.org/papers/methodology\_papers/sp\_norm\_kim.pdf}{http://www.ncrrn.org/papers/methodology\_papers/sp\_norm\_kim.pdf}.
 
-\subsection{Statistical Mapping with ANTs: Morphometry, Function, Jacobian, Thickness}
+\subsection{Statistical mapping with ANTs: Morphometry, function, jacobian, thickness}
 ANTs has been applied in a wide array of imaging studies
 \cite{Avants2009a,Avants2009b,Avants2009,Das2009,Klein2009,Massimo2009,Pluta2008,Tustison2009,Yushkevich2009,Avants2008c,Avants2008b,M.Grossman10282008,Kim2008,Simon2008,Sun2008,Yushkevich2008,Aguirre2007,Avants2007,Avants2007i}.
 All of these studies benefit in some way from normalization whether the topic is cortical
@@ -1100,27 +1144,27 @@ From a broad perspective, each of these applications requires the same steps:
 \item Apply the warp to any images one may want to analyze in template space.  
 \item Perform statistics in template space over the region of interest, e.g. all cortex. 
 \end{enumerate}
-We now illustrate this procedure using ANTs tools and example images from ANTs/Examples/Data. 
-The expected output is in figure~\ref{fig:morph}.
+We now list ANTs tools needed for basic morphometry and/or brain labeling.
+Typical output is in figure~\ref{fig:morph}.
 \begin{verbatim}
-1.  ImageMath 2 r64slice.nii Segment r64slice.nii 4 0
-1.  ImageMath 2 r16slice.nii Segment r16slice.nii 4 0
-2.  sh ants.sh 2 r16slice.nii r64slice.nii SPM 100x100x100
-3.  SmoothImage 2 r64slice_prob_1.nii  1. r64slice_prob_1.nii  
-3.  antsApplyTransforms 2 r64slice_prob_1.nii  r64slice_prob_1_norm.nii
-     -R r16slice.nii SPMWarp.nii SPMAffine.txt 
-3.  ANTsJacobian 2 SPMWarp.nii SPM 1  # take the log
-4.  ImageMath 2 SPMlogjacobianmask.nii m SPMlogjacobian.nii r64slice_prob_1_norm.nii
-5.  Repeat for a population and run statistics on log jacobians.
+0.  antsMultivariateTemplateConstruction2.sh for template building
+1.  Atropos for segmentation.
+2.  antsRegistration
+3.  SmoothImage for smoothing  
+4.  antsApplyTransforms for mapping between spaces
+5.  CreateJacobianDeterminantImage for computing the jacobian
+6.  jointfusion for joint label fusion
+7.  antsMalfLabeling.sh for convenient multi-template labeling
 \end{verbatim}
+See \cite{Wang2011} to learn more about joint fusion.
 \begin{figure}
 \includegraphics[width=1\textwidth]{Figures/morphometry.pdf}
 \itkcaption[ANTs Morphometry]{The output from the ANTs morphometry example.}
 \label{fig:morph}
 \end{figure}
-This example uses a standard Jacobian-based approach to morphometry.
-Here, we use the log-Jacobian because it is symmetric about zero and
-mask with the gray matter segmentation to restrict the analysis to the
+Figure~\ref{fig:morph} shows a more or less standard Jacobian-based approach to morphometry.
+Often, we use the log-Jacobian because it is symmetric about zero.
+Some suggest to mask with the gray matter segmentation to restrict the analysis to the
 cortex.  The Jacobian is discussed in figure~\ref{fig:inv} and visualization of
 the Jacobian is shown in figure~\ref{fig:jac}.  This Jacobian comes
 from the mapping shown in figure~\ref{fig:large}.
@@ -1136,57 +1180,58 @@ from the mapping shown in figure~\ref{fig:large}.
   across the population.}
 \label{fig:jac}
 \end{figure}
-Similar analyses may be performed on thickness images, functional 
-images or fractional anisotropy images derived from the diffusion 
-tensor modality.  In all these cases, steps similar to those above 
-would be performed.  
+Many analyses may be performed on data that may be derived using ANTs:
+thickness images, functional images or fractional anisotropy images derived from the diffusion 
+tensor modality.  In all these cases, the tools listed above and
+throughout this document should be very helpful.
 
-\subsection{Statistics with ANTs and {\bf R}}
-{\bf R} is an open-source, cutting-edge statistical package 
+\subsection{Statistics with ANTs and \texttt{R}: \texttt{ANTsR} }
+\texttt{R} is an open-source, cutting-edge statistical package 
 used by statisticians world-wide.   ANTs is designed to 
-interface with {\bf R} via an \texttt{ImageMath} tool that converts 
-image sets into an {\bf R} compatible format.  
-Three steps are required.  First, convert image data into 
-vector and matrix formats through a mask of your statistical 
-region of interest.  Second, read that data into {\bf R} and 
-run your statistics.  Third, write out the data from {\bf R} and 
-convert back to an image.  Here are the steps, in code examples,
-\begin{enumerate}
-\item Create a vector for your output: 
-\begin{verbatim} 
-ImageMath 3 testresultvec.nii ConvertImageSetToMatrix 1 mask.nii image1.nii
-\end{verbatim}
-Here, we assume all images are called image1.nii, image2.nii, ... , imageN.nii so we 
-can use a wildcard to pass to \texttt{ImageMath} and 
-create a matrix for all your input data: 
-\begin{verbatim} 
- ImageMath 3 datamatrix.nii ConvertImageSetToMatrix 1 mask.nii image*.nii 
-\end{verbatim}
-\item   Run {\bf R} by reading your data above, performing whatever statistics you want and then 
-writing out.  
-\item   Convert the test result back to an image.  
-\begin{verbatim} 
-ImageMath 3 testresult.nii ConvertVectorToImage mask.nii testresultvec.nii
-\end{verbatim}
-\end{enumerate}
-Most statistical requirements may be met with this setup. 
+interface with \texttt{R} via the \texttt{ANTsR} package.  Google
+this and learn more. Most statistical requirements may be met with this setup. 
 \newpage
 \section{Dependencies and Related Software}
 \subsection{Dependencies and Compilation}\label{sec:comp}
 ANTs depends on the most recent version of the Insight ToolKit (ITK)
--- www.itk.org.   File types that may be read and written are 
-all of those available in itk and a few more \href{http://picsl.upenn.edu/ANTS/ioants.php}{http://picsl.upenn.edu/ANTS/ioants.php}.
+-- www.itk.org.  However, there is no need to download ITK separately.
+ANTs and ITK are both compiled through CMake which automates the
+process.  We describe this here: 
+\begin{verbatim}
+instructions for linux / osx type installation.   
+windows works too ( via cmake ) but i dont have specifics.
 
-ANTs and ITK are both compiled through pointing CMake -- www.cmake.org
--- to a CMakeLists.txt file.  The ANTs CMakeLists.txt is in the
-Examples directory.  
+to compile ants from the source code, you first need: git, cmake and a c++ compiler
 
-See below for more details on compilation and binaries: \newline
-\href{http://picsl.upenn.edu/ANTS/download.php}{Compile and download: http://picsl.upenn.edu/ANTS/download.php}.
-We maintain a dashboard to give users an idea of what to expect 
+then in a terminal, do:
+
+>  git clone git://github.com/stnava/ANTs.git
+>  mkdir antsbin
+
+> cd antsbin
+
+>  ccmake ../ANTs
+
+then go into cmake and type “c” and then “g”  then exit back to the
+terminal.   then:
+
+>  make -j 1
+
+and wait a while.  you can change 1 to n-cores if you're feeling lucky.
+
+to update an existing ANTs install, go to the ANTs directory and type 
+
+“git pull origin master”
+
+Don’t forget to toggle to advanced and turn off
+
+SuperBuild_ANTS_USE_GIT_PROTOC if behind firewall
+\end{verbatim}
+We (used to) maintain a dashboard to give users an idea of what to expect 
 from compilation:\newline
-\href{http://picsl.upenn.edu/cdash/index.php?project=ANTS}{http://picsl.upenn.edu/cdash/index.php?project=ANTS}
-
+\href{http://testing.psychiatry.uiowa.edu/CDash/index.php?project=ANTS}{ANTs
+Dashboard: http://testing.psychiatry.uiowa.edu/CDash/index.php?project=ANTS}
+\textcolor{red}{Needs to be rebooted pending funding/space etc.}
 
 \subsection{Visualization and Quantification of ANTs Results}
 Use \href{www.itksnap.org}{itk SNAP : www.itksnap.org } or mricro / mricron for viewing
@@ -1195,19 +1240,16 @@ through a dataset in any of its axes.  It is useful for checking both
 input data quality and output normalization quality.  MeasureImageSimilarity 
 will supply numerical measures of image similarity via three different metrics. 
 
-\subsection{Statistics Beyond ANTs}
-Use SPM, {\bf R} or npm (from Chris Rorden's mricron) for computing population statistics.
-
 \subsection{Pipelining with ANTs}
 Use PipeDream for automating large-scale processing:\newline
-\href{https://sourceforge.net/projects/neuropipedream/}{PipeDream
+\href{https://github.com/cookpa/pipedream}{PipeDream
   Homepage :
-  https://sourceforge.net/projects/neuropipedream/} \newline PipeDream
+  https://github.com/cookpa/pipedream} \newline PipeDream
 is integrated with ANTs and automates more complex studies such as
 multivariate diffusion tensor and T1 cortical thickness studies,
 longitudinal mapping and reconstruction of nifti images from Dicom.
 \newpage
-\section{Annotated Bibliography}
+\section{Annotated Bibliography (Old)}
 The original statement of the symmetric normalization and template
 construction methodology was given in \cite{Avants2004} with a more 
 recent template paper here \cite{Avants2009c}. 
