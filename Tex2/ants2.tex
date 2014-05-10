@@ -451,7 +451,21 @@ one to multiply images together (m), to negate images (Neg), to take
 an image to a power (pow), to test the invertibility of
 transformations (InvId), to compute the fractional anisotropy of an
 image (TensorFA) and to compute the gradient or laplacian of an image
-(Gradient, Laplacian).   Many other operations are available.  Like all other ANTs programs, one may call \texttt{ImageMath} from the command line to see all of its options.   \texttt{ImageMath} is used heavily in ANTs scripts.  
+(Gradient, Laplacian).   Many other operations are available.  Like
+all other ANTs programs, one may call \texttt{ImageMath} from the
+command line to see all of its options.   \texttt{ImageMath} is used
+heavily in ANTs scripts.  
+\lstinputlisting[style=mystyle]{ExAniDiff.sh}
+Above, ImageMath's anisotropic diffusion.
+\begin{figure}
+\includegraphics[width=0.3\textwidth]{Figures/outputExAniDiffad1.jpg} 
+\includegraphics[width=0.3\textwidth]{Figures/outputExAniDiffad2.jpg} 
+\includegraphics[width=0.3\textwidth]{Figures/outputExAniDiffad3.jpg} 
+\itkcaption[AniDiff]{The original image with 2 degrees of anisotropic diffusion.}
+\vspace{-0.1in}
+\label{fig:cmd}
+\end{figure}
+
 
 \subsection{ANTs/Scripts} 
 The ANTS/Scripts directory contains (hopefully) user-friendly
@@ -996,6 +1010,7 @@ to estimate the segmentation.  In this way, data from the priors may be used to 
 and guide the segmentation in a locally varying way, accomodating for both inhomogeneity 
 and the different imaging signature that different tissues provide.   Prior images should be 
 of the same size and dimension as the input data and should have intensities in the range $[0,1]$.
+\lstinputlisting[style=mystyle]{Ex9.sh}
 \begin{figure}
 \includegraphics[width=1\textwidth]{Figures/segmentation2.pdf}
 \itkcaption[ANTs Segmentation]{ANTs extends basic Markov Random Field
@@ -1150,13 +1165,12 @@ We now list ANTs tools needed for basic morphometry and/or brain labeling.
 Typical output is in figure~\ref{fig:morph}.
 \begin{verbatim}
 0.  antsMultivariateTemplateConstruction2.sh for template building
-1.  Atropos for segmentation.
-2.  antsRegistration
-3.  SmoothImage for smoothing  
-4.  antsApplyTransforms for mapping between spaces
+1.  antsRegistration
+2.  antsApplyTransforms for mapping between spaces
+3.  Atropos for segmentation.
+4.  SmoothImage for smoothing  
 5.  CreateJacobianDeterminantImage for computing the jacobian
-6.  jointfusion for joint label fusion
-7.  antsMalfLabeling.sh for convenient multi-template labeling
+6.  antsMalfLabeling.sh | jointfusion for convenient multi-template labeling
 \end{verbatim}
 See \cite{Wang2011} to learn more about joint fusion.
 \begin{figure}
