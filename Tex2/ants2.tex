@@ -1140,7 +1140,7 @@ and warp the mask to the template :
 \begin{verbatim}
 ImageMath 3 lesionmask.nii.gz Neg inclusivemask.nii.gz
 antsApplyTransforms -d 3 -i lesionmask.nii.gz -o lesiontotemplate.nii.gz 
-   -r template.nii.gz -t [output0GenericAffine.mat.] -t output1InverseWarp.nii.gz
+   -r template.nii.gz -t [output0GenericAffine.mat,1] -t output1InverseWarp.nii.gz
 \end{verbatim}
 There are several examples of this approach in the literature:
 \href{http://www.ncbi.nlm.nih.gov/pubmed/?term=coslett+kim+injury}{http://www.ncbi.nlm.nih.gov/pubmed/?term=coslett+kim+injury}
