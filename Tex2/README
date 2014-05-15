@@ -1,0 +1,3 @@
+
+bash runexamplesandtests.sh   # to test 
+./compile # to build tex --- if tests look good
