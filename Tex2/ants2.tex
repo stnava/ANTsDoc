@@ -297,7 +297,9 @@ latex and tests the example scripts.
 
 \subsection{Example 1: Quick SyN}
 If you want a decent, fast registration you might run something like this:
-\lstinputlisting[style=mystyle]{Ex1.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex1.sh}
+The variable \texttt{\$op} represents the output prefix for the
+filename.  This will be the case in many of the following examples.
 The \texttt{-d} option denotes image dimensionality, \texttt{-f} option denotes the ``fixed'' image and the \texttt{-m} option
 denotes the ``moving'' image.  The moving image will be deformed to
 match the fixed image.  The inverse of these maps deform the fixed to
@@ -363,7 +365,7 @@ $d$-dimensional scalar images where $d=2, 3, 4$.
 \subsection{Using \texttt{antsApplyTransforms} or \texttt{antsApplyTransformsToPoints}}
 For example: to apply the transform to the moving image and the
 inverse to the fixed image:
-\lstinputlisting[style=mystyle]{Ex2.sh}
+\lstinputlisting[style=mystyle,linerange={3-5}]{examplesandtests/Ex2.sh}
 The numbers of the transformations (here, 0 and 1 because there is
 only a deformation and affine mapping) relate to the order in which
 the transforms are computed, during optimization, and also the order
@@ -455,7 +457,7 @@ image (TensorFA) and to compute the gradient or laplacian of an image
 all other ANTs programs, one may call \texttt{ImageMath} from the
 command line to see all of its options.   \texttt{ImageMath} is used
 heavily in ANTs scripts.  
-\lstinputlisting[style=mystyle]{ExAniDiff.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/ExAniDiff.sh}
 Above, ImageMath's anisotropic diffusion.
 \begin{figure}
 \includegraphics[width=0.3\textwidth]{Figures/outputExAniDiffad1.jpg} 
@@ -641,7 +643,7 @@ optimization.
 
 
 \noindent{\bf Rigid Registration: }  ANTs will also perform rigid registration.  For example,  
-\lstinputlisting[style=mystyle]{Ex3.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex3.sh}
 The jacobian of the resulting affine mapping should be unity.  Compare
 the \texttt{antsRegistrationSyNQuick.sh} and
 \texttt{antsRegistrationSyN.sh} scripts to see how one might improve
@@ -692,7 +694,7 @@ Gradient descent optimization of an elastic mapping may be summarized (crudely) 
 \end{align}
 where $\Pi$ is the similarity, $\delta$ is a gradient step length and $G_\sigma$ is a gaussian smoother.
 This optimization is captured in the following ANTs command (\textcolor{red}{FIXME})
-\lstinputlisting[style=mystyle]{Ex4.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex4.sh}
 Here, we use the CC metric (a cross-correlation implementation) with
 window radius 4, weight 1 and gradient step length 1.5.  The
 optimization will be performed over three resolutions with a maximum
@@ -737,7 +739,7 @@ causes expansion, then $\mathcal{J}(\x) > 1$. }
 \end{figure}  
 A few important notes follow. 
 (1) Deformation directionality: Warps/deformations applied to images occur in the opposite direction from warps/deformations applied to points. That is, if we map image B to A using 
-\lstinputlisting[style=mystyle]{Ex4.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex4.sh}
  then we get a deformation called \texttt{OUTPUT1Warp.nii.gz} and an affine transform called \texttt{OUTPUT0GenericAffine.mat} . 
 This composite mapping -- when applied to B -- will transform B into the space of A. 
 However, if we have points defined in B that we want to map to A, 
@@ -803,15 +805,15 @@ Here is a script that will let you experiment with different similarity term
 and transformation model combinations.  A few are listed, with parameters 
 that are a reasonable starting point.  This example implements an
 elastic mapping driven by neighborhood cross-correlation and initialized by mutual information affine:
-\lstinputlisting[style=mystyle]{Ex4.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex4.sh}
 This example implements a greedy syn mapping that includes elastic regularization and is driven by mutual
 information and initialized by global correlation with a similarity transform:
-\lstinputlisting[style=mystyle]{Ex5.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex5.sh}
 
 \noindent\textbf{Using multiple metrics to drive registration.}
 This example uses smoothing without downsampling (ie scale-space) and
 implements a greedy syn driven by two unequally weighted similarity metrics and no affine mapping:
-\lstinputlisting[style=mystyle]{Ex6.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex6.sh}
 Convergence occurs under two conditions: (1) either the maximum number of 
 iterations are reached at a given optimization level or (2) the slope 
 of the change in the optimization objective is negative or very small. 
@@ -819,7 +821,7 @@ of the change in the optimization objective is negative or very small.
 
 \subsection{Choosing a metric}
 \input{metric.tex}
-\lstinputlisting[style=mystyle]{Ex7.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex7.sh}
 
 
 \subsection{Notes on basic brain mapping}
@@ -982,7 +984,7 @@ combining the \texttt{Atropos} tool with various feature images,
 priors and objective functions.  But let's show a simple example
 first. We apply k-means segmentation to 2D data (the call is the same
 in 3D except for the dimensionality flag). 
-\lstinputlisting[style=mystyle]{Ex8.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex8.sh}
 The parameter \texttt{4} indicates 4 tissues plus background are
 sought.  The \texttt{mask} identifies the region that will be segmented. 
 There are no prior images available to guide the segmentation.
@@ -1010,7 +1012,7 @@ to estimate the segmentation.  In this way, data from the priors may be used to 
 and guide the segmentation in a locally varying way, accomodating for both inhomogeneity 
 and the different imaging signature that different tissues provide.   Prior images should be 
 of the same size and dimension as the input data and should have intensities in the range $[0,1]$.
-\lstinputlisting[style=mystyle]{Ex9.sh}
+\lstinputlisting[style=mystyle,linerange={3-1000}]{examplesandtests/Ex9.sh}
 \begin{figure}
 \includegraphics[width=1\textwidth]{Figures/segmentation2.pdf}
 \itkcaption[ANTs Segmentation]{ANTs extends basic Markov Random Field

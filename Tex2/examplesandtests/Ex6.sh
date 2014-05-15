@@ -1,5 +1,6 @@
+bn=`basename $0`; 
+op=output` echo $bn | cut -d '.' -f 1`
 dim=2
-nm=output$0
 # registration is performed at a coarse 1/2 scale
 antsRegistration -d $dim -r [ r16slice.nii.gz , r64slice.nii.gz ,1]  \
                          -m mattes[  r16slice.nii.gz , r64slice.nii.gz, 1 , 32 ] \
@@ -8,5 +9,4 @@ antsRegistration -d $dim -r [ r16slice.nii.gz , r64slice.nii.gz ,1]  \
                          -c [ 50x50x50,0,5 ]  \
                         -s 4x2x0vox  \
                         -f 2x2x2 -l 1 -u 1 -z 1 \
-                       -o [${nm},${nm}_diff.nii.gz,${nm}_inv.nii.gz]
-rm output$0* # cleanup
+                       -o [${op},${op}_diff.nii.gz,${op}_inv.nii.gz]

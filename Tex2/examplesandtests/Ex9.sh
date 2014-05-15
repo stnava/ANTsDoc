@@ -1,4 +1,5 @@
-op=output$0
+bn=`basename $0`
+op=output` echo $bn | cut -d '.' -f 1`
 dim=2
 n=3
 img=r16slice.nii.gz
@@ -14,4 +15,3 @@ outvar=[${op}_seg.nii.gz,${op}_prob%0d.nii.gz]
 Atropos -d $dim -x ${op}mask.nii.gz -c [3,0] -m [0.1,1x1] \
  -i priorprobabilityimages[$n,${op}_prob%0d.nii.gz,0.25] \
  -k HistogramParzenWindows -o $outvar $inputfeatures
-rm ${op}* # cleanup 
