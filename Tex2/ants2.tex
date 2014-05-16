@@ -1054,8 +1054,49 @@ and controlling segmentation accuracy for input to this program is up
 to the user.  Otherwise, the Laplacian method may grossly overestimate 
 thickness in closed sulci.  See the full example:  \href{https://github.com/ntustison/antsCorticalThicknessExample}{https://github.com/ntustison/antsCorticalThicknessExample}.
 
+\begin{comment}
+\subsection{User/label-guided normalization for hippocampus mapping}
+See the link for details on hippocampus labeling:
+\href{http://picsl.upenn.edu/ANTS/hipptutorial.php}{http://picsl.upenn.edu/ANTS/hipptutorial.php}.
+\noindent{\bf Expectation-Based Point-Set Registration.}
+Here, we apply the expectation-based point set registration method 
+for mapping labeled points sets, as described in \cite{Pluta2008}.   ITK-SNAP may be used to label 
+images and exported segmentation images may be input to the 
+PSE metric below, as labeled data.  The Frown and Smile data is used 
+as example.  This data is available in the 
+ANTS/Examples/Data/ directory.
+\begin{figure}
+\includegraphics[width=0.45\textwidth]{Figures/frowntosmile.png}
+\includegraphics[width=0.45\textwidth]{Figures/smiletofrown.png}
+\itkcaption[Frown To Smile]{Expected output for the frown to smile 
+shows a smooth, though large deformation.  The grids are overlaid on 
+the deformed images. }
+\label{fig:frown}
+\end{figure}
+\begin{verbatim}
+ANTs 2 -o PSEtest  -i 91x70x55x40x30  -r Gauss[3,0.] -t SyN[0.2]
+   -m  PSE[Frown.nii,Smile.nii,Frown.nii,Smile.nii,0.75,0.1,11,0,10] 
+   -m  MSQ[Frown.nii,Smile.nii,1,0]    --number-of-affine-iterations 0 
+
+antsApplyTransforms  2 Frown.nii FrownToSmile.nii -R Smile.nii
+   -i PSEtestAffine.txt PSEtestInverseWarp.nii 
+
+antsApplyTransforms  2 Smile.nii SmileToFrown.nii -R Frown.nii 
+    PSEtestWarp.nii PSEtestAffine.txt 
+
+CreateWarpedGridImage 2 PSEtestInverseWarp.nii grid1.nii
+CreateWarpedGridImage 2 PSEtestWarp.nii grid2.nii
+\end{verbatim}
+This example should run on the downloaded ANTs data so you may see the
+results.
+\end{comment}
+%\input{ANTSLabeledDataExample}
+%\input{ANTSMaskedImageRegistrationExample}
+
+
+
 \newpage
-\section{Data visualization}
+\section{Data visualization with ANTs}
 Data visualization is important for producing figures for manuscripts,
 qualitative inspection of results, facilitating collaborations, and 
 gaining insight into data and data transformations.  ANTs provides three
@@ -1064,9 +1105,18 @@ flexible programs to help with such tasks which we describe below.
 \subsection{Creating faux-colormapped images with {\tt ConvertScalarImageToRGB}}
 For layering image data, it is often useful to map the grayscale image intensity
 values to distinct colormaps.  We introduced such a processing framework into
-ITK described in \cite{Tustison2008c}.  In addition to the built-in colormaps
-which are currently part of ITK, we also have several custom colormaps located
-in the directory \verb#${ANTSPATH}/Examples/CustomColormaps/#.
+ITK described in \cite{Tustison2008c}.  The ANTs program {\tt ConvertScalarImageToRGB}
+interfaces this framework and permits conversion of grayscale intensity scalar images
+to RGB colormapped images which can be viewed in programs such as ITK-SNAP.  
+Converting scalar images to RGB intensities is also a preprocessing step for 
+the next two programs described:  {\tt CreateTiledMosaic} and {\tt antsSurf}.
+In addition to the built-in colormaps which are currently part of ITK, we also 
+have several custom colormaps located in the directory 
+\verb#${ANTSPATH}/Examples/CustomColormaps/#.  Additionally, these custom colormaps
+can be used as examples to build one's own set of colormaps for use with
+{\tt ConvertScalarImageToRGB}. In Listing \ref{listing:ConvertScalarImageToRGB} we
+give three code examples of converting grayscale intensity images to different 
+colormaps with and without masks.
 
 \lstset{frame = htb,
         framerule = 0.25pt,
@@ -1107,7 +1157,29 @@ ConvertScalarImageToRGB 2 r16seg.nii.gz r16seg_snap.nii.gz \
 \end{lstlisting}
 
 
-\subsection{Large-scale data inspection using {\tt CreateTiledMosaic}}
+\subsection{Figure production and large-scale data inspection using {\tt CreateTiledMosaic}}
+The program {\tt CreateTiledMosaic} in conjunction with {\tt ConvertScalarImageToRGB} provides
+useful functionality for common image analysis tasks.  The basic usage of {\tt CreateTiledMosaic}
+is to tile a 3-D image volume slice-wise into a 2-D image.  The help menu {\tt CreateTiledMosaic --help}
+provides more in-depth coverage of options but some of the functionality includes:
+\begin{itemize}
+  \item padding or cropping each tile element,
+  \item alpha channel for translucent overlaid rob maps,
+  \item flipping or permuting of each tile element, 
+  \item comprehensive slice selection, and
+  \item tiling pattern (i.e. custom number of rows and/or columns).
+\end{itemize}
+
+As a use case, suppose one wants
+to quickly scroll through cortical thickness results from a processed cohort.  {\tt CreateTiledMosaic}
+can be used to convert each processed subject into a 2-D .png image which can be easily scanned
+for processing failures.  For example, in Listing \ref{listing:CreateTiledMosaic} we 
+provide example code to process a subject {\tt OAS1\_0457\_MR1\_mpr\_n3\_anon\_sbj\_111} from the 
+OASIS data set%
+\footnote{
+http://www.oasis-brains.org
+}
+after it has been processed by the {\tt antsCorticalThickness.sh} script.
 
 \begin{figure}
 \centering
@@ -1160,7 +1232,9 @@ subject with thickness values overlayed in a ``hot'' colormap.
 
 itksnap=${ANTSPATH}/Examples/CustomColormaps/itkSnap.txt
 
-# Convert segmentation labels to irk-snap color map.  
+# Convert segmentation labels to itk-snap label color scheme.  We set the min and max input 
+# to [0,6] since we have only included the colors for labels 1-6 in the colormap.  If we 
+# want to include more labels, we would need to modify the custom colormap.
 ConvertScalarImageToRGB 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation.nii.gz \
   OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation_snap.nii.gz none custom $itkSnap 0 6 0 255
 
@@ -1194,50 +1268,108 @@ CreateTiledMosaic -i OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation0N4.nii.g
 
 
 \subsection{Volumetric visualizations with {\tt antsSurf}}
+Our third program, {\tt antsSurf}, is used to produce volumetric surface
+renderings from binary images with optional functional overlays.  Again,
+the {\tt antsSurf} help menu provides a more comprehensive description of
+functionality but some available options include:
+\begin{itemize}
+  \item specification of more than one functional overlay,
+  \item painting of functional overlays based on order on the command line,
+  \item localization of the functional overlay within a specified masked region,
+  \item manual reorientation,
+  \item manual adjustment of solid background and surface colors, and
+  \item simple estimation of binary image given a mesh.
+\end{itemize}
+Reverting back to our OASIS cortical thickness example, we render three surfaces
+using {\tt antsSurf} in Figure \ref{fig:oasis_gm_wm} which demonstrate some of 
+the main capabilities of {\tt antsSurf} and how one would incorporate other
+ANTs tools.  The code to produce Figure \ref{fig:oasis_gm_wm} is located in 
+Listing \ref{listing:antsSurf}.
 
+\lstset{frame = htb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=bash,
+        floatplacement=!h,
+        caption={\small Using {\tt antsSurf} to visualize volumes associated with
+        the OASIS data set subject {\tt OAS1\_0457\_MR1\_mpr\_n3\_anon\_sbj\_111}
+        processed through the ANTs cortical thickness pipeline.
+        },
+        captionpos=b,
+        label=listing:antsSurf
+        }
+\begin{lstlisting}
+##############################################################################
+# Do a simple volume rendering of the gray and white matters
+##############################################################################
 
+# Create gray matter binary image
+ThresholdImage 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentationGm.nii.gz 2 2 1 0
 
+# Volumetrically render the gray matter using a terrible color choice and reorient
+antsSurf -s [OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentationGm.nii.gz,255x0x255] \
+  -d OAS1_0457_MR1_mpr_n3_anon_sbj_111GrayMatter.png[90x180x90,255x128x0]
 
+# Create white matter binary image
+ThresholdImage 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentationWm.nii.gz 3 3 1 0
 
-\begin{comment}
-\subsection{User/label-guided normalization for hippocampus mapping}
-See the link for details on hippocampus labeling:
-\href{http://picsl.upenn.edu/ANTS/hipptutorial.php}{http://picsl.upenn.edu/ANTS/hipptutorial.php}.
-\noindent{\bf Expectation-Based Point-Set Registration.}
-Here, we apply the expectation-based point set registration method 
-for mapping labeled points sets, as described in \cite{Pluta2008}.   ITK-SNAP may be used to label 
-images and exported segmentation images may be input to the 
-PSE metric below, as labeled data.  The Frown and Smile data is used 
-as example.  This data is available in the 
-ANTS/Examples/Data/ directory.
+# Volumetrically render the white matter using a terrible color choice and reorient
+antsSurf -s [OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentationWm.nii.gz,139x69x19] \
+  -d  OAS1_0457_MR1_mpr_n3_anon_sbj_111WhiteMatter.png[90x180x90,178x34x34]
+
+##############################################################################
+# Render the cortical thickness map on the gray matter surface
+##############################################################################
+
+# dilate the cortical thickness values to ensure values cover the entire GM surface
+ImageMath 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated.nii.gz GD \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness.nii.gz 1
+
+# create a corresponding mask
+ThresholdImage 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated_mask.nii.gz 0 0 0 1
+
+# convert to hot color map
+ConvertScalarImageToRGB 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated_hot.nii.gz none hot none 0 8 0 255
+  
+# Render the gray matter with superimposed cortical thickness values
+antsSurf -s OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentationGm.nii.gz \
+  -f [OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated_hot.nii.gz, \
+      OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThicknessDilated_mask.nii.gz] \
+  -d  OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness.png[90x180x90]
+\end{lstlisting}  
+
 \begin{figure}
-\includegraphics[width=0.45\textwidth]{Figures/frowntosmile.png}
-\includegraphics[width=0.45\textwidth]{Figures/smiletofrown.png}
-\itkcaption[Frown To Smile]{Expected output for the frown to smile 
-shows a smooth, though large deformation.  The grids are overlaid on 
-the deformed images. }
-\label{fig:frown}
+\centering
+\begin{tabular}{ccc}
+\includegraphics[width=0.315\textwidth]{Figures/OAS1_0457_MR1_mpr_n3_anon_sbj_111WhiteMatter.png} &
+\includegraphics[width=0.315\textwidth]{Figures/OAS1_0457_MR1_mpr_n3_anon_sbj_111GrayMatter.png} &
+\includegraphics[width=0.315\textwidth]{Figures/OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness.png} \\
+white matter & gray matter & cortical thickness
+\end{tabular}
+\itkcaption[Volumetric rendering with antsSurf]{Volumetric renderings of {\tt OAS1\_0457\_MR1\_mpr\_n3\_anon\_sbj\_111} data set using {\tt antsSurf}.}
+\label{fig:oasis_gm_wm}
 \end{figure}
-\begin{verbatim}
-ANTs 2 -o PSEtest  -i 91x70x55x40x30  -r Gauss[3,0.] -t SyN[0.2]
-   -m  PSE[Frown.nii,Smile.nii,Frown.nii,Smile.nii,0.75,0.1,11,0,10] 
-   -m  MSQ[Frown.nii,Smile.nii,1,0]    --number-of-affine-iterations 0 
 
-antsApplyTransforms  2 Frown.nii FrownToSmile.nii -R Smile.nii
-   -i PSEtestAffine.txt PSEtestInverseWarp.nii 
 
-antsApplyTransforms  2 Smile.nii SmileToFrown.nii -R Frown.nii 
-    PSEtestWarp.nii PSEtestAffine.txt 
 
-CreateWarpedGridImage 2 PSEtestInverseWarp.nii grid1.nii
-CreateWarpedGridImage 2 PSEtestWarp.nii grid2.nii
-\end{verbatim}
-This example should run on the downloaded ANTs data so you may see the
-results.
-\end{comment}
-%\input{ANTSLabeledDataExample}
-%\input{ANTSMaskedImageRegistrationExample}
-\newpage
+\newpage \newpage
 \section{ANTs-based studies}
 We've performed several types of applied studies with ANTs.  Some of
 my favorite include our recent work on eigenanatomy
