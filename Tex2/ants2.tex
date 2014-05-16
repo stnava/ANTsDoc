@@ -1111,11 +1111,20 @@ ConvertScalarImageToRGB 2 r16seg.nii.gz r16seg_snap.nii.gz \
 
 \begin{figure}
 \centering
+\includegraphics[width=0.8\textwidth]{Figures/OAS1_0457_MR1_mpr_n3_anon_sbj_111_segTiledMosaic.png}
+\itkcaption[Tiled Mosaic]{Tiled mosaic showing every other axial slice of a single OASIS data 
+subject with segmentation labels overlayed ($\alpha = 0.3$).
+ }
+\label{fig:oasis_seg}
+\end{figure}
+
+\begin{figure}
+\centering
 \includegraphics[width=0.8\textwidth]{Figures/OAS1_0457_MR1_mpr_n3_anon_sbj_111_tiledMosaic.png}
 \itkcaption[Tiled Mosaic]{Tiled mosaic showing every other axial slice of a single OASIS data 
 subject with thickness values overlayed in a ``hot'' colormap.
  }
-\label{fig:frown}
+\label{fig:oasis_thick}
 \end{figure}
 
 
@@ -1145,6 +1154,26 @@ subject with thickness values overlayed in a ``hot'' colormap.
         label=listing:CreateTiledMosaic
         }
 \begin{lstlisting}
+##############################################################################
+# Do segmentation mosaic
+##############################################################################
+
+itksnap=${ANTSPATH}/Examples/CustomColormaps/itkSnap.txt
+
+# Convert segmentation labels to irk-snap color map.  
+ConvertScalarImageToRGB 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation_snap.nii.gz none custom $itkSnap 0 6 0 255
+
+# Create tiled segmentation mosaic.  We overlay "snap" segmentation map 
+CreateTiledMosaic -i OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation0N4.nii.gz \
+  -r OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation_snap.nii.gz \
+  -o OAS1_0457_MR1_mpr_n3_anon_sbj_111_tiledMosaic.png \
+  -a 0.3 -t -1x8 -d 2 -p [-15x-50,-15x-30,0] -s [2,100,160]
+
+##############################################################################
+# Do thickness mosaic
+##############################################################################
+
 # Convert thickness map to hot color map.  We scale thickness values
 #  between [0,8] to the standard RGB range of [0,255]
 ConvertScalarImageToRGB 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness.nii.gz \
@@ -1160,7 +1189,7 @@ CreateTiledMosaic -i OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation0N4.nii.g
   -r OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness_hot.nii.gz \
   -x OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness_mask.nii.gz \
   -o OAS1_0457_MR1_mpr_n3_anon_sbj_111_tiledMosaic.png \
-  -a 1.0 -t -1x8 -d 2 -p -p [-15x-50,-15x-30,0] -s [2,100,160]
+  -a 1.0 -t -1x8 -d 2 -p [-15x-50,-15x-30,0] -s [2,100,160]
 \end{lstlisting}
 
 
