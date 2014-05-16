@@ -49,6 +49,8 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
 \lstnewenvironment{terminalblock}{%
   \lstset{style=mystyle}}{}
 
+\definecolor{listlightgray}{gray}{0.955}
+
 \graphicspath{{./Figures/}}
 \newcommand{\R}{\textit{R}}
 \newcommand{\fv}{\mbox{\boldmath $f$}}
@@ -229,8 +231,8 @@ ANTs has since grown to include N4 bias
 correction \cite{Tustison2010}, additional evaluation of multiple
 modalities and organ systems \cite{Tustison2014,Tustison2011,Murphy2011}, univariate or multivariate image segmentation
 \cite{Avants2011,Tustison2011a}, tighter integration with the Insight ToolKit \cite{Tustison2013,AvantsITK}, a
-well-evaluated cortical thickness pipeline \cite{TustisonACT} and, more recently,
-visualization tools and integration with \R \cite{ANTsAndArboles}.
+well-evaluated cortical thickness pipeline \cite{Tustison2014b} and, more recently,
+visualization tools and integration with \R \cite{Tustison2014c}.
 ANTs serves as both a core library for further
 algorithm development and also as a command-line application-oriented
 toolkit.  ANTs also has a permissive software license that allows it
@@ -267,7 +269,7 @@ The scripts in ANTs wrap the core programs and are in
 \href{https://github.com/stnava/ANTs/tree/master/Scripts}{https://github.com/stnava/ANTs/tree/master/Scripts}.
 Perhaps the most important are \texttt{antsCorticalThickness.sh}~as a
 wrapper of several sub-programs that support our
-cortical thickness pipeline \cite{TustisonACT}, \texttt{antsMultivariateTemplateConstruction2.sh}~for template construction
+cortical thickness pipeline \cite{Tustison2014b}, \texttt{antsMultivariateTemplateConstruction2.sh}~for template construction
 and \texttt{antsRegistrationSyN.sh}~as a basic interface to a few commonly used registration approaches.
 \footnote{This document is a work in progress. Please check for updates with each release.}
 \begin{figure}
@@ -1052,7 +1054,122 @@ and controlling segmentation accuracy for input to this program is up
 to the user.  Otherwise, the Laplacian method may grossly overestimate 
 thickness in closed sulci.  See the full example:  \href{https://github.com/ntustison/antsCorticalThicknessExample}{https://github.com/ntustison/antsCorticalThicknessExample}.
 
- 
+\newpage
+\section{Data visualization}
+Data visualization is important for producing figures for manuscripts,
+qualitative inspection of results, facilitating collaborations, and 
+gaining insight into data and data transformations.  ANTs provides three
+flexible programs to help with such tasks which we describe below.
+
+\subsection{Creating faux-colormapped images with {\tt ConvertScalarImageToRGB}}
+For layering image data, it is often useful to map the grayscale image intensity
+values to distinct colormaps.  We introduced such a processing framework into
+ITK described in \cite{Tustison2008c}.  In addition to the built-in colormaps
+which are currently part of ITK, we also have several custom colormaps located
+in the directory \verb#${ANTSPATH}/Examples/CustomColormaps/#.
+
+\lstset{frame = htb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=bash,
+        floatplacement=!h,
+        caption={\small Sample command calls to {\tt ConvertScalarImageToRGB} to produce different colormaps
+        },
+        captionpos=b,
+        label=listing:ConvertScalarImageToRGB
+        }
+\begin{lstlisting}
+# hot colormap
+ConvertScalarImageToRGB 2 r16slice.nii.gz r16slice_hot.nii.gz none hot
+
+# jet colormap (with a mask)
+ThresholdImage 2 r16slice.nii.gz r16mask.nii.gz 0 0 0 1
+ConvertScalarImageToRGB 2 r16slice.nii.gz r16slice_jet.nii.gz r16mask.nii.gz jet
+
+# custom colormap (to show ITK-SNAP segmentation image)
+ThresholdImage 2 r16slice.nii.gz r16mask.nii.gz 0 0 0 1
+Atropos -d 2 -a r16slice.nii.gz -x r16mask.nii.gz -c [5,0] -i kmeans[3] -o r16seg.nii.gz
+ConvertScalarImageToRGB 2 r16seg.nii.gz r16seg_snap.nii.gz \
+  none custom ${ANTSPATH}/Examples/CustomColormaps/itkSnap.txt 0 6 0 255
+\end{lstlisting}
+
+
+\subsection{Large-scale data inspection using {\tt CreateTiledMosaic}}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/OAS1_0457_MR1_mpr_n3_anon_sbj_111_tiledMosaic.png}
+\itkcaption[Tiled Mosaic]{Tiled mosaic showing every other axial slice of a single OASIS data 
+subject with thickness values overlayed in a ``hot'' colormap.
+ }
+\label{fig:frown}
+\end{figure}
+
+
+\lstset{frame = htb,
+        framerule = 0.25pt,
+        float,
+        fontadjust,
+        backgroundcolor={\color{listlightgray}},
+        basicstyle = {\ttfamily\scriptsize},
+        keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+        identifierstyle = {\ttfamily},
+        commentstyle = {\ttfamily\color{listcomment}\textit},
+        stringstyle = {\ttfamily},
+        showstringspaces = false,
+        showtabs = false,
+        numbers = none,
+        numbersep = 6pt,
+        numberstyle={\ttfamily\color{listnumbers}},
+        tabsize = 2,
+        language=bash,
+        floatplacement=!h,
+        caption={\small Using {\tt CreateTiledMosaic} to visualize axial slices for 
+        the OASIS data set subject {\tt OAS1\_0457\_MR1\_mpr\_n3\_anon\_sbj\_111}
+        processed through the ANTs cortical thickness pipeline.
+        },
+        captionpos=b,
+        label=listing:CreateTiledMosaic
+        }
+\begin{lstlisting}
+# Convert thickness map to hot color map.  We scale thickness values
+#  between [0,8] to the standard RGB range of [0,255]
+ConvertScalarImageToRGB 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness_hot.nii.gz none hot none 0 8 0 255
+
+# Create a mask for next call
+ThresholdImage 3 OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness.nii.gz \
+  OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness_mask.nii.gz 0 0 0 1
+
+# Create tiled mosaic.  We overlay "hot" thickness map (but only the values within
+# the mask on the bias corrected structural MR image
+CreateTiledMosaic -i OAS1_0457_MR1_mpr_n3_anon_sbj_111BrainSegmentation0N4.nii.gz \
+  -r OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness_hot.nii.gz \
+  -x OAS1_0457_MR1_mpr_n3_anon_sbj_111CorticalThickness_mask.nii.gz \
+  -o OAS1_0457_MR1_mpr_n3_anon_sbj_111_tiledMosaic.png \
+  -a 1.0 -t -1x8 -d 2 -p -p [-15x-50,-15x-30,0] -s [2,100,160]
+\end{lstlisting}
+
+
+\subsection{Volumetric visualizations with {\tt antsSurf}}
+
+
+
+
+
 \begin{comment}
 \subsection{User/label-guided normalization for hippocampus mapping}
 See the link for details on hippocampus labeling:
