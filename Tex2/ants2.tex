@@ -5,11 +5,10 @@
 % at:
 %
 %     http://www.itk.org/
-
+%
+%
 \documentclass{InsightArticle}
-
 \usepackage{graphicx}
-%\usepackage{listing}						
 \usepackage{listings}	
 \usepackage{wrapfig}
 \usepackage{amssymb,amsmath}
@@ -1488,7 +1487,23 @@ interface with \texttt{R} via the \texttt{ANTsR} package.  Google
 this and learn more. Most statistical requirements may be met with this setup. 
 \newpage
 \section{Dependencies and Related Software}
+
+\subsection{How to build ANTs/ANTsR for users who are new to
+  scientific computing}\label{sec:comp0}
+We maintain an installation script for OSX and LINUX variants that
+attempts to automate installation of the build environment you need
+for ANTs and many other scientific computing resources.  The script is
+here:
+\href{https://raw.githubusercontent.com/stnava/RMI/master/stnava/install_anstr_packages.sh}{ANTs
+install script (link)}.  You can run the script directly but you
+might, instead, want to follow the steps one by one so you learn a
+little bit about what it does.  At the end of the script, ANTs and its
+binaries and scripts (the ANTs/Scripts directory) should be installed
+within a subdirectory of the ANTsR source tree.
+
 \subsection{Dependencies and Compilation}\label{sec:comp}
+If you already have a build environment set up on your computer, these 
+instructions should work for you.
 ANTs depends on the most recent version of the Insight ToolKit (ITK)
 -- www.itk.org.  However, there is no need to download ITK separately.
 ANTs and ITK are both compiled through CMake which automates the
