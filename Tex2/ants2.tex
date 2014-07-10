@@ -1480,13 +1480,21 @@ thickness images, functional images or fractional anisotropy images derived from
 tensor modality.  In all these cases, the tools listed above and
 throughout this document should be very helpful.
 
+Use \href{www.itksnap.org}{itk SNAP : www.itksnap.org } or mricro /
+mricron are also useful for viewing images.  The ANTs program
+\texttt{StackSlices} can be used to conveniently scan through a dataset in any
+of its axes.  It is useful for checking both input data quality and
+output normalization quality.  \texttt{MeasureImageSimilarity} will supply
+numerical measures of image similarity via three different metrics.
+
+
 \subsection{Statistics with ANTs and \texttt{R}: \texttt{ANTsR} }
 \texttt{R} is an open-source, cutting-edge statistical package 
 used by statisticians world-wide.   ANTs is designed to 
 interface with \texttt{R} via the \texttt{ANTsR} package.  Google
 this and learn more. Most statistical requirements may be met with this setup. 
 \newpage
-\section{Dependencies and Related Software}
+\section{Compilation, Dependencies and Related Software}
 
 \subsection{How to build ANTs/ANTsR for users who are new to
   scientific computing}\label{sec:comp0}
@@ -1544,12 +1552,6 @@ from compilation:\newline
 Dashboard: http://testing.psychiatry.uiowa.edu/CDash/index.php?project=ANTS}
 \textcolor{red}{Needs to be rebooted pending funding/space etc.}
 
-\subsection{Visualization and Quantification of ANTs Results}
-Use \href{www.itksnap.org}{itk SNAP : www.itksnap.org } or mricro / mricron for viewing
-images.  The ANTs program StackSlices can be used to conveniently scan
-through a dataset in any of its axes.  It is useful for checking both
-input data quality and output normalization quality.  MeasureImageSimilarity 
-will supply numerical measures of image similarity via three different metrics. 
 
 \subsection{Pipelining with ANTs}
 Use PipeDream for automating large-scale processing:\newline
