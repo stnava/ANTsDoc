@@ -1,0 +1,57 @@
+
+---
+title: "An Exegesis of Advanced Normalization Tools (ANTs)"
+bibliography: REFERENCES.bib
+output:
+  pdf_document:
+    toc: true
+    highlight: zenburn
+  ioslides_presentation:
+    incremental: false
+    widescreen: true
+    smaller: false
+  html_document:
+    toc: true
+    theme: readable
+---
+<!--
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteIndexEntry{Intro to RKRNS}
+  revealjs_presentation:
+    theme: sky
+    transition: fade
+    highlight: pygments
+    center: true
+    incremental: true
+-->
+
+# Background
+
+## A long history of research
+
+
+# Discussion
+
+## Problems 
+
+There are several problems and shortcomings to this analysis.
+
+- Eigenwords are somewhat arbitrary and may not reflect neural organization of semantic meaning
+- Optimization of parameters was performed on one subject's dataset though we strived to make minimal assumptions
+- Interpretability is not optimal 
+- Visualization needs improvement, especially of brain activity over time
+- No explicit modeling of the residual BOLD signal due to prior events
+
+## Strengths 
+
+Some strengths include relatively few assumptions, a flexible
+implementation and open-science approach. Furthermore, for the three
+sentences that contain the word "coffee", we can achieve excellent
+classification levels (80-100%) in a split-half cross-validation.
+Several other classification problems show performance well-above
+chance with current ceilings around a factor of M times chance.
+
+# References
+
+
+
