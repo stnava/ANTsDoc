@@ -28,8 +28,10 @@ output:
 ---
 # Background
 
-##
+Differentiable maps with differentiable inverse
 
+##
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.png)
 
 ## Tools you can use for imaging science
 
@@ -49,10 +51,17 @@ output:
 <img style="float: left" src="figures/picsl.png" />
 
 ## 
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/nick.jpg)
+
+## A long history of research
+
+## ITK Foundation 
+
 
 # Merit Badges
 
-## 
+## bart
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/bart.jpg)
 
 ## open source
 
@@ -77,10 +86,6 @@ in the world  @AvantsITK
 - cortical thickness : ANTs vs. FreeSurfer @Tustison2014c @Tustison2014b
 
 - compatibility with R
-
-## A long history of research
-
-## ITK Foundation 
 
 # Components 
 
