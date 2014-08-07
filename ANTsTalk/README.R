@@ -7,5 +7,7 @@ library(shiny)
 library(ggvis)
 library(rmarkdown)
 srcdir<-"./"
-render( paste("antstalk.Rmd",sep='') , "ioslides_presentation" ) 
+pre='antstalk'
+# render( paste(pre,".Rmd",sep=''), clean=TRUE, "revealjs_presentation" ) 
+render( paste(pre,".Rmd",sep=''), clean=TRUE, "ioslides_presentation" ) 
 
