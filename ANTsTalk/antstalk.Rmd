@@ -42,7 +42,7 @@ High-dimensional statistics in low-dimensional spaces
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.jpg)
 
 ## How do we quantify _life span_ brain health in individuals and in populations?
-![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/lifebrains.jpg)
+![](./figures/lifebrains.jpg)
 
 ## Tools you can use for imaging science
 
