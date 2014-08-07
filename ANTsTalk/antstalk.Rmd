@@ -26,8 +26,10 @@ output:
     smaller: false
     fig_width: 5
 ---
-
 # Background
+
+##
+
 
 ## Tools you can use for imaging science
 
@@ -49,6 +51,8 @@ output:
 ## 
 
 # Merit Badges
+
+## 
 
 ## open source
 

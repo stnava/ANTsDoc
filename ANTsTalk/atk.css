@@ -1,0 +1,27 @@
+h2 { 
+ font-size:1.8em; 
+ color: red;
+}
+
+#reffont {
+ font-size:0.6em; 
+ color: gray;
+}
+
+
+slides > slide[data-slide-num= "3"]
+{
+background-image: url(https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.png);
+}
+ 
+slides > slide[data-slide-num= "5"]
+{
+background-color: #3CB371;
+background-image: url(https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/nick.jpg);
+}
+ 
+
+slides > slide[data-slide-num= "7"]
+{
+background-image: url(https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/bart.jpg);
+}
