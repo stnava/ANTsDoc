@@ -58,7 +58,7 @@ High-dimensional statistics in low-dimensional spaces
 
 - rapid development, regular testing $+$ many eyes $\rightarrow$ bugs are shallow
 
-<img style="float: right" src="figures/penn.jpg" />
+<img style="float: right" src="figures/penn.png" />
 <img style="float: left" src="figures/picsl.jpg" />
 
 ## 
@@ -97,7 +97,7 @@ in the world  @AvantsITK
 
 - bias correction : N4 vs N3
 
-- cortical thickness : ANTs vs. FreeSurfer @Tustison2014c @Tustison2014b
+- cortical thickness : ANTs vs. FreeSurfer @Tustison2014d
 
 - compatibility with R
 
