@@ -2,11 +2,15 @@
 title: "An Exegesis of Advanced Normalization Tools (ANTs)"
 author: Brian B. Avants, Nicholas J. Tustison, Hans J. Johnson & the ITK and registration community
 bibliography: REFERENCES.bib
-logo:    logo.png
+logo:    logo.jpg
 output:
   pdf_document:
     toc: true
     highlight: zenburn
+  beamer_presentation:
+    toc: true
+    fig_width: 7
+    fig_height: 6
   html_document:
     toc: true
     theme: readable
@@ -30,8 +34,12 @@ output:
 
 Differentiable maps with differentiable inverse
 
+Multivariate segmentation 
+
+High-dimensional statistics in low-dimensional spaces
+
 ##
-![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.png)
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.jpg)
 
 ## Tools you can use for imaging science
 
@@ -47,8 +55,8 @@ Differentiable maps with differentiable inverse
 
 - rapid development, regular testing $+$ many eyes $\rightarrow$ bugs are shallow
 
-<img style="float: right" src="figures/penn.png" />
-<img style="float: left" src="figures/picsl.png" />
+<img style="float: right" src="figures/penn.jpg" />
+<img style="float: left" src="figures/picsl.jpg" />
 
 ## 
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/nick.jpg)
