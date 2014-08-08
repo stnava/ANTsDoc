@@ -36,7 +36,7 @@
       // Author information
       presenters: [
             {
-        name: 'Brian B. Avants, Nicholas J. Tustison, Hans J. Johnson & the ITK and registration community'
+        name: 'Brian B. Avants, Nicholas J. Tustison, Hans J. Johnson &amp; the ITK and registration community'
       },
             ]
     };
@@ -173,9 +173,41 @@ We contributed several ANTs derived classes to ITKv4 see <span class="cite">B. B
 <li><p>compatibility with R</p></li>
 </ul>
 
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>The stories behind ANTs development</h2></hgroup><article  id="the-stories-behind-ants-development">
+
+<p>(we can comment this out but I think it would be good to make some notes for posterity)</p>
+
+</article></slide><slide class=''><hgroup><h2>Registration</h2></hgroup><article  id="registration">
+
+</article></slide><slide class=''><hgroup><h2>N4</h2></hgroup><article  id="n4">
+
+<ul>
+<li><p>N3 (developed at the Montreal Neurological Institute) has been the gold standard for bias correction&#8212;used in important projects such as ADNI</p></li>
+<li><p>N3 is a set of perl scripts that works natively with the MINC file format which we tried to incorporate into an ANTs processing pipeline.</p></li>
+<li><p>We had so much trouble converting back and forth between ITK-compatible Nifti format and MINC that Brian suggested we try to implement N3 in ITK.</p></li>
+<li><p>I had some experience with B-splines and added some other tweaks giving birth to N4.</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Atropos</h2></hgroup><article  id="atropos">
+
+<ul>
+<li><p>Similar to our experience with N3, we tried to incorporate FAST (from the FMRIB at Oxford) into an ANTs processing pipeline.</p></li>
+<li><p>Phil (?) pointed out the difficulty of incorporating priors into FAST.</p></li>
+<li><p>Related, Brian went to a segmentation-related worksop at MICCAI and aired publicly his disappointment that so much of what had been developed in the community over the last 20+ years has not been made publicly available. &quot;What&#39;s wrong with you people!&quot;</p></li>
+<li><p>3-tissue algorithm in ImageMath &#8212;&gt; multivariate, n-class Atropos</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>KellySlater &#8211;&gt; KellyKapowski</h2></hgroup><article  id="kellyslater----kellykapowski">
+
 </article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Components</h2></hgroup><article  id="components">
 
 </article></slide><slide class=''><hgroup><h2>Software engineering</h2></hgroup><article  id="software-engineering">
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Analysis philosophy and published opinions</h2></hgroup><article  id="analysis-philosophy-and-published-opinions">
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Voodoo in voxel-based analysis</h2></hgroup><article  id="voodoo-in-voxel-based-analysis">
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Instrumentation bias in the use and evaluation of software</h2></hgroup><article  id="instrumentation-bias-in-the-use-and-evaluation-of-software">
 
 </article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
 
@@ -193,19 +225,19 @@ We contributed several ANTs derived classes to ITKv4 see <span class="cite">B. B
 <p>Some strengths include relatively few assumptions, a flexible implementation and open-science approach.</p>
 
 <div class="references">
-</article></slide><slide class=''><hgroup><h2>References</h2></hgroup><article  id="reffont">
+</article></slide><slide class=''><hgroup><h2>References</h2></hgroup><article  id="reffont" class="unnumbered">
 
-<p>Avants, Brian B., and Nicholas J. Tustison. 2014. “The ITK Image Registration Framework.” <em>Front Neuroinform</em> 7: 39. doi:<a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>10.3389/fninf.2013.00039</a>. <a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>http://dx.doi.org/10.3389/fninf.2013.00039</a>.</p>
+<p>Avants, Brian B., and Nicholas J. Tustison. 2014. “The ITK Image Registration Framework.” <em>Front Neuroinform</em> 7. Penn Image Computing; Science Laboratory, Department of Radiology, University of Pennsylvania Philadelphia, PA, USA.: 39. doi:<a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>10.3389/fninf.2013.00039</a>. <a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>http://dx.doi.org/10.3389/fninf.2013.00039</a>.</p>
 
-<p>Avants, Brian B., Nicholas J. Tustison, Michael Stauffer, Gang Song, Baohua Wu, and James C. Gee. 2014. “The Insight ToolKit Image Registration Framework.” <em>Front Neuroinform</em> 8: 44. doi:<a href='http://dx.doi.org/10.3389/fninf.2014.00044' title=''>10.3389/fninf.2014.00044</a>. <a href='http://dx.doi.org/10.3389/fninf.2014.00044' title=''>http://dx.doi.org/10.3389/fninf.2014.00044</a>.</p>
+<p>Avants, Brian B., Nicholas J. Tustison, Michael Stauffer, Gang Song, Baohua Wu, and James C. Gee. 2014. “The Insight ToolKit Image Registration Framework.” <em>Front Neuroinform</em> 8. Penn Image Computing; Science Laboratory, Department of Radiology, University of Pennsylvania Philadelphia, PA, USA.: 44. doi:<a href='http://dx.doi.org/10.3389/fninf.2014.00044' title=''>10.3389/fninf.2014.00044</a>. <a href='http://dx.doi.org/10.3389/fninf.2014.00044' title=''>http://dx.doi.org/10.3389/fninf.2014.00044</a>.</p>
 
-<p>Klein, Arno, Jesper Andersson, Babak A Ardekani, John Ashburner, Brian Avants, Ming-Chang Chiang, Gary E Christensen, et al. 2009. “Evaluation of 14 Nonlinear Deformation Algorithms Applied to Human Brain MRI Registration.” <em>Neuroimage</em> 46 (3) (Jul): 786–802. doi:<a href='http://dx.doi.org/10.1016/j.neuroimage.2008.12.037' title=''>10.1016/j.neuroimage.2008.12.037</a>. <a href='http://dx.doi.org/10.1016/j.neuroimage.2008.12.037' title=''>http://dx.doi.org/10.1016/j.neuroimage.2008.12.037</a>.</p>
+<p>Klein, Arno, Jesper Andersson, Babak A Ardekani, John Ashburner, Brian Avants, Ming-Chang Chiang, Gary E Christensen, et al. 2009. “Evaluation of 14 Nonlinear Deformation Algorithms Applied to Human Brain MRI Registration.” <em>Neuroimage</em> 46 (3). New York State Psychiatric Institute, Columbia University, NY, NY 10032, USA. arno@binarybottle.com: 786–802. doi:<a href='http://dx.doi.org/10.1016/j.neuroimage.2008.12.037' title=''>10.1016/j.neuroimage.2008.12.037</a>. <a href='http://dx.doi.org/10.1016/j.neuroimage.2008.12.037' title=''>http://dx.doi.org/10.1016/j.neuroimage.2008.12.037</a>.</p>
 
-<p>Tustison, Nicholas J., and Brian B. Avants. 2013. “Explicit B-Spline Regularization in Diffeomorphic Image Registration.” <em>Front Neuroinform</em> 7: 39. doi:<a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>10.3389/fninf.2013.00039</a>. <a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>http://dx.doi.org/10.3389/fninf.2013.00039</a>.</p>
+<p>Tustison, Nicholas J., and Brian B. Avants. 2013. “Explicit B-Spline Regularization in Diffeomorphic Image Registration.” <em>Front Neuroinform</em> 7. Penn Image Computing; Science Laboratory, Department of Radiology, University of Pennsylvania Philadelphia, PA, USA.: 39. doi:<a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>10.3389/fninf.2013.00039</a>. <a href='http://dx.doi.org/10.3389/fninf.2013.00039' title=''>http://dx.doi.org/10.3389/fninf.2013.00039</a>.</p>
 
-<p>Tustison, Nicholas J., Brian B. Avants, Philip A. Cook, Yuanjie Zheng, Alexander Egan, Paul A. Yushkevich, and James C. Gee. 2010. “N4ITK: improved N3 Bias Correction.” <em>IEEE Trans Med Imaging</em> 29 (6) (Jun): 1310–1320. doi:<a href='http://dx.doi.org/10.1109/TMI.2010.2046908' title=''>10.1109/TMI.2010.2046908</a>. <a href='http://dx.doi.org/10.1109/TMI.2010.2046908' title=''>http://dx.doi.org/10.1109/TMI.2010.2046908</a>.</p>
+<p>Tustison, Nicholas J., Brian B. Avants, Philip A. Cook, Yuanjie Zheng, Alexander Egan, Paul A. Yushkevich, and James C. Gee. 2010. “N4ITK: improved N3 Bias Correction.” <em>IEEE Trans Med Imaging</em> 29 (6). Department of Radiology, University of Pennsylvania, Philadelphia, PA 19140, USA. ntustison@wustl.edu: 1310–20. doi:<a href='http://dx.doi.org/10.1109/TMI.2010.2046908' title=''>10.1109/TMI.2010.2046908</a>. <a href='http://dx.doi.org/10.1109/TMI.2010.2046908' title=''>http://dx.doi.org/10.1109/TMI.2010.2046908</a>.</p>
 
-<p>Tustison, Nicholas J., Philip A. Cook, Arno Klein, Gang Song, Sandhitsu R. Das, Jeffrey T. Duda, Benjamin M. Kandel, et al. 2014. “Large-Scale Evaluation of ANTs and FreeSurfer Cortical Thickness Measurements.” <em>Neuroimage</em> 99 (Oct): 166–179. doi:<a href='http://dx.doi.org/10.1016/j.neuroimage.2014.05.044' title=''>10.1016/j.neuroimage.2014.05.044</a>. <a href='http://dx.doi.org/10.1016/j.neuroimage.2014.05.044' title=''>http://dx.doi.org/10.1016/j.neuroimage.2014.05.044</a>.</p></div></article></slide>
+<p>Tustison, Nicholas J., Philip A. Cook, Arno Klein, Gang Song, Sandhitsu R. Das, Jeffrey T. Duda, Benjamin M. Kandel, et al. 2014. “Large-Scale Evaluation of ANTs and FreeSurfer Cortical Thickness Measurements.” <em>Neuroimage</em> 99 (Oct). Penn Image Computing; Science Laboratory, University of Pennsylvania, Philadelphia, PA, USA.: 166–79. doi:<a href='http://dx.doi.org/10.1016/j.neuroimage.2014.05.044' title=''>10.1016/j.neuroimage.2014.05.044</a>. <a href='http://dx.doi.org/10.1016/j.neuroimage.2014.05.044' title=''>http://dx.doi.org/10.1016/j.neuroimage.2014.05.044</a>.</p></div></article></slide>
 
 
   <slide class="backdrop"></slide>

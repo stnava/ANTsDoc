@@ -34,7 +34,7 @@ output:
 
 Differentiable maps with differentiable inverse
 
-Multivariate segmentation 
+Multivariate segmentation
 
 High-dimensional statistics in low-dimensional spaces
 
@@ -61,12 +61,12 @@ High-dimensional statistics in low-dimensional spaces
 <img style="float: right" src="figures/penn.png" />
 <img style="float: left" src="figures/picsl.jpg" />
 
-## 
+##
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/nick.jpg)
 
 ## A long history of research
 
-## ITK Foundation 
+## ITK Foundation
 <div class="red2">
 We contributed several ANTs derived classes to ITKv4 see @Avants2014, @Tustison2013, @Tustison2010 , and ....
 </div>
@@ -89,9 +89,9 @@ in the world  @AvantsITK
 - BRATS 2013
 - STACOM2014 ?
 
-## papers 
+## papers
 
-- registration : ANTs vs. everything else @Klein2009 
+- registration : ANTs vs. everything else @Klein2009
 
 - segmentation : Atropos vs. SPM, etc.
 
@@ -101,22 +101,62 @@ in the world  @AvantsITK
 
 - compatibility with R
 
-# Components 
+
+# The stories behind ANTs development
+
+(we can comment this out but I think it would be good to make some notes for posterity)
+
+## Registration
+
+## N4
+
+* N3 (developed at the Montreal Neurological Institute) has been the gold standard for
+bias correction---used in important projects such as ADNI
+
+* N3 is a set of perl scripts that works natively with the MINC file format which we tried
+to incorporate into an ANTs processing pipeline.
+
+* We had so much trouble converting back and forth between ITK-compatible Nifti format and
+MINC that Brian suggested we try to implement N3 in ITK.
+
+* I had some experience with B-splines and added some other tweaks giving birth to N4.
+
+## Atropos
+
+* Similar to our experience with N3, we tried to incorporate FAST (from the FMRIB at Oxford)
+into an ANTs processing pipeline.
+
+* Phil (?) pointed out the difficulty of incorporating priors into FAST.
+
+* Related, Brian went to a segmentation-related worksop at MICCAI and aired publicly his
+disappointment that so much of what had been developed in the community over the last
+20+ years has not been made publicly available.  "What's wrong with you people!"
+
+* 3-tissue algorithm in ImageMath ---> multivariate, n-class Atropos
+
+## KellySlater --> KellyKapowski
+
+
+# Components
 
 ## Software engineering
 
+# Analysis philosophy and published opinions
 
+# Voodoo in voxel-based analysis
+
+# Instrumentation bias in the use and evaluation of software
 
 # Discussion
 
-## Problems 
+## Problems
 
 There are several problems and shortcomings to this analysis.
 
 - Customizable for specific problems but not too specific
 - Latest theoretical advances in registration not yet wrapped for users
 
-## Strengths 
+## Strengths
 
 Some strengths include relatively few assumptions, a flexible
 implementation and open-science approach.
