@@ -87,9 +87,12 @@ Good software should fade into the background ... however ...
 
 
 ##
+
 <!-- syn example --> 
+
 <div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/3I9RcRtpOvw" frameborder="0" allowfullscreen></iframe></div>
 
+[SyN video](http://www.youtube.com/embed/3I9RcRtpOvw)
 
 ## Theory + evaluation + reproducibility
 ![](./figures/reprregevex_sm.jpg)
@@ -211,8 +214,12 @@ disappointment that so much of what had been developed in the community over the
 # Components
 
 ## Software engineering
+
 <!-- ants gource --> 
+
 <div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/7X61iBFDF1I" frameborder="0" allowfullscreen></iframe></div>
+
+[ants gource](http://www.youtube.com/embed/7X61iBFDF1I)
 
 # Analysis philosophy and published opinions
 
