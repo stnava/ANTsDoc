@@ -47,6 +47,28 @@ High-dimensional statistics in low-dimensional spaces
 ## How do we compare function and structure across species?
 ![](./figures/species.jpg)
 
+## How do we integrate modalities and organ systems?
+![](./figures/species.jpg)
+
+## ANTs*R* $\rightarrow$ new insight via quantification
+
+Good software should fade into the background ... however ... 
+
+<span style="color:blue;">
+ As is common in science, the first big breakthrough in our understanding ... 
+ [came from] an improvement in measurement.
+</span>
+				
+<span style="color:blue;">
+> Daniel Kahnemann, *Thinking, Fast and Slow* (2011)
+</span>
+
+
+##
+
+<div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/3I9RcRtpOvw" frameborder="0" allowfullscreen></iframe></div>
+
+
 ## Theory + evaluation + reproducibility
 ![](./figures/reprregevex_sm.jpg)
 
@@ -73,6 +95,7 @@ High-dimensional statistics in low-dimensional spaces
 
 ## A long history of research
 ![](./figures/lineage.jpg)
+
 
 ## Rigorous transformation definition is key 
 
