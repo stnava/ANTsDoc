@@ -34,18 +34,29 @@ output:
 
 Differentiable maps with differentiable inverse
 
-Multivariate segmentation
+Multivariate segmentation & registration
 
 High-dimensional statistics in low-dimensional spaces
+
+# General theory tunable to specific domains:  *no-free lunch*
 
 ##
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.jpg)
 
+# Use prior knowledge to improve performance
+
+##
+![](./figures/species.jpg)
+
+# Library for multivariate image registration, segmentation & statistics
+
+# *ITK+ANTs+R = ANTsR*
+
+## example
+
 ## How do we quantify _life span_ brain health in individuals and in populations?
 ![](./figures/lifebrains.jpg)
 
-## How do we compare function and structure across species?
-![](./figures/species.jpg)
 
 ## How do we integrate modalities and organ systems?
 ![](./figures/species.jpg)
@@ -62,6 +73,9 @@ Good software should fade into the background ... however ...
 <span style="color:blue;">
 > Daniel Kahnemann, *Thinking, Fast and Slow* (2011)
 </span>
+
+##
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsvfreesurfer.png)
 
 
 ##
