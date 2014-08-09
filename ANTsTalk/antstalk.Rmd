@@ -68,6 +68,9 @@ Good software should fade into the background ... however ...
 
 <div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/3I9RcRtpOvw" frameborder="0" allowfullscreen></iframe></div>
 
+##
+
+<div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/7X61iBFDF1I" frameborder="0" allowfullscreen></iframe></div>
 
 ## Theory + evaluation + reproducibility
 ![](./figures/reprregevex_sm.jpg)
@@ -172,6 +175,11 @@ disappointment that so much of what had been developed in the community over the
 20+ years has not been made publicly available.  "What's wrong with you people!"
 
 * 3-tissue algorithm in ImageMath ---> multivariate, n-class Atropos
+
+## 
+
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/atropos.png)
+
 
 ## KellySlater --> KellyKapowski
 
