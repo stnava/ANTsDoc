@@ -43,7 +43,7 @@ High-dimensional statistics in low-dimensional spaces
 ##
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/highresdiffeos.jpg)
 
-# Use prior knowledge to improve performance
+# Use prior knowledge to broaden performance
 
 ##
 ![](./figures/species.jpg)
@@ -59,7 +59,7 @@ High-dimensional statistics in low-dimensional spaces
 # *ITK+ANTs+R = ANTsR*
 
 ##
-![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsrex.jpg)
+![](./figures/antsrex.jpg)
 
 ## How do we quantify _life span_ brain health in individuals and in populations?
 ![](./figures/lifebrains.jpg)
@@ -81,21 +81,15 @@ Good software should fade into the background ... however ...
 > Daniel Kahnemann, *Thinking, Fast and Slow* (2011)
 </span>
 
-##
-![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsvfreesurfer.png)
-
 
 ##
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsvfreesurfer2.png)
 
 
 ##
-
+<!-- syn example --> 
 <div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/3I9RcRtpOvw" frameborder="0" allowfullscreen></iframe></div>
 
-##
-
-<div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/7X61iBFDF1I" frameborder="0" allowfullscreen></iframe></div>
 
 ## Theory + evaluation + reproducibility
 ![](./figures/reprregevex_sm.jpg)
@@ -151,9 +145,14 @@ in the world  @AvantsITK
 
 ## competitions
 
-- EMPIRE10
-- MALF challenges
-- BRATS 2013
+- Klein 2009:  Brain Registration (ANTs)
+- Murphy 2010:  Lung Registration (ANTs)
+- SATA 2012:  Multi-Atlas Segmentation (ANTs+JointLabelFusion)
+- SATA 2013:  Multi-Atlas Segmentation (ANTs+JointLabelFusion)
+- BRATS 2013:  Multivariate Brain Segmentation (ANTsR)
+- Yushkevich’s Hipp Atlas:  ( hippocampusubfield.com )
+- TBA:  BOLD decoding (ANTsR) 
+- Substantial work with DTI ( Camino developer in house )
 - STACOM2014 ?
 
 ## papers
@@ -212,6 +211,8 @@ disappointment that so much of what had been developed in the community over the
 # Components
 
 ## Software engineering
+<!-- ants gource --> 
+<div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/7X61iBFDF1I" frameborder="0" allowfullscreen></iframe></div>
 
 # Analysis philosophy and published opinions
 
