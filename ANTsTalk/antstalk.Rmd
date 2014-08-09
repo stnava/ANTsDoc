@@ -44,7 +44,10 @@ High-dimensional statistics in low-dimensional spaces
 ## How do we quantify _life span_ brain health in individuals and in populations?
 ![](./figures/lifebrains.jpg)
 
-## Reproducible science
+## How do we compare function and structure across species?
+![](./figures/species.jpg)
+
+## Theory + evaluation + reproducibility
 ![](./figures/reprregevex_sm.jpg)
 
 
@@ -71,11 +74,19 @@ High-dimensional statistics in low-dimensional spaces
 ## A long history of research
 ![](./figures/lineage.jpg)
 
-## ITK Foundation
-<div class="red2">
-We contributed several ANTs derived classes to ITKv4 see @Avants2014, @Tustison2013, @Tustison2010 , and ....
-</div>
+## Rigorous transformation definition is key 
 
+ANTs and ITK are developed together: <span style="color:red;">see @Avants2014, @Tustison2013, @Tustison2010</span> and more ...
+
+Key definitions
+
+- physical space
+
+- transformation definition aware of physical space
+
+- optimization space consistent with above
+
+- unit testing 
 
 # Merit Badges
 
