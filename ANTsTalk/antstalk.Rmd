@@ -50,9 +50,16 @@ High-dimensional statistics in low-dimensional spaces
 
 # Library for multivariate image registration, segmentation & statistics
 
+##
+![](./figures/ptbp2.png)
+
+##
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsatroposn4malf.png)
+
 # *ITK+ANTs+R = ANTsR*
 
-## example
+##
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsrex.jpg)
 
 ## How do we quantify _life span_ brain health in individuals and in populations?
 ![](./figures/lifebrains.jpg)
@@ -80,6 +87,7 @@ Good software should fade into the background ... however ...
 
 ##
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsvfreesurfer2.png)
+
 
 ##
 
