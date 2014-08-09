@@ -79,6 +79,9 @@ Good software should fade into the background ... however ...
 
 
 ##
+![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/antsvfreesurfer2.png)
+
+##
 
 <div align="center"><iframe width="560" height="315" src="http://www.youtube.com/embed/3I9RcRtpOvw" frameborder="0" allowfullscreen></iframe></div>
 
