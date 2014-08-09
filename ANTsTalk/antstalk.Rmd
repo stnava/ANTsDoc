@@ -23,7 +23,7 @@ output:
     transition: fade
     highlight: pygments
     center: true
-    self_contained: false
+    self_contained: true
   ioslides_presentation:
     css: atk.css
     incremental: false
