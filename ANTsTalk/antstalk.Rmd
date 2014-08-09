@@ -44,6 +44,10 @@ High-dimensional statistics in low-dimensional spaces
 ## How do we quantify _life span_ brain health in individuals and in populations?
 ![](./figures/lifebrains.jpg)
 
+## Reproducible science
+![](./figures/reprregevex_sm.jpg)
+
+
 ## Tools you can use for imaging science
 
 - Core developers:  *B. Avants, N. Tustison, H. J. Johnson, J. T. Duda*
@@ -65,6 +69,7 @@ High-dimensional statistics in low-dimensional spaces
 ![](https://raw.githubusercontent.com/stnava/ANTsDoc/master/ANTsTalk/figures/nick.jpg)
 
 ## A long history of research
+![](./figures/lineage.jpg)
 
 ## ITK Foundation
 <div class="red2">
