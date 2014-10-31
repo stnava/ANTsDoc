@@ -15,4 +15,6 @@ You can also clone the repository to get the examples and/or contribute to the d
   1. ask on the sourceforge discussion [forum](http://sourceforge.net/p/advants/discussion/) if this is a new data type / never before seen problem
   2. open an [issue](https://github.com/stnava/ANTs/issues) at the ANTs github site
   3. send us a reproducible example of what you've done: code, data, your system details, etc.
-2.  _How do I install ANTs on windows?   See [proof it can be done](http://sourceforge.net/p/advants/discussion/840261/thread/60b66465/#4912)
+2.  _How do I install ANTs on windows?_
+  1. See [proof it can be done](http://sourceforge.net/p/advants/discussion/840261/thread/60b66465/#4912)
+3. Next question?
