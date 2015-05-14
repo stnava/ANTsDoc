@@ -19,6 +19,5 @@ You can also clone the repository to get the examples and/or contribute to the d
   1. See [proof it can be done](http://sourceforge.net/p/advants/discussion/840261/thread/60b66465/#4912)
 3.  _How do I resample an image_?
   1. Use `ResampleImage` or use `antsApplyTransforms` ... some discussion [here](http://sourceforge.net/p/advants/discussion/840261/thread/1b3d302b/?limit=25)
-...
-N. Next question?
+4. Next question?
 
